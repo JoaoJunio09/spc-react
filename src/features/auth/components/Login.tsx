@@ -3,6 +3,7 @@ import '../styles/login.css';
 import logoImg from '../../../assets/brasao_paroquia.png';
 import useLoadCatechists from '../hooks/useLoadCatechists';
 import useAuth from '../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 function Login() {
 	const { catechists, error: loadCatechists } = useLoadCatechists();
@@ -17,8 +18,8 @@ function Login() {
 
 	return (
 		<main className="login-container">
-			<p>{loadCatechists}</p>
-			<p>{error}</p>
+			{error && toast.error(error)}
+			{loadCatechists && toast.error(loadCatechists)}
 			<section className="login-card">
 				<header className="login-header">
 					<div className="logo-wrapper">
