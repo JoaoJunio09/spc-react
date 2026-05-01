@@ -2,15 +2,23 @@ import '../styles/login.css';
 
 import logoImg from '../../../assets/brasao_paroquia.png';
 import useLoadCatechists from '../hooks/useLoadCatechists';
+import useAuth from '../hooks/useAuth';
 
 function Login() {
-
-	const { catechists, error } = useLoadCatechists();
-
-	<p>{error}</p>
+	const { catechists, error: loadCatechists } = useLoadCatechists();
+	const {
+		selectedCatechistId,
+		setSelectedCatechistId,
+		selectedCode,
+		setSelectedCode,
+		error,
+		auth
+	} = useAuth(catechists);
 
 	return (
 		<main className="login-container">
+			<p>{loadCatechists}</p>
+			<p>{error}</p>
 			<section className="login-card">
 				<header className="login-header">
 					<div className="logo-wrapper">
@@ -26,15 +34,18 @@ function Login() {
 					<div className="input-group">
 						<label htmlFor="access-code">Quem é você?</label>
 						<select 
-							name="select-catechists" 
-							id="select-catechists" 
+							name="selectedCatechistId"
+							id="selectedCatechistId"
+							value={selectedCatechistId}
+							onChange={(e) => setSelectedCatechistId(e.target.value)}
 							required
 						>
+							<option>Quem é você</option>
 							{
 								catechists.map(catechist => (
 									<option 
 										key={catechist.id}
-										value={catechist.firstName}
+										value={catechist.id}
 									>
 										{`${catechist.firstName} ${catechist.lastName}`}
 									</option>
@@ -44,7 +55,13 @@ function Login() {
 					</div>
 					<div className="input-group">
 						<label htmlFor="access-code">Código de acesso</label>
-						<select name="select-code" id="select-code" required>
+						<select
+							name="selectCode"
+							id="selectCode"
+							value={selectedCode}
+							onChange={(e) => setSelectedCode(e.target.value)}
+							required
+						>
 							<option value="default">Selecione o código</option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -52,7 +69,7 @@ function Login() {
 						<small className="input-hint">O código já foi fornecido pela paróquia.</small>
 					</div>
 
-					<button type="submit" className="btn-login">
+					<button type="submit" className="btn-login" onClick={auth}>
 						Entrar
 					</button>
 				</div>            

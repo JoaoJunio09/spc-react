@@ -6,19 +6,16 @@ function useLoadCatechists() {
 	const [catechists, setCatechists] = useState<CatechistResponse[] | []>([]);
 	const [error, setError] 					= useState<string | null>(null);
 
-	let catechistService:CatechistService | null = null;
+	const catechistService:CatechistService = new CatechistService();
 
 	useEffect(() => {
 		useLoadCatechists();
 	}, []);
 
 	async function useLoadCatechists() {
-		catechistService = new CatechistService();
-
 		try {
 			setError(null);
 			const data: CatechistResponse[] = await catechistService.getAll({});
-			console.log(data);
 			setCatechists(data);
 		}
 		catch (err) {
