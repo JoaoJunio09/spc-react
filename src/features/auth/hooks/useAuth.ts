@@ -4,6 +4,7 @@ import type { CommunityOrParish } from "../../../types/CommunityOrParish";
 import { useNavigate } from "react-router-dom";
 import AuthenticationError from "../../../exceptions/auth/AuthenticationError";
 import InvalidOrEmptyFields from "../../../exceptions/form/InvalidOrEmptyFields";
+import { toast } from "react-toastify";
 
 function fieldValidation(id: number, communityOrParish: CommunityOrParish | null): void {
 	if (Number.isNaN(id)) {
@@ -34,6 +35,8 @@ function useAuth(catechists?: CatechistResponse[] | []) {
 		let communityOrParish: CommunityOrParish | null = assingsCommunityOrParish(selectedCode);
 		const id = Number(selectedCatechistId);
 
+		let authenticate: boolean = false;
+
 		try {
 			fieldValidation(id, communityOrParish);
 			setError(null);
@@ -42,10 +45,16 @@ function useAuth(catechists?: CatechistResponse[] | []) {
 				if (catechist.id === id && catechist.communityOrParish === communityOrParish) {
 					sessionStorage.setItem('communityOrParish', communityOrParish);
 					sessionStorage.setItem('catechist', JSON.stringify(catechist));
-					nagivate('/inicio');
-					return;
+					authenticate = true;
 				}
 			});
+
+			if (authenticate) {
+				nagivate('/inicio');
+				toast.dismiss();
+				toast.success('Logado com sucesso', { autoClose: 2000 });
+				return;
+			}
 
 			throw new AuthenticationError('Catequista inválido');
 		}
