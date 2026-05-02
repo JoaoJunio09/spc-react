@@ -45,6 +45,7 @@ function useAuth(catechists?: CatechistResponse[] | []) {
 				if (catechist.id === id && catechist.communityOrParish === communityOrParish) {
 					sessionStorage.setItem('communityOrParish', communityOrParish);
 					sessionStorage.setItem('catechist', JSON.stringify(catechist));
+					sessionStorage.setItem('userName', catechist.firstName);
 					authenticate = true;
 				}
 			});
