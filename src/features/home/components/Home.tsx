@@ -1,15 +1,29 @@
+import useCalendaryModal from '../hooks/useCalendaryModal';
 import '../styles/home.css';
+import CalendaryModal from './CalendaryModal';
 
 type HomeProps = {
-	catechistOrUserName: string | null
+	userName: string | null
 }
 
-function Home({ catechistOrUserName }: HomeProps) {
+function Home({ userName }: HomeProps) {
+	const { isOpen, setIsOpen } = useCalendaryModal();
+
+	const massesDates = [
+		"2026-05-02",
+    "2026-05-10",
+    "2026-05-18",
+	];
+
+	function handleSelectDate(date: string) {
+
+	}
+
 	return (
 		<main>
 			<section className="week-calendar-section">
 				<div className="home-container">
-					<h1 className="welcome">Olá, <strong>{catechistOrUserName}</strong></h1>
+					<h1 className="welcome">Olá, <strong>{userName}</strong></h1>
 					<h2 className="section-label">Agenda da Semana</h2>
 					<div className="week-grid" id="weekGrid">
 							
@@ -20,6 +34,7 @@ function Home({ catechistOrUserName }: HomeProps) {
 							id="btn-open-calendar"
 							className="btn-primary"
 							style={{width: 'auto', padding: '.8rem 2rem', background: 'var(--primary-dark)'}}
+							onClick={() => setIsOpen(true)}
 						>
 							Abrir calendário completo
 						</button>
@@ -33,32 +48,13 @@ function Home({ catechistOrUserName }: HomeProps) {
 				</div>
     	</section>
 
-			<div className="modal-overlay" id="calendarModal">
-				<div className="modal-content">
-					<div className="modal-header">
-						<h2 id="currentMonth">Março 2026</h2>
-						<button className="close-modal" id="btn-close-calendar">&times;</button>
-					</div>
-					
-					<div className="month-grid-header">
-						<span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
-					</div>
-					<div className="month-grid" id="monthGrid">
-							
-					</div>
-
-					<div className="nextAndPreviousMonth">
-						<button className="btn-nav-month">&lt; Anterior</button>
-						<button className="btn-nav-month">Próximo &gt;</button>
-					</div>
-				
-					<div className="modal-footer">
-						<div className="legend">
-							<div className="legend-item"><span className="circle verde"></span>Missa</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			{isOpen && (
+				<CalendaryModal
+					onClose={() => setIsOpen(false)}
+					massesDates={massesDates}
+					onSelectDate={handleSelectDate}
+				/>
+			)}
 		</main>
 	)
 }

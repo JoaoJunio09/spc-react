@@ -191,7 +191,7 @@
     width: 100%;
     height: 100%;
     background: rgba(15, 23, 42, 0.7);
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
@@ -260,6 +260,12 @@
     font-weight: 600;
     background: #F8FAFC;
     font-size: 0.9rem;
+}
+
+.empty-day {
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
 }
 
 .month-day.missa { background: var(--event-missa); color: white; }

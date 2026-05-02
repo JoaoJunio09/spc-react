@@ -25,7 +25,7 @@ function HomePage() {
 	return (
 		<>
 			<Header communityOrParish={communityOrParish} />
-			<Home catechistOrUserName={userName} />
+			<Home userName={userName} />
 		</>
 	)
 }
