@@ -7,9 +7,6 @@ import InvalidOrEmptyFields from "../../../exceptions/form/InvalidOrEmptyFields"
 import { toast } from "react-toastify";
 
 function fieldValidation(id: number, communityOrParish: CommunityOrParish | null): void {
-	if (Number.isNaN(id)) {
-		throw new InvalidOrEmptyFields('ID inválido');
-	}
 	if (id === 0) {
 		throw new InvalidOrEmptyFields('Selecione quem é você');
 	}
@@ -35,7 +32,7 @@ function useAuth(catechists?: CatechistResponse[] | []) {
 		let communityOrParish: CommunityOrParish | null = assingsCommunityOrParish(selectedCode);
 		const id = Number(selectedCatechistId);
 
-		let authenticate: boolean = false;
+		let authenticated: boolean = false;
 
 		try {
 			fieldValidation(id, communityOrParish);
@@ -46,11 +43,11 @@ function useAuth(catechists?: CatechistResponse[] | []) {
 					sessionStorage.setItem('communityOrParish', communityOrParish);
 					sessionStorage.setItem('catechist', JSON.stringify(catechist));
 					sessionStorage.setItem('userName', catechist.firstName);
-					authenticate = true;
+					authenticated = true;
 				}
 			});
 
-			if (authenticate) {
+			if (authenticated) {
 				nagivate('/inicio');
 				toast.dismiss();
 				toast.success('Logado com sucesso', { autoClose: 2000 });

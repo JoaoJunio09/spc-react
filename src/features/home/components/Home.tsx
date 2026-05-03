@@ -3,6 +3,7 @@ import useCalendaryModal from '../hooks/useCalendaryModal';
 import useLoadMasses from '../hooks/useLoadMasses';
 import '../styles/home.css';
 import CalendaryModal from './CalendaryModal';
+import useWeekCalendary from '../hooks/useWeekCalendary';
 
 type HomeProps = {
 	userName: string | null
@@ -11,8 +12,7 @@ type HomeProps = {
 function Home({ userName }: HomeProps) {
 	const { isOpen, setIsOpen }	 = useCalendaryModal();
 	const { massesDates, error } = useLoadMasses();
-
-	console.log(massesDates);
+	const { daysOfWeek } 				 = useWeekCalendary({ massesDates: massesDates });
 
 	function handleSelectDate(date: string) {
 
@@ -26,7 +26,20 @@ function Home({ userName }: HomeProps) {
 					<h1 className="welcome">Olá, <strong>{userName}</strong></h1>
 					<h2 className="section-label">Agenda da Semana</h2>
 					<div className="week-grid" id="weekGrid">
-							
+						{daysOfWeek.map(day => (
+							<div className={`day-card ${day.isToday && 'active-day'} ${day.isMass && 'has-missa'}`}>
+								<span className="day-name">{day.dayOfWeek}</span>
+								<span className="day-num">{day.dayNum}</span>
+								{
+									massesDates.map(date => (
+										day.dateString === date &&
+										<div className='event-indicator'>
+											Missa
+										</div> 
+									))
+								}
+							</div>
+						))}
 					</div>
 					
 					<div style={{textAlign: 'center', marginTop: '20px'}}>
