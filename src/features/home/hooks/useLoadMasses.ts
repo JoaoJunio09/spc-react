@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import MassService from "../../../services/MassService";
 import { UtilsDate } from "../../../utils/UtilsDate";
+import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 
 function useLoadMasses() {
+	const [masses, setMasses]						= useState<MassResponse[]>([]);
 	const [massesDates, setMassesDates] = useState<string[]>([]);
 	const [error, setError] 	= useState<string | null>(null);
 
@@ -21,8 +23,11 @@ function useLoadMasses() {
 
 		try {
 			setError(null);
-			const data: [] = await massService.getMassesDatesByCommunityOrParish({ communityOrParish: communityOrParish });
-			setMassesDates(data.map(date => UtilsDate.formatDateTimeThisMissaForDate(date)));
+			const dataMassesDates: string[] = await massService.getMassesDatesByCommunityOrParish({ communityOrParish: communityOrParish });
+			setMassesDates(dataMassesDates.map(date => UtilsDate.formatDateTimeThisMissaForDate(date)));
+
+			const dataMases: MassResponse[] = await massService.getAll({ communityOrParish: communityOrParish });
+			setMasses(dataMases);
 		}
 		catch (err) {
 			setError('Erro ao carregar as datas das Missas');
@@ -30,6 +35,7 @@ function useLoadMasses() {
 	}
 
 	return {
+		masses,
 		massesDates,
 		error
 	}

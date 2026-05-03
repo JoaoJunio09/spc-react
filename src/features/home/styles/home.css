@@ -12,7 +12,8 @@
     font-size: 2.8rem;
 }
 
-.home-container {
+.home-container,
+.event-container {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;

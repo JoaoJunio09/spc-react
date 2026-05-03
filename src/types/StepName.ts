@@ -1,0 +1,10 @@
+const StepName = {
+	PRIMEIRA_ETAPA: 'PRIMEIRA_ETAPA',
+	SEGUNDA_ETAPA: 'SEGUNDA_ETAPA',
+	EUCARISTIA_UM: 'EUCARISTIA_UM',
+	EUCARISTIA_DOIS: 'EUCARISTIA_DOIS',
+	PRE_CRISMA: 'PRE_CRISMA',
+	CRISMA: 'CRISMA'
+} as const;
+
+export type StepName = typeof StepName[keyof typeof StepName];

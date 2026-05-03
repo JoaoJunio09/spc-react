@@ -4,40 +4,56 @@ import useLoadMasses from '../hooks/useLoadMasses';
 import '../styles/home.css';
 import CalendaryModal from './CalendaryModal';
 import useWeekCalendary from '../hooks/useWeekCalendary';
+import useLoadEvent from '../hooks/useLoadEvent';
+import useLoadPresences from '../hooks/useLoadPresences';
+import { useEffect } from 'react';
 
 type HomeProps = {
 	userName: string | null
 }
 
 function Home({ userName }: HomeProps) {
-	const { isOpen, setIsOpen }	 = useCalendaryModal();
-	const { massesDates, error } = useLoadMasses();
-	const { daysOfWeek } 				 = useWeekCalendary({ massesDates: massesDates });
+	const { isOpen, setIsOpen }	 											= useCalendaryModal();
+	const { masses, massesDates, error: errorMasses } = useLoadMasses();
+	const { presences, error: errorPresences } 				= useLoadPresences();
+	const { daysOfWeek } 				 							 				= useWeekCalendary({ massesDates: massesDates });
+	const { events, loadEvent }  							 				= useLoadEvent({ masses: masses, presences: presences });
 
 	function handleSelectDate(date: string) {
-
+		loadEvent(date);
 	}
+
+	useEffect(() => {
+		const today = daysOfWeek.find(day => day.isToday);
+
+		if (today) {
+			loadEvent(today.dateString);
+		}
+	}, [daysOfWeek, loadEvent]);
 
 	return (
 		<main>
-			{error && toast.error(error)}
+			{errorMasses && toast.error(errorMasses)}
+			{errorPresences && toast.error(errorPresences)}
 			<section className="week-calendar-section">
 				<div className="home-container">
 					<h1 className="welcome">Olá, <strong>{userName}</strong></h1>
 					<h2 className="section-label">Agenda da Semana</h2>
 					<div className="week-grid" id="weekGrid">
 						{daysOfWeek.map(day => (
-							<div className={`day-card ${day.isToday && 'active-day'} ${day.isMass && 'has-missa'}`}>
+							<div
+								key={day.dateString}
+								className={`day-card ${day.isMass && 'has-missa'} ${day.isToday && 'active-day'}`}
+								onClick={() => loadEvent(day.dateString)}
+							>
 								<span className="day-name">{day.dayOfWeek}</span>
 								<span className="day-num">{day.dayNum}</span>
-								{
-									massesDates.map(date => (
-										day.dateString === date &&
-										<div className='event-indicator'>
-											Missa
-										</div> 
-									))
-								}
+								{massesDates.map(date => (
+									day.dateString === date &&
+									<div className='event-indicator'>
+										Missa
+									</div> 
+								))}
 							</div>
 						))}
 					</div>
@@ -56,8 +72,45 @@ function Home({ userName }: HomeProps) {
 			</section>
 
     	<section className="event-details-section">
-				<div className="container" id="eventContainer">
-					
+				<div className="event-container" id="eventContainer">
+					{events.map(event => (
+						event.isEvent
+						?
+							<div
+								key={event.massId}
+								className={`event-card mass-card ${event.isRegisteredPresence && 'event-card-register-presence'}`}
+								mass-date={event.massId}
+							>
+								<div>
+									<div className="card-header">
+										<span className="badge">Missa</span>
+										<h2>{event.title}</h2>
+									</div>
+									<div className="card-body">
+										<div className="info-item">
+											<span className="label">Dia:</span>
+											<span className="value value-date">{event.massDate}</span>
+										</div>
+										<div className="info-item">
+											<span className="label">Horário:</span>
+											<span className="value value-time">
+												{event.massLocation}
+											</span>
+										</div>
+									</div>
+									<button
+										className={`btn-primary btn-register-presence ${event.isRegisteredPresence ? 'btn-primary-register-presence' : ''}`}
+										id="btn-register-attendance"
+									>
+										{event.isRegisteredPresence ? 'Presença na Missa já foi registrada' : 'Registrar Presença'}
+									</button>
+								</div>	
+							</div>
+						:
+							<div className="no-event-message">
+								<p>{event.title}</p>
+							</div>
+					))}
 				</div>
     	</section>
 
