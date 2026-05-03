@@ -9,10 +9,10 @@ function useLoadCatechists() {
 	const catechistService:CatechistService = new CatechistService();
 
 	useEffect(() => {
-		useLoadCatechists();
+		loadCatechists();
 	}, []);
 
-	async function useLoadCatechists() {
+	async function loadCatechists() {
 		try {
 			setError(null);
 			const data: CatechistResponse[] = await catechistService.getAll({});

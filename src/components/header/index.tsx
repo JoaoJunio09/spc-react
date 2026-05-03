@@ -32,7 +32,7 @@ function Header({ communityOrParish }: HeaderProps) {
 				
 				<nav className="main-nav" id="mainNav">
 					<ul>
-						<li><Link to="/" className="active">Início</Link></li>
+						<li><Link to="/inicio" className="active">Início</Link></li>
 						<li><Link to="/turmas">Turmas</Link></li>
 						<li><Link to="/catequizandos">Catequizandos</Link></li>
 						<li><Link to="/missas">Missas</Link></li>

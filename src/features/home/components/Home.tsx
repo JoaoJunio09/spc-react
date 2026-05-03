@@ -1,4 +1,6 @@
+import { toast } from 'react-toastify';
 import useCalendaryModal from '../hooks/useCalendaryModal';
+import useLoadMasses from '../hooks/useLoadMasses';
 import '../styles/home.css';
 import CalendaryModal from './CalendaryModal';
 
@@ -7,13 +9,10 @@ type HomeProps = {
 }
 
 function Home({ userName }: HomeProps) {
-	const { isOpen, setIsOpen } = useCalendaryModal();
+	const { isOpen, setIsOpen }	 = useCalendaryModal();
+	const { massesDates, error } = useLoadMasses();
 
-	const massesDates = [
-		"2026-05-02",
-    "2026-05-10",
-    "2026-05-18",
-	];
+	console.log(massesDates);
 
 	function handleSelectDate(date: string) {
 
@@ -21,6 +20,7 @@ function Home({ userName }: HomeProps) {
 
 	return (
 		<main>
+			{error && toast.error(error)}
 			<section className="week-calendar-section">
 				<div className="home-container">
 					<h1 className="welcome">Olá, <strong>{userName}</strong></h1>
