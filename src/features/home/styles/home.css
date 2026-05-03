@@ -390,10 +390,6 @@
 			gap: 12px;
 	}
 
-	.main-nav a {
-			font-size: 0.95rem;
-	}
-
 	.day-card {
 			flex: 0 0 95px; /* Cards um pouco menores em celulares muito pequenos */
 	}

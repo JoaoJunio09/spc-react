@@ -3,12 +3,16 @@ import './index.css';
 import logoImg from '../../assets/brasao_paroquia.png';
 import type { CommunityOrParish } from '../../types/CommunityOrParish';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 type HeaderProps = {
 	communityOrParish: CommunityOrParish | null
 }
 
 function Header({ communityOrParish }: HeaderProps) {
+
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+
 	return (
 		<header className="main-header">
 			<div className="container header-container">
@@ -26,11 +30,15 @@ function Header({ communityOrParish }: HeaderProps) {
 					</div>
 				</div>
 
-				<button className="menu-toggle" id="btnMenu">
-					☰ MENU
+				<button
+					className="menu-toggle"
+					id="btnMenu"
+					onClick={() => setIsOpen(!isOpen)}
+				>
+					{isOpen ? '✕ FECHAR' : '☰ MENU'}	
 				</button>
 				
-				<nav className="main-nav" id="mainNav">
+				<nav className={`main-nav ${isOpen ? 'open' : ''}`} id="mainNav">
 					<ul>
 						<li><Link to="/inicio" className="active">Início</Link></li>
 						<li><Link to="/turmas">Turmas</Link></li>
