@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import useCalendaryModal from '../hooks/useCalendaryModal';
 import useLoadMasses from '../hooks/useLoadMasses';
@@ -6,7 +7,6 @@ import CalendaryModal from './CalendaryModal';
 import useWeekCalendary from '../hooks/useWeekCalendary';
 import useLoadEvent from '../hooks/useLoadEvent';
 import useLoadPresences from '../hooks/useLoadPresences';
-import { useEffect } from 'react';
 
 type HomeProps = {
 	userName: string | null
@@ -18,8 +18,10 @@ function Home({ userName }: HomeProps) {
 	const { presences, error: errorPresences } 				= useLoadPresences();
 	const { daysOfWeek } 				 							 				= useWeekCalendary({ massesDates: massesDates });
 	const { events, loadEvent }  							 				= useLoadEvent({ masses: masses, presences: presences });
+	const [selectedDate, setSelectedDate] 						= useState<string | null>(null);
 
 	function handleSelectDate(date: string) {
+		setSelectedDate(date);
 		loadEvent(date);
 	}
 
@@ -27,6 +29,7 @@ function Home({ userName }: HomeProps) {
 		const today = daysOfWeek.find(day => day.isToday);
 
 		if (today) {
+			setSelectedDate(today.dateString);
 			loadEvent(today.dateString);
 		}
 	}, [daysOfWeek, loadEvent]);
@@ -43,8 +46,8 @@ function Home({ userName }: HomeProps) {
 						{daysOfWeek.map(day => (
 							<div
 								key={day.dateString}
-								className={`day-card ${day.isMass && 'has-missa'} ${day.isToday && 'active-day'}`}
-								onClick={() => loadEvent(day.dateString)}
+								className={`day-card ${day.isMass && 'has-missa'} ${selectedDate === day.dateString ? 'active-day' : ''}`}
+								onClick={() =>  handleSelectDate(day.dateString)}
 							>
 								<span className="day-name">{day.dayOfWeek}</span>
 								<span className="day-num">{day.dayNum}</span>
