@@ -8,7 +8,7 @@ type UseLoadEventProps = {
 	presences: PresenceResponse[],
 }
 
-type Event = {
+export type Event = {
 	massId?: number,
 	massDate?: string,
 	massLocation?: string,

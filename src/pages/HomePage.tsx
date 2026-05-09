@@ -1,6 +1,6 @@
 import Header from "../components/header";
 import Home from "../features/home/components/Home";
-import type { CommunityOrParish } from "../types/CommunityOrParish";
+import type { CommunityOrParish } from "../enums/CommunityOrParish";
 
 function loadProps() {
 	const communityOrParishForStorage: string | null = sessionStorage.getItem('communityOrParish');

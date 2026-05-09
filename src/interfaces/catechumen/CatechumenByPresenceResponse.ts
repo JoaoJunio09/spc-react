@@ -1,4 +1,4 @@
-import type { StepName } from "../../types/StepName";
+import type { StepName } from "../../enums/StepName";
 import type { CatechistSummary } from "../catechist/CatechistSummary";
 
 export interface CatechumenByPresenceResponse {

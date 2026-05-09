@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-type DayOfWeek = {
+export type DayOfWeek = {
 	dayOfWeek: string,
 	dayNum: string,
 	dateString: string,

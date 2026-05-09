@@ -1,7 +1,7 @@
 import './index.css';
 
 import logoImg from '../../assets/brasao_paroquia.png';
-import type { CommunityOrParish } from '../../types/CommunityOrParish';
+import type { CommunityOrParish } from '../../enums/CommunityOrParish';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -41,7 +41,7 @@ function Header({ communityOrParish }: HeaderProps) {
 				<nav className={`main-nav ${isOpen ? 'open' : ''}`} id="mainNav">
 					<ul>
 						<li><Link to="/inicio" className="active">Início</Link></li>
-						<li><Link to="/turmas">Turmas</Link></li>
+						<li><Link to="/etapas-e-catequistas">Etapas e Catequistas</Link></li>
 						<li><Link to="/catequizandos">Catequizandos</Link></li>
 						<li><Link to="/missas">Missas</Link></li>
 					</ul>

@@ -1,6 +1,6 @@
 import type { MassResponse } from "../interfaces/mass/MassResponse";
 import type { ParamsMassAPI } from "../interfaces/mass/ParamsMassAPI";
-import type { CommunityOrParish } from "../types/CommunityOrParish";
+import type { CommunityOrParish } from "../enums/CommunityOrParish";
 import api from "./api";
 
 class MassService {

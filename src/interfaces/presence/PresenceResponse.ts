@@ -1,4 +1,4 @@
-import type { PresenceStatus } from "../../types/PresenceStatus";
+import type { PresenceStatus } from "../../enums/PresenceStatus";
 import type { CatechistSummary } from "../catechist/CatechistSummary";
 import type { CatechumenByPresenceResponse } from "../catechumen/CatechumenByPresenceResponse";
 import type { MassResponse } from "../mass/MassResponse";

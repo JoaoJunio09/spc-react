@@ -1,4 +1,4 @@
-import type { MassLocation } from "../../types/MassLocation";
+import type { MassLocation } from "../../enums/MassLocation";
 
 export interface MassResponse {
 	id: number,
@@ -7,4 +7,4 @@ export interface MassResponse {
 	location: MassLocation,
 	massOfLicaturgicalCalendarId: number,
 	registeredAttendance: boolean
-};
+}

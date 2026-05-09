@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { CatechistResponse } from "../../../interfaces/catechist/CatechistResponse";
-import type { CommunityOrParish } from "../../../types/CommunityOrParish";
+import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
 import { useNavigate } from "react-router-dom";
 import AuthenticationError from "../../../exceptions/auth/AuthenticationError";
 import InvalidOrEmptyFields from "../../../exceptions/form/InvalidOrEmptyFields";

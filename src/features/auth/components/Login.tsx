@@ -27,7 +27,7 @@ function Login() {
 					</div>
 					<div className="brand">
 						<h1>SPC</h1>
-						<p>Sistema de Presença</p>
+						<p>Sistema de Presença da Catequese</p>
 					</div>
 				</header>
 					

@@ -1,4 +1,4 @@
-import type { CommunityOrParish } from "../../types/CommunityOrParish";
+import type { CommunityOrParish } from "../../enums/CommunityOrParish";
 import type { StepOfCatechistResponse } from "../step/StepOfCatechistResponse";
 
 export interface CatechistResponse {
