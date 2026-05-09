@@ -6,12 +6,33 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 type HeaderProps = {
-	communityOrParish: CommunityOrParish | null
+	active: string
 }
 
-function Header({ communityOrParish }: HeaderProps) {
-
+function Header({ active }: HeaderProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const communityOrParish = loadCommunityOrParish();
+
+	function loadCommunityOrParish() {
+		const communityOrParishForStorage: string | null = sessionStorage.getItem('communityOrParish');
+
+		let communityOrParish: CommunityOrParish | null = null;
+
+		communityOrParishForStorage === 'SAO_SEBASTIAO'
+			? communityOrParish = 'SAO_SEBASTIAO'
+			: communityOrParish = 'DIVINO_ESPIRITO_SANTO';
+
+		return communityOrParish;
+	}
+
+	function activateTheMenu(menuActual: string): string {
+		if (active === 'home' && menuActual === 'home') return 'active';
+		else if (active === 'masses' && menuActual === 'masses') return 'active';
+		else if (active === 'catechists' && menuActual === 'catechists') return 'active';
+		else if (active === 'steps' && menuActual === 'steps') return 'active';
+		else if (active === 'catechumens' && menuActual === 'catechumens') return 'active';
+		else return '';
+	}
 
 	return (
 		<header className="main-header">
@@ -40,10 +61,10 @@ function Header({ communityOrParish }: HeaderProps) {
 				
 				<nav className={`main-nav ${isOpen ? 'open' : ''}`} id="mainNav">
 					<ul>
-						<li><Link to="/inicio" className="active">Início</Link></li>
-						<li><Link to="/etapas-e-catequistas">Etapas e Catequistas</Link></li>
-						<li><Link to="/catequizandos">Catequizandos</Link></li>
-						<li><Link to="/missas">Missas</Link></li>
+						<li><Link to="/inicio" className={`${activateTheMenu('home')}`}>Início</Link></li>
+						<li><Link to="/etapas-e-catequistas" className={`${activateTheMenu('steps-and-catechists')}`}>Etapas e Catequistas</Link></li>
+						<li><Link to="/catequizandos" className={`${activateTheMenu('catechumens')}`}>Catequizandos</Link></li>
+						<li><Link to="/missas" className={`${activateTheMenu('masses')}`}>Missas</Link></li>
 					</ul>
 				</nav>
 			</div>

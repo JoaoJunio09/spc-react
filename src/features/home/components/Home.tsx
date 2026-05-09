@@ -10,11 +10,14 @@ import useLoadPresences from '../hooks/useLoadPresences';
 import WeekOfCalendar from './WeekOfCalendar';
 import EventDetails from './EventDetails';
 
-type HomeProps = {
-	userName: string | null
+function loadUserName(): string {
+	const userName = sessionStorage.getItem('userName');
+	
+	if (userName) return userName;
+	else return 'Usuário sem nome';
 }
 
-function Home({ userName }: HomeProps) {
+function Home() {
 	const { isOpen, setIsOpen }	 											= useCalendaryModal();
 	const { masses, massesDates, error: errorMasses } = useLoadMasses();
 	const { presences, error: errorPresences } 				= useLoadPresences();
@@ -42,7 +45,7 @@ function Home({ userName }: HomeProps) {
 			{errorPresences && toast.error(errorPresences)}
 
 			<WeekOfCalendar
-				userName={userName}
+				userName={loadUserName()}
 				daysOfWeek={daysOfWeek}
 				selectedDate={selectedDate}
 				massesDates={massesDates}
