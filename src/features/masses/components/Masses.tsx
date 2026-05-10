@@ -6,12 +6,14 @@ import MassFormModal from './MassFormModal';
 
 import '../styles/masses.css';
 import type { MassResponse } from '../../../interfaces/mass/MassResponse';
+import useMass from '../hooks/useMass';
 
 function Masses() {
 	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 	const [mass, setMass] 							= useState<MassResponse | null>(null);
 
-	const { masses, errorLoad } = useLoadMasses();
+	const { masses, errorLoad, loadMasses } = useLoadMasses(mass);
+	const { deleteMass } 										= useMass();
 
 	function handleSaveOrUpdate(mass: MassResponse | null) {
 		setIsOpenModal(true);
@@ -57,7 +59,12 @@ function Masses() {
 									>
 										Editar
 									</button>
-									<button className="btn-action btn-remove">Remover</button>
+									<button
+										className="btn-action btn-remove"
+										onClick={() => deleteMass(mass.id, loadMasses)}
+									>
+										Remover
+									</button>
 								</div>
 							</div>
 						))}
@@ -69,6 +76,7 @@ function Masses() {
 				<MassFormModal
 					mass={mass}
 					onClose={() => setIsOpenModal(false)}
+					onSuccess={loadMasses}
 				/>
 			}
 		</main>

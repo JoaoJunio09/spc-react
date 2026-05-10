@@ -2,7 +2,7 @@ import type { liturgicalCalendarResponse } from "../interfaces/liturgicalCalenda
 import type { ParamsLiturgicalCalendarAPI } from "../interfaces/liturgicalCalendar/ParamsLiturgicalCalendarAPI";
 import api from "./api";
 
-class LirtugicalCalendarService {
+class LiturgicalCalendarService {
 	BASE_URL: string = '';
 
 	constructor() {
@@ -30,4 +30,4 @@ class LirtugicalCalendarService {
 	}
 }
 
-export default LirtugicalCalendarService;
+export default LiturgicalCalendarService;

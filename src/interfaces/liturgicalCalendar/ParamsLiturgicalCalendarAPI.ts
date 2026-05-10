@@ -1,3 +1,3 @@
 export interface ParamsLiturgicalCalendarAPI {
-	string?: string
+	title?: string
 }

@@ -1,6 +1,7 @@
 import type { MassResponse } from "../interfaces/mass/MassResponse";
 import type { ParamsMassAPI } from "../interfaces/mass/ParamsMassAPI";
-import type { CommunityOrParish } from "../enums/CommunityOrParish";
+import type { MassRequest } from "../interfaces/mass/MassRequest";
+
 import api from "./api";
 
 class MassService {
@@ -12,18 +13,18 @@ class MassService {
 
 	public async getAll(params: ParamsMassAPI) {
 		try {
-			const response = api.get<MassResponse[]>(this.BASE_URL, {
+			const response = await api.get<MassResponse[]>(this.BASE_URL, {
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				params
 			});
 
-			if ((await response).status === 500) {
+			if (response.status === 500) {
 				// throw new Exceptions.InternalServerError('Erro ao carregar as Missas');
 			}
 
-			return (await response).data;
+			return response.data;
 		}
 		catch (err) {
 			throw err;
@@ -33,18 +34,68 @@ class MassService {
 	public async getMassesDatesByCommunityOrParish(params: ParamsMassAPI) {
 		const URL = `${this.BASE_URL}/massesDates`;
 		try {
-			const response = api.get(URL, {
+			const response = await api.get(URL, {
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				params
 			});
 
-			if ((await response).status === 500) {
+			if (response.status === 500) {
 				// throw new Exceptions.InternalServerError('Erro ao carregar as datas das Missas');
 			}
 
-			return (await response).data;
+			return response.data;
+		}
+		catch (err) {
+			throw err;
+		}
+	}
+
+	public async create(mass: MassRequest) {
+		try {
+			const response = await api.post(this.BASE_URL, mass, {
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			
+			});
+
+			if (response.status === 500) {
+				// throw new Exceptions.InternalServerError('Erro ao carregar as datas das Missas');
+			}
+
+			return response.data;
+		}
+		catch (err) {
+			throw err;
+		}
+	}
+
+	public async update(mass: MassRequest) {
+		try {
+			const response = await api.put(this.BASE_URL, mass, {
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			
+			});
+
+			if (response.status === 500) {
+				// throw new Exceptions.InternalServerError('Erro ao carregar as datas das Missas');
+			}
+
+			return response.data;
+		}
+		catch (err) {
+			throw err;
+		}
+	}
+
+	public async delete(id: number) {
+		const URL = `${this.BASE_URL}/${id}`;
+		try {
+			await api.delete(URL, {});
 		}
 		catch (err) {
 			throw err;

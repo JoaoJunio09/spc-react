@@ -4,17 +4,18 @@ import useMassFormModal from "../hooks/useMassFormModal";
 
 type MassFormModalProps = {
 	mass: MassResponse | null,
-	onClose: () => void
+	onClose: () => void,
+	onSuccess: () => Promise<void>
 }
 
-function MassFormModal({ mass, onClose }: MassFormModalProps) {
+function MassFormModal({ mass, onClose, onSuccess }: MassFormModalProps) {
 	const { liturgicalCalendars, error: errorLoadingLiturgicalCalendar } = useLoadLiturgicalCalendar();
 	const {
 		formData,
 		saveOrUpdate,
 		handleOnChange,
 		error
-	} = useMassFormModal(mass);
+	} = useMassFormModal(mass, onClose, onSuccess);
 
 	{error && console.log(error)};
 	{errorLoadingLiturgicalCalendar && console.log(errorLoadingLiturgicalCalendar)};
@@ -25,7 +26,7 @@ function MassFormModal({ mass, onClose }: MassFormModalProps) {
 				<h2 id="modalTitle">
 					{mass === null ? 'Registrar Missa' : 'Editar Missa'}
 				</h2>
-				<form id="missahtmlForm">
+				<form onSubmit={saveOrUpdate}>
 					<div className="form-group">
 						<label htmlFor="massTitleOfLicaturgicalCalendar">Missa</label>
 						<select
@@ -73,6 +74,7 @@ function MassFormModal({ mass, onClose }: MassFormModalProps) {
 							onChange={handleOnChange}
 							required
 						>
+							<option value="" hidden>Selecione o Local</option>
 							{
 								sessionStorage.getItem('communityOrParish') === 'SAO_SEBASTIAO'
 								? <option value="MATRIZ">Matriz</option> 

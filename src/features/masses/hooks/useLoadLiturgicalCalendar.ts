@@ -15,7 +15,7 @@ function useLoadLiturgicalCalendar() {
 	async function loadLiturgicalCalendar() {
 		try {
 			setError(null);
-			const data = await liturgicalCalendarService.getAll({});
+			const data: liturgicalCalendarResponse[] = await liturgicalCalendarService.getAll({});
 			setLiturgicalCalendars(data);
 		}
 		catch (err) {
