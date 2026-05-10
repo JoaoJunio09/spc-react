@@ -28,7 +28,11 @@ class MassService {
 
 			return response.data;
 		}
-		catch (err) {
+		catch (err: any) {
+			if (err?.response?.status === 500) {
+				throw new InternalServerError('Erro ao carregar as Missas');
+			}
+
 			throw err;
 		}
 	}
@@ -43,13 +47,13 @@ class MassService {
 				params
 			});
 
-			if (response.status === 500) {
-				throw new InternalServerError('Erro ao carregar as datas das Missas');
-			}
-
 			return response.data;
 		}
-		catch (err) {
+		catch (err: any) {
+			if (err?.response?.status === 500) {
+				throw new InternalServerError('Erro ao tentar obter data das Missas');
+			}
+
 			throw err;
 		}
 	}
@@ -63,13 +67,13 @@ class MassService {
 			
 			});
 
-			if (response.status === 500) {
+			return response.data;
+		}
+		catch (err: any) {
+			if (err?.response?.status === 500) {
 				throw new InternalServerError('Erro ao registrar Missa');
 			}
 
-			return response.data;
-		}
-		catch (err) {
 			throw err;
 		}
 	}
@@ -83,13 +87,13 @@ class MassService {
 			
 			});
 
-			if (response.status === 500) {
+			return response.data;
+		}
+		catch (err: any) {
+			if (err?.response?.status === 500) {
 				throw new InternalServerError('Erro ao atualizar Missa');
 			}
 
-			return response.data;
-		}
-		catch (err) {
 			throw err;
 		}
 	}

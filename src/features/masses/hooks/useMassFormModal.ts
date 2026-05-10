@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import { toast } from "react-toastify";
 import { UtilsDate } from "../../../utils/UtilsDate";
-import type { MassRequest } from "../../../interfaces/mass/MassRequest";
 import MassService from "../../../services/MassService";
 import LiturgicalCalendarService from "../../../services/LiturgicalCalendarService";
-import { toast } from "react-toastify";
 import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
+import type { MassRequest } from "../../../interfaces/mass/MassRequest";
+import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 
 type MassFormData = {
 	id: number | null,
@@ -52,25 +52,48 @@ function useMassFormModal(
 		});
 	}, [mass]);
 
-	function handleOnChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+	async function handleOnChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
 		const { name, value } = e.target;
 
 		setFormData((prev) => ({
 			...prev,
 			[name]: value
 		}));
+
+		if (name === "massTitleOfLicaturgicalCalendar" && value) {
+			try {
+				const massOfLiturgicalCalendar = await liturgicalCalendarService.getAll({ title: value });
+				
+				if (massOfLiturgicalCalendar.length === 0) return;
+
+				setFormData((prev) => ({
+					...prev,
+					massTitleOfLicaturgicalCalendar: value,
+					date: UtilsDate.formatDateTimeThisMissaForDate(massOfLiturgicalCalendar[0].date)
+				}));
+			}
+			catch (err) {
+				toast.error('Erro ao buscar Missa do Calendário Litúrgico');
+			}
+		}
 	}
 	
 	async function saveOrUpdate(e: { preventDefault: () => void }) {
 		e.preventDefault();
 
 		let isEditing: boolean = false;
+		let massLiturgicalCalendarId: number = 0;
 
 		if (!formData) return;
 		if (formData.id !== null) isEditing = true;
 
-		const massOfLiturgicalCalendar = await liturgicalCalendarService.getAll({ title: formData.massTitleOfLicaturgicalCalendar });
-		const massLiturgicalCalendarId = massOfLiturgicalCalendar[0].id;
+		try {
+			const massOfLiturgicalCalendar = await liturgicalCalendarService.getAll({ title: formData.massTitleOfLicaturgicalCalendar });
+			massLiturgicalCalendarId = massOfLiturgicalCalendar[0].id;
+		}
+		catch (err) {
+			toast.error('Erro ao buscar Missa do Calendário Litúrgico');
+		}
 
 		if (!communityOrParish) return;
 

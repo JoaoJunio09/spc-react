@@ -17,7 +17,7 @@ function useMass() {
 			}
 
 			setError(null);
-			
+
 			await massService.delete(id);
 			await onSuccess();
 			toast.success('Removido com sucesso');
@@ -30,7 +30,7 @@ function useMass() {
 				toast.error('Erro ao remover Missa');
 			}
 			else {
-				throw err;
+				toast.error('Erro inesperado ao remover Missa');
 			}
 		}
 	}
