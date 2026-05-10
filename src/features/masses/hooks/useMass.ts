@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MassService from "../../../services/MassService";
+import { toast } from "react-toastify";
 
 function useMass() {
 	const [error, setError] = useState<string | null>(null);
@@ -15,6 +16,7 @@ function useMass() {
 
 			setError(null);
 			await massService.delete(id);
+			toast.success('Removido com sucesso');
 			onSuccess();
 		}
 		catch (err) {
@@ -23,7 +25,8 @@ function useMass() {
 	}
 
 	return {
-		deleteMass
+		deleteMass,
+		error
 	}
 }
 

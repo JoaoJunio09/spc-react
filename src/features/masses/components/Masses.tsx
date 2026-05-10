@@ -13,7 +13,7 @@ function Masses() {
 	const [mass, setMass] 							= useState<MassResponse | null>(null);
 
 	const { masses, errorLoad, loadMasses } = useLoadMasses(mass);
-	const { deleteMass } 										= useMass();
+	const { deleteMass, error: errorSavingMass } 										= useMass();
 
 	function handleSaveOrUpdate(mass: MassResponse | null) {
 		setIsOpenModal(true);
@@ -23,6 +23,7 @@ function Masses() {
 	return (
 		<main>
 			{errorLoad && toast.error(errorLoad)}
+			{errorSavingMass && toast.error(errorSavingMass)}
 
 			<div className="masses-container">
         <section className="page-intro">
