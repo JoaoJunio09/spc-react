@@ -3,6 +3,8 @@ import type { ParamsMassAPI } from "../interfaces/mass/ParamsMassAPI";
 import type { MassRequest } from "../interfaces/mass/MassRequest";
 
 import api from "./api";
+import InternalServerError from "../exceptions/server/InternalServerError";
+import ConflictInTheDatabaseException from "../exceptions/database/ConflicInTheDatabaseException";
 
 class MassService {
 	BASE_URL: string = '';
@@ -21,7 +23,7 @@ class MassService {
 			});
 
 			if (response.status === 500) {
-				// throw new Exceptions.InternalServerError('Erro ao carregar as Missas');
+				throw new InternalServerError('Erro ao carregar as Missas');
 			}
 
 			return response.data;
@@ -42,7 +44,7 @@ class MassService {
 			});
 
 			if (response.status === 500) {
-				// throw new Exceptions.InternalServerError('Erro ao carregar as datas das Missas');
+				throw new InternalServerError('Erro ao carregar as datas das Missas');
 			}
 
 			return response.data;
@@ -62,7 +64,7 @@ class MassService {
 			});
 
 			if (response.status === 500) {
-				// throw new Exceptions.InternalServerError('Erro ao carregar as datas das Missas');
+				throw new InternalServerError('Erro ao registrar Missa');
 			}
 
 			return response.data;
@@ -82,7 +84,7 @@ class MassService {
 			});
 
 			if (response.status === 500) {
-				// throw new Exceptions.InternalServerError('Erro ao carregar as datas das Missas');
+				throw new InternalServerError('Erro ao atualizar Missa');
 			}
 
 			return response.data;
@@ -97,7 +99,15 @@ class MassService {
 		try {
 			await api.delete(URL, {});
 		}
-		catch (err) {
+		catch (err: any) {
+			if (err?.response?.status === 409) {
+				throw new ConflictInTheDatabaseException('Existem presenças registradas nessa Missa');
+			} 
+
+			if (err?.response?.status === 500) {
+      	throw new InternalServerError("Erro ao remover Missa");
+    	}
+
 			throw err;
 		}
 	}

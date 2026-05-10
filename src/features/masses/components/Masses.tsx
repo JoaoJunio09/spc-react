@@ -12,8 +12,8 @@ function Masses() {
 	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 	const [mass, setMass] 							= useState<MassResponse | null>(null);
 
-	const { masses, errorLoad, loadMasses } = useLoadMasses(mass);
-	const { deleteMass, error: errorSavingMass } 										= useMass();
+	const { masses, errorLoad, loadMasses } 		 = useLoadMasses();
+	const { deleteMass, error: errorSavingMass } = useMass();
 
 	function handleSaveOrUpdate(mass: MassResponse | null) {
 		setIsOpenModal(true);

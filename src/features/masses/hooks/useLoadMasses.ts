@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MassService from "../../../services/MassService";
 import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 
-function useLoadMasses(mass: MassResponse | null) {
+function useLoadMasses() {
 	const [masses, setMasses]						= useState<MassResponse[]>([]);
 	const [errorLoad, setErrorLoad] 		= useState<string | null>(null);
 
