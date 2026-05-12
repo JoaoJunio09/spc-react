@@ -1,6 +1,8 @@
 import { toast } from 'react-toastify';
 import useStepsAndCatechists from '../hooks/useStepsAndCatechists';
 import '../styles/stepsAndCatechists.css';
+import Catechist from './Catechist';
+import { FormatStep } from '../../../utils/FormatStep';
 
 function StepsAndCatechists() {
 	const { catechists, steps, error } = useStepsAndCatechists();
@@ -21,7 +23,9 @@ function StepsAndCatechists() {
 					<h3 className="list-header">Catequistas da Paróquia</h3>
 					
 					<div id="lista-catequistas" className="grid-cards">
-
+						{catechists?.map(catechist => (
+							<Catechist firstName={catechist.firstName} stepName={FormatStep.format(catechist.step.stepName)} />
+						))}
 					</div>
         </section>
 
