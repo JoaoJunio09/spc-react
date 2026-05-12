@@ -29,7 +29,7 @@ function Header({ active }: HeaderProps) {
 		if (active === 'home' && menuActual === 'home') return 'active';
 		else if (active === 'masses' && menuActual === 'masses') return 'active';
 		else if (active === 'catechists' && menuActual === 'catechists') return 'active';
-		else if (active === 'steps' && menuActual === 'steps') return 'active';
+		else if (active === 'steps-and-catechists' && menuActual === 'steps-and-catechists') return 'active';
 		else if (active === 'catechumens' && menuActual === 'catechumens') return 'active';
 		else return '';
 	}

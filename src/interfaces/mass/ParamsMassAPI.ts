@@ -1,4 +1,6 @@
+import type { CommunityOrParish } from "../../enums/CommunityOrParish";
+
 export interface ParamsMassAPI {
-	communityOrParish?: string,
+	communityOrParish?: CommunityOrParish,
 	occurredUntil?: string
 }

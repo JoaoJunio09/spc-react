@@ -1,7 +1,5 @@
 import type { CommunityOrParish } from "../../enums/CommunityOrParish";
 
-export interface ParamsCatechistAPI {
-	stepId?: number,
-	fullName?: string,
+export interface ParamsStepAPI {
 	communityOrParish?: CommunityOrParish
 }

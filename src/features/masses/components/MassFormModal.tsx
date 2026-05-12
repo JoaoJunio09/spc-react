@@ -20,6 +20,8 @@ function MassFormModal({ mass, onClose, onSuccess }: MassFormModalProps) {
 	{error && console.log(error)};
 	{errorLoadingLiturgicalCalendar && console.log(errorLoadingLiturgicalCalendar)};
 
+	console.log('oi')
+
 	return (
 		<div className="modal-overlay" id="missaModal">
 			<div className="modal-content">

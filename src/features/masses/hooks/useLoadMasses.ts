@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import MassService from "../../../services/MassService";
 import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
+import { ObtainCommunityOrParish } from "../../../utils/ObtainCommunityOrParish";
 
 function useLoadMasses() {
 	const [masses, setMasses]						= useState<MassResponse[]>([]);
-	const [errorLoad, setErrorLoad] 		= useState<string | null>(null);
+	const [error, setError] 		= useState<string | null>(null);
 
 	const massService:MassService = new MassService();
 
@@ -13,25 +15,25 @@ function useLoadMasses() {
 	}, []);
 
 	async function loadMasses() {
-		const communityOrParish = sessionStorage.getItem('communityOrParish');
+		let communityOrParish: CommunityOrParish | null = ObtainCommunityOrParish.obtain();
 		if (!communityOrParish) {
-			setErrorLoad('Comunidade ou Pároquia indefinido');
+			setError('Comunidade ou Paróquia indefinido');
 			return;
 		}
 
 		try {
-			setErrorLoad(null);
+			setError(null);
 			const dataMases: MassResponse[] = await massService.getAll({ communityOrParish: communityOrParish });
 			setMasses(dataMases);
 		}
 		catch (err) {
-			setErrorLoad('Erro ao carregar as Missas');
+			setError('Erro ao carregar as Missas');
 		}
 	}
 
 	return {
 		masses,
-		errorLoad,
+		error,
 		loadMasses
 	}
 }

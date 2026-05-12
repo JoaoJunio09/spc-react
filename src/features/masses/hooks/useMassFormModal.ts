@@ -6,6 +6,7 @@ import LiturgicalCalendarService from "../../../services/LiturgicalCalendarServi
 import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
 import type { MassRequest } from "../../../interfaces/mass/MassRequest";
 import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import { ObtainCommunityOrParish } from "../../../utils/ObtainCommunityOrParish";
 
 type MassFormData = {
 	id: number | null,
@@ -31,11 +32,7 @@ function useMassFormModal(
 	});
 	const [error, setError] = useState<string | null>(null);
 
-	let communityOrParish: CommunityOrParish | null = null;
-
-	communityOrParish = sessionStorage.getItem('communityOrParish') === 'SAO_SEBASTIAO'
-		? 'SAO_SEBASTIAO'
-		: 'DIVINO_ESPIRITO_SANTO';
+	let communityOrParish: CommunityOrParish | null = ObtainCommunityOrParish.obtain();
 
 	const liturgicalCalendarService: LiturgicalCalendarService = new LiturgicalCalendarService();
 	const massService: MassService = new MassService();

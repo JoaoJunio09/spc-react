@@ -22,10 +22,6 @@ class MassService {
 				params
 			});
 
-			if (response.status === 500) {
-				throw new InternalServerError('Erro ao carregar as Missas');
-			}
-
 			return response.data;
 		}
 		catch (err: any) {
