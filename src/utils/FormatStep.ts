@@ -1,4 +1,4 @@
-function format(stepName: string) {
+function format(stepName: string): string {
 	if (stepName === "CRISMA") return "Crisma";
 	else if (stepName === "PRE_CRISMA") return "Pré-Crisma";
 	else if (stepName === "EUCARISTIA_UM") return "Eucarista 1";

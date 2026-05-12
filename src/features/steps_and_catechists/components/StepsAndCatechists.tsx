@@ -7,9 +7,6 @@ import { FormatStep } from '../../../utils/FormatStep';
 function StepsAndCatechists() {
 	const { catechists, steps, error } = useStepsAndCatechists();
 
-	console.log(catechists);
-	console.log(steps);
-
 	return (
 		<main>
 			{error && toast.error(error)}
