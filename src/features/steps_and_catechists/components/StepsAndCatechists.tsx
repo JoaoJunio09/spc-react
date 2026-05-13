@@ -1,14 +1,13 @@
 import { toast } from 'react-toastify';
-import useStepsAndCatechists from '../hooks/useStepsAndCatechists';
-import '../styles/stepsAndCatechists.css';
 import Catechist from './Catechist';
-import { FormatStep } from '../../../utils/FormatStep';
 import Step from './Step';
+import { FormatStep } from '../../../utils/FormatStep';
+import useStepsAndCatechists from '../hooks/useStepsAndCatechists';
+
+import '../styles/stepsAndCatechists.css';
 
 function StepsAndCatechists() {
 	const { catechists, steps, error } = useStepsAndCatechists();
-
-	console.log(steps)
 
 	return (
 		<main>
@@ -24,7 +23,7 @@ function StepsAndCatechists() {
 					
 					<div id="lista-catequistas" className="grid-cards">
 						{catechists?.map(catechist => (
-							<Catechist firstName={catechist.firstName} stepName={FormatStep.format(catechist.step.stepName)} />
+							<Catechist key={catechist.id} firstName={catechist.firstName} stepName={FormatStep.format(catechist.step.stepName)} />
 						))}
 					</div>
         </section>
@@ -33,7 +32,7 @@ function StepsAndCatechists() {
 					<h3 className="list-header">Turmas da Catequese</h3>
 					<div id="lista-turmas" className="grid-cards">
 						{steps?.map(step => (
-							<Step catechists={step.catechists} step={step.stepName} />
+							<Step key={step.id} catechists={step.catechists} step={step} />
 						))}
 					</div>
         </section>

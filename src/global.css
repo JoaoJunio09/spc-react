@@ -13,6 +13,8 @@
   --success-border: #10B981;
   --success-text: #065F46;
   --disabled-btn: #CBD5E1;
+  --danger: #EF4444;
+  --success: #10B981;
 }
 
 * {
