@@ -39,7 +39,7 @@ function Masses() {
 					Registrar Missa
 				</button>
 
-        <section className="list-section">
+        <section className="list-section-masses">
 					<h3 className="list-header">Missas Registradas</h3>
 					<div className="missas-grid" id="massesGrid">
 						{masses.map(mass => (

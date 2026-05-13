@@ -6,6 +6,12 @@
 	overflow-x: hidden;
 }
 
+.catechists-container {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
 /* PAGE TITLES */
 .page-intro {
 	padding: 2.5rem 0 1.5rem;
@@ -23,7 +29,7 @@
 }
 
 /* SECTIONS */
-.list-section {
+.list-section-step-and-catechists {
 	margin-bottom: 3rem;
 }
 

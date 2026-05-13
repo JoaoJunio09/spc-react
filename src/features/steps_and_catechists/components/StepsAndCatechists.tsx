@@ -3,9 +3,12 @@ import useStepsAndCatechists from '../hooks/useStepsAndCatechists';
 import '../styles/stepsAndCatechists.css';
 import Catechist from './Catechist';
 import { FormatStep } from '../../../utils/FormatStep';
+import Step from './Step';
 
 function StepsAndCatechists() {
 	const { catechists, steps, error } = useStepsAndCatechists();
+
+	console.log(steps)
 
 	return (
 		<main>
@@ -16,7 +19,7 @@ function StepsAndCatechists() {
 					<p>Controle a alocação de catequistas e visualize o desempenho de presença dos catequizandos.</p>
         </section>
 
-        <section className="list-section">
+        <section className="list-section-step-and-catechists">
 					<h3 className="list-header">Catequistas da Paróquia</h3>
 					
 					<div id="lista-catequistas" className="grid-cards">
@@ -26,10 +29,12 @@ function StepsAndCatechists() {
 					</div>
         </section>
 
-        <section className="list-section">
+        <section className="list-section-step-and-catechists">
 					<h3 className="list-header">Turmas da Catequese</h3>
 					<div id="lista-turmas" className="grid-cards">
-
+						{steps?.map(step => (
+							<Step catechists={step.catechists} step={step.stepName} />
+						))}
 					</div>
         </section>
     	</div>
