@@ -20,10 +20,13 @@ function StepsAndCatechists() {
 
         <section className="list-section-step-and-catechists">
 					<h3 className="list-header">Catequistas da Paróquia</h3>
-					
 					<div id="lista-catequistas" className="grid-cards">
 						{catechists?.map(catechist => (
-							<Catechist key={catechist.id} firstName={catechist.firstName} stepName={FormatStep.format(catechist.step.stepName)} />
+							<Catechist
+								key={catechist.id}
+								firstName={catechist.firstName}
+								stepName={FormatStep.format(catechist.step.stepName)}
+							/>
 						))}
 					</div>
         </section>
@@ -32,7 +35,11 @@ function StepsAndCatechists() {
 					<h3 className="list-header">Turmas da Catequese</h3>
 					<div id="lista-turmas" className="grid-cards">
 						{steps?.map(step => (
-							<Step key={step.id} catechists={step.catechists} step={step} />
+							<Step
+								key={step.id}
+								catechists={step.catechists}
+								step={step}
+							/>
 						))}
 					</div>
         </section>
