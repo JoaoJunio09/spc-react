@@ -1,5 +1,6 @@
 type CatechumenProps = {
 	firstName: string,
+	lastName: string,
 	birthDate?: string,
 	currentFrequency: number,
 	totalFrequency: number
@@ -7,6 +8,7 @@ type CatechumenProps = {
 
 function Catechumen({ 
 	firstName,
+	lastName,
 	birthDate,
 	currentFrequency,
 	totalFrequency
@@ -15,7 +17,7 @@ function Catechumen({
 	return (
 		<div id="card" className="card-catechumen">
 			<div className="catequizando-header">
-				<span className="catechumen-firstName">{firstName}</span>
+				<span className="catechumen-firstName">{firstName} {lastName}</span>
 				<span className="catechument-birthDate">{birthDate && birthDate}</span>
 			</div>
 			<div className="progress-container">

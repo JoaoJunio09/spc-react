@@ -26,12 +26,13 @@ function ViewCatechumensModal({ catechists, step, onClose }: ViewCatechumensModa
 						<Catechumen
 							key={catechumen.id}
 							firstName={catechumen.firstName}
-							currentFrequency={50}
-							totalFrequency={70}
+							lastName={catechumen.lastName}
+							currentFrequency={catechumen.currentFrequency}
+							totalFrequency={catechumen.totalFrequency}
 						/>
 					))}
 				</div>
-				<div className="modal-footer" style={{gridTemplateColumns: '1fr'}}>
+				<div className="modal-footer" style={{ gridTemplateColumns: '1fr' }}>
 					<button
 						className="btn btn-cancel"
 						id="btn-cancel"

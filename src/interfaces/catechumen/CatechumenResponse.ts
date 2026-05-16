@@ -7,5 +7,7 @@ export interface CatechumenResponse {
 	lastName: string,
 	birthDate: string,
 	communityOrParish: CommunityOrParish,
-	step: StepByCatechumenResponse
+	step: StepByCatechumenResponse,
+	currentFrequency: number,
+	totalFrequency: number
 }
