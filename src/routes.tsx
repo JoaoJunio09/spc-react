@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import MassesPage from "./pages/MassesPage";
 import StepsAndCatechistsPage from "./pages/StepsAndCatechistsPage";
 import CatechumensPage from "./pages/CatechumensPage";
+import RegisterPresencePage from "./pages/RegisterPresencePage";
 
 function RoutesApp() {
 	return (
@@ -15,6 +16,9 @@ function RoutesApp() {
 				<Route path="/etapas-e-catequistas" element={<StepsAndCatechistsPage />} />
 				<Route path="/catequizandos" element={<CatechumensPage />} />
 				<Route path="/missas" element={<MassesPage />} />
+
+				{/* Implementar proteção de rota */}
+				<Route path="/missas/:massId/registrar-presenca" element={<RegisterPresencePage />} />
 			</Routes>
 		</BrowserRouter>
 	)

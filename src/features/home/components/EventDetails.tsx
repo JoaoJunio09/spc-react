@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Event } from "../hooks/useLoadEvent";
 
 type EventCalendarProps = {
@@ -37,7 +38,9 @@ function EventDetails({ events }: EventCalendarProps) {
 									className={`btn-primary btn-register-presence ${event.isRegisteredPresence ? 'btn-primary-register-presence' : ''}`}
 									id="btn-register-attendance"
 								>
-									{event.isRegisteredPresence ? 'Presença na Missa já foi registrada' : 'Registrar Presença'}
+									<Link to={`/missas/${event.massId}/registrar-presenca`}>
+										{event.isRegisteredPresence ? 'Presença na Missa já foi registrada' : 'Registrar Presença'}
+									</Link>
 								</button>
 							</div>	
 						</div>
