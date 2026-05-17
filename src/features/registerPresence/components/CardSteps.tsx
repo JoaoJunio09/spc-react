@@ -14,7 +14,7 @@ function CardSteps({ step, handleListCatechumens }: CardStepsProps) {
 				step.catechists.length === 1
 				? <p>{step.catechists[0].firstName}</p>
 				: step.catechists.map(catechist => (
-					<p>{catechist.firstName}</p>
+					<p key={catechist.id}>{catechist.firstName}</p>
 				))
 			}
 			<button className="btn-list-students" onClick={handleListCatechumens}>

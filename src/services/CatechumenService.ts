@@ -11,17 +11,25 @@ class CatechumenService {
 		this.BASE_URL = '/api/catechumens/v1';
 	}
 
-	public async getAll(params: ParamsCatechumenAPI) {
+	public async getAll({
+		signal,
+		...params
+	}: ParamsCatechumenAPI) {
 		try {
 			const response = api.get<CatechumenResponse[]>(this.BASE_URL, {
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				params
+				params,
+				signal
 			});
 			return (await response).data;
 		}
 		catch (err: any) {
+			if (err.name === 'CanceledError') {
+				return [];
+			}
+			
 			if (err?.response?.status === 500) {
       	throw new InternalServerError("Erro ao remover Missa");
     	}

@@ -4,5 +4,6 @@ export interface ParamsCatechumenAPI {
 	fullName?: string,
 	stepId?: number,
 	catechistId?: number,
-	communityOrParish?: CommunityOrParish
+	communityOrParish?: CommunityOrParish,
+	signal?: AbortSignal
 }

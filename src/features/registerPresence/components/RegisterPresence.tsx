@@ -1,17 +1,28 @@
+import { ChevronDown, Search } from 'lucide-react';
+import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import useLoadSteps from '../hooks/useLoadSteps';
 import '../styles/registerPresence.css';
 import CardSteps from './CardSteps';
-import { ChevronDown } from 'lucide-react';
-import { useRef, useState } from 'react';
+import CardCatechumen from './CardCatechumen';
+import useRegisterPresence from '../hooks/useRegisterPresence';
 
 function RegisterPresence() {
-
 	const [isOpenAccordionSteps, setIsOpenAccordionSteps] = useState<boolean>(false);
-
 	const accordionRef = useRef<HTMLDivElement | null>(null);
 
 	const { steps, error: errorLoadSteps } = useLoadSteps();
+	const {
+		catechumens,
+		loading,
+		error,
+		fullName,
+		search,
+		listCatechumens,
+		clear
+	} = useRegisterPresence();
+
+	console.log(catechumens);
 
 	function handleAccordion() {
 		const accordion = accordionRef.current;
@@ -32,9 +43,24 @@ function RegisterPresence() {
 		setIsOpenAccordionSteps(!isOpenAccordionSteps);
 	}
 
+	function handleListCatechumens(stepId: number) {
+		listCatechumens(stepId);
+		setIsOpenAccordionSteps(false);
+		handleAccordion();
+	}
+
+	function handleSearchCatechumens(fullName: string) {
+		search(fullName);
+		if (isOpenAccordionSteps) {
+			setIsOpenAccordionSteps(false);
+			handleAccordion();
+		}
+	}
+
 	return (
 		<main className="register-presence-container">
 			{errorLoadSteps && toast.error(errorLoadSteps)}
+			{error && toast.error(error.message)}
 			<section className="page-intro">
 				<h2>Registrar Presença na Missa</h2>
 				<p>Selecione uma turma ou pesquise um catequizando específico.</p>
@@ -42,8 +68,14 @@ function RegisterPresence() {
 
 			<section className="search-section">
 				<div className="search-container">
-					<i data-lucide="search" className="search-icon"></i>
-					<input type="text" id="inputSearch" placeholder="Pesquisar o nome do catequizando..." />
+					<Search className="search-icon" />
+					<input
+						type="text"
+						id="inputSearch"
+						placeholder="Pesquisar o nome do catequizando..."
+						value={fullName}
+						onChange={(e) => handleSearchCatechumens(e.target.value)}
+					/>
 				</div>
 			</section>
 
@@ -63,21 +95,30 @@ function RegisterPresence() {
 					>
 						<div className="turmas-grid" id="listSteps">
 							{steps.map(step => (
-								<CardSteps step={step} handleListCatechumens={() => {}} />
+								<CardSteps
+									key={step.id}
+									step={step}
+									handleListCatechumens={() => handleListCatechumens(step.id)}
+								/>
 							))}
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<section className="attendance-section" id="attendanceSection" style={{ display: 'none' }}>
+			<section className="attendance-section" id="attendanceSection" style={{ display: `${catechumens.length === 0 ? 'none' : 'block'}` }}>
 				<div className="section-header">
 					<h3 id="tituloListagem">Catequizandos</h3>
 					<button className="btn-clear" id="reset">Limpar Seleção</button>
 				</div>
 				
 				<div className="catequizandos-list" id="listCatechumens">
-						
+					{catechumens.map(catechumen => (
+						<CardCatechumen
+							key={catechumen.id}
+							catechumen={catechumen}
+						/>
+					))}
 				</div>
 
 				<div className="actions-footer" id="actions-footer">

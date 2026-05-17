@@ -19,7 +19,7 @@ function useLoadSteps() {
 			setSteps(data);
 		}
 		catch (err) {
-			setError('Erro ao carregar os Catequizandos');
+			setError('Erro ao carregar as Etapas');
 		}
 	}
 
