@@ -65,6 +65,7 @@
     font-size: 1rem;
     color: var(--text-main);
     background-color: #F8FAFC;
+    outline: none;
 }
 
 /* Período */
@@ -116,6 +117,7 @@
     border-radius: 16px;
     box-shadow: var(--shadow);
     overflow: hidden;
+    margin-bottom: 50px;
 }
 
 .tabela-container {
@@ -181,6 +183,7 @@
 
 .vazio-content {
     max-width: 400px;
+    padding: 2rem 1rem;
     margin: 0 auto;
 }
 

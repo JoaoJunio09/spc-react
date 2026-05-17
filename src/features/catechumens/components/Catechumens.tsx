@@ -6,6 +6,7 @@ import '../styles/catechumens.css';
 import useFilter from '../hooks/useFilter';
 import Table from './Table';
 import Select from './Select';
+import { Users } from 'lucide-react';
 
 function Catechumens() {
 
@@ -51,13 +52,12 @@ function Catechumens() {
 			<section className="tabela-section">
 				<div className="tabela-container">
 					<Table catechumens={catechumens} />
-
-					<div className="estado-vazio" id="estado-vazio-filtros" style={{ display: `${catechumens.length === 0 ? 'initial' : 'none'}` }}>
-						<div className="vazio-content">
-							<i data-lucide="users" className="vazio-icon"></i>
-							<h3>Filtre os catequizandos por ETAPA e CATEQUISTA</h3>
-							<p>Selecione uma etapa e um catequista para visualizar os catequizandos e suas frequências.</p>
-						</div>
+				</div>
+				<div className="estado-vazio" id="estado-vazio-filtros" style={{ display: `${catechumens.length === 0 ? 'initial' : 'none'}` }}>
+					<div className="vazio-content">
+						<Users className='vazio-icon' />
+						<h3>Filtre os catequizandos por ETAPA e CATEQUISTA</h3>
+						<p>Selecione uma etapa e um catequista para visualizar os catequizandos e suas frequências.</p>
 					</div>
 				</div>
 			</section>       
