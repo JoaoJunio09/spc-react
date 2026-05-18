@@ -1,0 +1,16 @@
+.nameCatechumen {
+	width: 300px
+}
+
+.stepAndNameCatechist {
+	width: 100px;
+}
+
+@media (max-width: 520px) {
+	.nameCatechumen {
+		width: 100%
+	}
+	.stepAndNameCatechist {
+		width: 60%;
+	}
+}

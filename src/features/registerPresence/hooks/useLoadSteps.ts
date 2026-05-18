@@ -3,8 +3,9 @@ import type { StepResponse } from "../../../interfaces/step/StepResponse";
 import StepService from "../../../services/StepService";
 
 function useLoadSteps() {
-	const [steps, setSteps] = useState<StepResponse[]>([]);
-	const [error, setError] = useState<string | null>(null);
+	const [steps, setSteps] 		= useState<StepResponse[]>([]);
+	const [error, setError] 		= useState<string | null>(null);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const stepService: StepService = new StepService();
 
@@ -14,6 +15,7 @@ function useLoadSteps() {
 
 	async function loadSteps() {
 		try {
+			setLoading(true);
 			setError(null);
 			const data = await stepService.getAll({});
 			setSteps(data);
@@ -21,11 +23,15 @@ function useLoadSteps() {
 		catch (err) {
 			setError('Erro ao carregar as Etapas');
 		}
+		finally {
+			setLoading(false);
+		}
 	}
 
 	return {
 		steps,
-		error
+		error,
+		loading
 	}
 }
 

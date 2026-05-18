@@ -2,8 +2,10 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import './global.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import App from './App.tsx'
+
 import { ToastContainer } from 'react-toastify';
 
 import {

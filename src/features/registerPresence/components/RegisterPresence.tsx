@@ -2,28 +2,30 @@ import { ChevronDown, Search } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import useLoadSteps from '../hooks/useLoadSteps';
-import '../styles/registerPresence.css';
-import CardSteps from './CardSteps';
-import CardCatechumen from './CardCatechumen';
 import useRegisterPresence from '../hooks/useRegisterPresence';
+import '../styles/registerPresence.css';
+import CardCatechumen from './CardCatechumen';
+import CardCatechumenSkeleton from './CardCatechumenSkeleton';
+import CardSteps from './CardSteps';
 
 function RegisterPresence() {
 	const [isOpenAccordionSteps, setIsOpenAccordionSteps] = useState<boolean>(false);
 	const accordionRef = useRef<HTMLDivElement | null>(null);
 
-	const { steps, error: errorLoadSteps } = useLoadSteps();
+	const { steps, error: errorLoadSteps, loading: loadingSteps } = useLoadSteps();
 	const {
 		catechumens,
 		loading,
 		error,
 		fullName,
+		markPresence,
+		markAbsence,
+		isPresent,
 		search,
 		listCatechumens,
 		clear
 	} = useRegisterPresence();
-
-	console.log(catechumens);
-
+	
 	function handleAccordion() {
 		const accordion = accordionRef.current;
 
@@ -60,6 +62,7 @@ function RegisterPresence() {
 	return (
 		<main className="register-presence-container">
 			{errorLoadSteps && toast.error(errorLoadSteps)}
+			{loadingSteps && toast.loading(loadingSteps)}
 			{error && toast.error(error.message)}
 			<section className="page-intro">
 				<h2>Registrar Presença na Missa</h2>
@@ -106,19 +109,37 @@ function RegisterPresence() {
 				</div>
 			</section>
 
-			<section className="attendance-section" id="attendanceSection" style={{ display: `${catechumens.length === 0 ? 'none' : 'block'}` }}>
+			<section
+				className="attendance-section"
+				style={{
+					display: fullName || catechumens.length > 0
+						? 'block'
+						: 'none'
+				}}
+			>
 				<div className="section-header">
-					<h3 id="tituloListagem">Catequizandos</h3>
+					<h3 id="tituloListagem">
+						{fullName ? `Resultados para: ${fullName}` : 'Catequizandos'}
+					</h3>
 					<button className="btn-clear" id="reset">Limpar Seleção</button>
 				</div>
 				
 				<div className="catequizandos-list" id="listCatechumens">
-					{catechumens.map(catechumen => (
-						<CardCatechumen
-							key={catechumen.id}
-							catechumen={catechumen}
-						/>
-					))}
+					{
+						loading
+							? Array.from({ length: 4 }).map((_, index) => (
+									<CardCatechumenSkeleton key={index} />
+								))
+							: catechumens.map(catechumen => (
+								<CardCatechumen
+									key={catechumen.id}
+									catechumen={catechumen}
+									isPresent={isPresent(catechumen)}
+									handleMarkPresence={markPresence}
+									handleMarkAbsence={markAbsence}
+								/>
+							))
+					}
 				</div>
 
 				<div className="actions-footer" id="actions-footer">

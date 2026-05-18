@@ -2,10 +2,13 @@ import type { CatechumenResponse } from "../../../interfaces/catechumen/Catechum
 import { FormatStep } from "../../../utils/FormatStep";
 
 type CardCatechumenProps = {
-	catechumen: CatechumenResponse
+	catechumen: CatechumenResponse,
+	isPresent: boolean,
+	handleMarkPresence: (catechumen: CatechumenResponse) => void,
+	handleMarkAbsence: (catechumen: CatechumenResponse) => void
 }
 
-function CardCatechumen({ catechumen }: CardCatechumenProps) {
+function CardCatechumen({ catechumen, isPresent, handleMarkPresence, handleMarkAbsence }: CardCatechumenProps) {
 	return (
 		<div className="catequizando-card catechumen-card" data-catechumen="">
 			<div className="student-info">
@@ -16,10 +19,16 @@ function CardCatechumen({ catechumen }: CardCatechumenProps) {
 				))}
 			</div>
 			<div className="attendance-controls">
-				<button className="btn-toggle btn-mark-presence presente">
+				<button
+					className={`btn-toggle btn-mark-presence presente ${isPresent ? 'active' : ''}`}
+					onClick={() => handleMarkPresence(catechumen)}
+				>
 					<i data-lucide="check"></i> Presença
 				</button>
-				<button className="btn-toggle btn-mark-absence ausente">
+				<button
+					className={`btn-toggle btn-mark-absence ausente ${!isPresent ? 'active' : ''}`}
+					onClick={() => handleMarkAbsence(catechumen)}
+				>
 					Ausência
 				</button>
 			</div>
