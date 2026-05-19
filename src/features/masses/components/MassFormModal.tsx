@@ -21,8 +21,8 @@ function MassFormModal({ mass, onClose, onSuccess }: MassFormModalProps) {
 	{errorLoadingLiturgicalCalendar && console.log(errorLoadingLiturgicalCalendar)};
 
 	return (
-		<div className="modal-overlay" id="missaModal">
-			<div className="modal-content">
+		<div className="mass-modal-overlay" id="missaModal">
+			<div className="mass-modal-content">
 				<h2 id="modalTitle">
 					{mass === null ? 'Registrar Missa' : 'Editar Missa'}
 				</h2>

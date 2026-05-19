@@ -1,4 +1,4 @@
-import Header from "../components/header";
+import Header from "../components/ui/header";
 import StepsAndCatechists from "../features/steps_and_catechists/components/StepsAndCatechists";
 
 function StepsAndCatechistsPage() {

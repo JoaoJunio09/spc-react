@@ -1,7 +1,7 @@
 import './index.css';
 
-import logoImg from '../../assets/brasao_paroquia.png';
-import type { CommunityOrParish } from '../../enums/CommunityOrParish';
+import logoImg from '../../../assets/brasao_paroquia.png';
+import type { CommunityOrParish } from '../../../enums/CommunityOrParish';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 

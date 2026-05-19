@@ -7,17 +7,25 @@ import MassFormModal from './MassFormModal';
 import '../styles/masses.css';
 import type { MassResponse } from '../../../interfaces/mass/MassResponse';
 import useMass from '../hooks/useMass';
+import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
 
 function Masses() {
-	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-	const [mass, setMass] 							= useState<MassResponse | null>(null);
+	const [isOpenModal, setIsOpenModal] 						= useState<boolean>(false);
+	const [openConfirmDelete, setOpenConfirmDelete] = useState<boolean>(false);
+	const [mass, setMass] 													= useState<MassResponse | null>(null);
+	const [massIdDeleted, setMassIdDeleted]					= useState<number>(0);
 
-	const { masses, error: errorLoad, loadMasses } 		 = useLoadMasses();
-	const { deleteMass, error: errorSavingMass } = useMass();
+	const { masses, error: errorLoad, loadMasses } = useLoadMasses();
+	const { deleteMass, error: errorSavingMass } 	 = useMass();
 
 	function handleSaveOrUpdate(mass: MassResponse | null) {
 		setIsOpenModal(true);
 		setMass(mass);
+	}
+
+	function handleDeleteMass(id: number) {
+		setOpenConfirmDelete(true);
+		setMassIdDeleted(id);
 	}
 
 	return (
@@ -62,7 +70,7 @@ function Masses() {
 									</button>
 									<button
 										className="btn-action btn-remove"
-										onClick={() => deleteMass(mass.id, loadMasses)}
+										onClick={() => handleDeleteMass(mass.id)}
 									>
 										Remover
 									</button>
@@ -72,6 +80,17 @@ function Masses() {
 					</div>
         </section>
     	</div>
+
+			<ConfirmDialog
+				open={openConfirmDelete}
+				onOpenChange={setOpenConfirmDelete}
+				title='Excluir Missa'
+				description='Deseja remover essa Missa do Sistema? Não será possível recuperar após a confirmação'
+				confirmText='Sim, excluir'
+				cancelText='Cancelar'
+				variant='danger'
+				onConfirm={() => deleteMass(massIdDeleted, loadMasses)}
+			/>
 
 			{isOpenModal &&
 				<MassFormModal

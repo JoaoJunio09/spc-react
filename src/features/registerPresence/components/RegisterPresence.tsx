@@ -7,9 +7,11 @@ import '../styles/registerPresence.css';
 import CardCatechumen from './CardCatechumen';
 import CardCatechumenSkeleton from './CardCatechumenSkeleton';
 import CardSteps from './CardSteps';
+import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
 
 function RegisterPresence() {
 	const [isOpenAccordionSteps, setIsOpenAccordionSteps] = useState<boolean>(false);
+	const [openClearDialog, setOpenClearDialog] = useState<boolean>(false);
 	const accordionRef = useRef<HTMLDivElement | null>(null);
 
 	const { steps, error: errorLoadSteps, loading: loadingSteps } = useLoadSteps();
@@ -21,11 +23,12 @@ function RegisterPresence() {
 		markPresence,
 		markAbsence,
 		isPresent,
+		isBlockButtonPresence,
 		search,
 		listCatechumens,
 		clear
 	} = useRegisterPresence();
-	
+
 	function handleAccordion() {
 		const accordion = accordionRef.current;
 
@@ -57,6 +60,11 @@ function RegisterPresence() {
 			setIsOpenAccordionSteps(false);
 			handleAccordion();
 		}
+	}
+
+	function handleClear() {
+		clear();
+		setOpenClearDialog(false);
 	}
 
 	return (
@@ -121,8 +129,25 @@ function RegisterPresence() {
 					<h3 id="tituloListagem">
 						{fullName ? `Resultados para: ${fullName}` : 'Catequizandos'}
 					</h3>
-					<button className="btn-clear" id="reset">Limpar Seleção</button>
+					<button
+						className="btn-clear"
+						id="reset"
+						onClick={() => setOpenClearDialog(true)}
+					>
+						Limpar Seleção
+					</button>
 				</div>
+
+				<ConfirmDialog
+					open={openClearDialog}
+					onOpenChange={setOpenClearDialog}
+					title="Limpar seleção"
+					description="Tem certeza que deseja limpar a seleção atual? Os catequizandos marcados serão removidos da revisão atual."
+					confirmText="Sim, limpar"
+					cancelText="Cancelar"
+					variant="danger"
+					onConfirm={handleClear}
+				/>
 				
 				<div className="catequizandos-list" id="listCatechumens">
 					{
@@ -135,6 +160,7 @@ function RegisterPresence() {
 									key={catechumen.id}
 									catechumen={catechumen}
 									isPresent={isPresent(catechumen)}
+									isBlockButtonPresence={isBlockButtonPresence(catechumen)}
 									handleMarkPresence={markPresence}
 									handleMarkAbsence={markAbsence}
 								/>

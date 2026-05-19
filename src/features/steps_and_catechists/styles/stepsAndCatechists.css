@@ -137,13 +137,14 @@
 	margin-top: 25px;
 }
 
-.modal-overlay {
+.step-and-catechist-modal-overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	background: rgba(15, 23, 42, 0.7);
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	z-index: 2000;
@@ -151,7 +152,7 @@
 	backdrop-filter: blur(2px);
 }
 
-.modal-content {
+.step-and-catechist-modal-content {
 	background: var(--white);
 	width: 100%;
 	max-width: 500px;
@@ -162,7 +163,7 @@
 	overflow-y: auto;
 }
 
-.modal-header h3 {
+.step-and-catechist-modal-header h3 {
 	font-size: 1.5rem;
 	/* margin-bottom: 1.5rem; */
 	color: var(--text-main);
@@ -188,7 +189,7 @@
 	font-family: inherit;
 }
 
-.modal-footer {
+.step-and-catechist-modal-footer {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 15px;

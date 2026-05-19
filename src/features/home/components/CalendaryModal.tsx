@@ -35,11 +35,11 @@ function CalendaryModal({
   }
 
   return (
-    <div className="modal-overlay" onClick={handleOverlayClick}>
-      <div className="modal-content">
-        <div className="modal-header">
+    <div className="home-modal-overlay" onClick={handleOverlayClick}>
+      <div className="home-modal-content">
+        <div className="home-modal-header">
           <h2>{currentMonthLabel}</h2>
-          <button className="close-modal" onClick={onClose}>
+          <button className="home-close-modal" onClick={onClose}>
             &times;
           </button>
         </div>
@@ -77,7 +77,7 @@ function CalendaryModal({
           </button>
         </div>
 
-        <div className="modal-footer">
+        <div className="home-modal-footer">
           <div className="legend">
             <div className="legend-item">
               <span className="circle verde"></span>

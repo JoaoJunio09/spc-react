@@ -11,7 +11,7 @@ function useMass() {
 	
 	async function deleteMass(id: number, onSuccess: () => Promise<void>) {
 		try {
-			if (Number.isNaN(id)) {
+			if (Number.isNaN(id) || id === 0) {
 				setError('ID inválido');
 				return;
 			}

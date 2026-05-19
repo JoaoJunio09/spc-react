@@ -15,10 +15,10 @@ function ViewCatechumensModal({ catechists, step, onClose }: ViewCatechumensModa
 	const { catechumens, error } = useCatechumens({ catechists, step });
 
 	return (
-		<div id="modalViewCatechumens" className="modal-overlay">
+		<div id="modalViewCatechumens" className="step-and-catechist-modal-overlay">
 			{error && toast.error(error)}
-			<div className="modal-content" style={{maxWidth: '650px'}}>
-				<div className="modal-header">
+			<div className="step-and-catechist-modal-content" style={{maxWidth: '650px'}}>
+				<div className="step-and-catechist-modal-header">
 					<h3 id="view-steps-title">{`Catequizandos: ${FormatStep.format(step.stepName)}`}</h3>
 				</div>
 				<div id="list-catechumens">
@@ -32,7 +32,7 @@ function ViewCatechumensModal({ catechists, step, onClose }: ViewCatechumensModa
 						/>
 					))}
 				</div>
-				<div className="modal-footer" style={{ gridTemplateColumns: '1fr' }}>
+				<div className="step-and-catechist-modal-footer" style={{ gridTemplateColumns: '1fr' }}>
 					<button
 						className="btn btn-cancel"
 						id="btn-cancel"

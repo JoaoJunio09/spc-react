@@ -18,7 +18,7 @@ function RoutesApp() {
 				<Route path="/missas" element={<MassesPage />} />
 
 				{/* Implementar proteção de rota */}
-				<Route path="/missas/:massId/registrar-presenca" element={<RegisterPresencePage />} />
+				<Route path="/missas/registrar-presenca/:titleMass" element={<RegisterPresencePage />} />
 			</Routes>
 		</BrowserRouter>
 	)

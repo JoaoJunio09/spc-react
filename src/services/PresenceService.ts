@@ -1,4 +1,4 @@
-import type { ParamsCatechistAPI } from "../interfaces/catechist/ParamsCatechistAPI";
+import type { ParamsPresenceAPI } from "../interfaces/presence/ParamsPresenceAPI";
 import type { PresenceResponse } from "../interfaces/presence/PresenceResponse";
 import api from "./api";
 
@@ -9,7 +9,7 @@ class PresenceService {
 		this.BASE_URL = '/api/presences/v1';
 	}
 
-	public async getAll(params: ParamsCatechistAPI) {
+	public async getAll(params: ParamsPresenceAPI) {
 		try {
 			const response = api.get<PresenceResponse[]>(this.BASE_URL, {
 				headers: {

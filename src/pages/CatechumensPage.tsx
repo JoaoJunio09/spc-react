@@ -1,4 +1,4 @@
-import Header from "../components/header";
+import Header from "../components/ui/header";
 import Catechumens from "../features/catechumens/components/Catechumens";
 
 function CatechumensPage() {

@@ -1,17 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useDebounce from "../../../hooks/useDebounce";
 import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
 import CatechumenService from "../../../services/CatechumenService";
+import { useParams } from "react-router-dom";
+import PresenceService from "../../../services/PresenceService";
+import type { PresenceResponse } from "../../../interfaces/presence/PresenceResponse";
 
 const catechumenService: CatechumenService = new CatechumenService();
+const presenceService: PresenceService = new PresenceService();
 
 function useRegisterPresence() {
 	const [fullName, setFullName]				= useState<string>('');
 	const [stepId, setStepId]						= useState<number | null>(null);
 
 	const [catechumensPresent, setCatechumensPresent] = useState<CatechumenResponse[]>([]);
-	const [catechumensWithBlockAbsenceButton, setCatechumensWithBlockAbsenceButton] = useState([]);
+	const [presencesOfCatechumensSavedInDatabase, setPresencesOfCatechumensSavedInDatabase] = useState<PresenceResponse[]>([]);
+
+	const { titleMass } = useParams();
 
 	const debouncedName = useDebounce(fullName, 400);
 
@@ -34,6 +40,17 @@ function useRegisterPresence() {
 		staleTime: 1000 * 60 * 5
 	});
 
+	useEffect(() => {
+		checkExistingsPresences();
+	}, [fullName]);
+
+	async function checkExistingsPresences() {
+		const catechumensIsPresent = await presenceService.getAll({ titleMass: titleMass });
+		if (catechumensIsPresent) {
+			setPresencesOfCatechumensSavedInDatabase(catechumensIsPresent);
+		}
+	}
+
 	function markPresence(catechumen: CatechumenResponse) {
 		if (!isPresent(catechumen)) {
 			setCatechumensPresent([...catechumensPresent, catechumen]);
@@ -52,6 +69,10 @@ function useRegisterPresence() {
 		return catechumensPresent.some(catechumenPresent => catechumenPresent.id === catechumen.id);
 	}
 
+	function isBlockButtonPresence(catechumen: CatechumenResponse): boolean {
+		return presencesOfCatechumensSavedInDatabase.some(catechumensPresent => catechumensPresent.catechumen.id === catechumen.id);
+	}
+
 	function search(value: string) {
 		setStepId(null);
 		setFullName(value);
@@ -62,9 +83,14 @@ function useRegisterPresence() {
 		setStepId(stepId);
 	}
 
-	function clear() {
+	function clear(): boolean {
 		setFullName('');
 		setStepId(null);
+		setCatechumensPresent([]);
+
+		if (catechumensPresent.length === 0) return true;
+		
+		return false;
 	}
 
 	return {
@@ -76,6 +102,7 @@ function useRegisterPresence() {
 		markPresence,
 		markAbsence,
 		isPresent,
+		isBlockButtonPresence,
 		search,
 		listCatechumens,
 		clear
