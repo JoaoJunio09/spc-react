@@ -13,6 +13,7 @@ const presenceService: PresenceService = new PresenceService();
 function useRegisterPresence() {
 	const [fullName, setFullName]				= useState<string>('');
 	const [stepId, setStepId]						= useState<number | null>(null);
+	const [countSelected, setCountSelected] = useState(0);
 
 	const [catechumensPresent, setCatechumensPresent] = useState<CatechumenResponse[]>([]);
 	const [presencesOfCatechumensSavedInDatabase, setPresencesOfCatechumensSavedInDatabase] = useState<PresenceResponse[]>([]);
@@ -43,8 +44,19 @@ function useRegisterPresence() {
 	});
 
 	useEffect(() => {
+		loadCatechumensPresentSessionStorage();
 		checkExistingsPresences();
 	}, [fullName]);
+
+	function loadCatechumensPresentSessionStorage() {
+		const catechumensPresentStorage = sessionStorage.getItem('@catechumensPresent');
+		if (!catechumensPresentStorage) return;
+
+		if (catechumensPresentStorage.length > 0) {
+			setCatechumensPresent(JSON.parse(catechumensPresentStorage));
+			setCountSelected(catechumensPresent.length);
+		}
+	}
 
 	async function checkExistingsPresences() {
 		const catechumensIsPresent = await presenceService.getAll({ titleMass: titleMass });
@@ -56,6 +68,7 @@ function useRegisterPresence() {
 	function markPresence(catechumen: CatechumenResponse) {
 		if (!isPresent(catechumen)) {
 			setCatechumensPresent([...catechumensPresent, catechumen]);
+			setCountSelected(countSelected+1);
 		}
 	}
 
@@ -64,6 +77,7 @@ function useRegisterPresence() {
 			setCatechumensPresent(prev => prev.filter(
 				catechumenPresent => catechumenPresent.id !== catechumen.id
 			));
+			setCountSelected(countSelected-1);
 		}
 	}
 
@@ -94,6 +108,8 @@ function useRegisterPresence() {
 		setFullName('');
 		setStepId(null);
 		setCatechumensPresent([]);
+		setCountSelected(0);
+		sessionStorage.setItem('@catechumensPresent', '');
 
 		if (catechumensPresent.length === 0) return true;
 		
@@ -113,6 +129,7 @@ function useRegisterPresence() {
 		isBlockButtonPresence,
 		search,
 		listCatechumens,
+		countSelected,
 		clear,
 	}
 }

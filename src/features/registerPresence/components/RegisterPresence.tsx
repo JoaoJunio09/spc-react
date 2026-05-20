@@ -2,7 +2,6 @@ import { ChevronDown, Search } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
-import type { CatechumenResponse } from '../../../interfaces/catechumen/CatechumenResponse';
 import useLoadSteps from '../hooks/useLoadSteps';
 import useRegisterPresence from '../hooks/useRegisterPresence';
 import '../styles/registerPresence.css';
@@ -13,7 +12,7 @@ import CardSteps from './CardSteps';
 function RegisterPresence() {
 	const [isOpenAccordionSteps, setIsOpenAccordionSteps] = useState(false);
 	const [openClearDialog, setOpenClearDialog] = useState(false);
-	const [countSelected, setCountSelected] = useState(0);
+	
 
 	const accordionRef = useRef<HTMLDivElement | null>(null);
 
@@ -30,6 +29,7 @@ function RegisterPresence() {
 		isBlockButtonPresence,
 		search,
 		listCatechumens,
+		countSelected,
 		clear
 	} = useRegisterPresence();
 
@@ -66,16 +66,6 @@ function RegisterPresence() {
 		}
 	}
 
-	function handleMarkPresence(catechumen: CatechumenResponse) {
-		markPresence(catechumen);
-		setCountSelected(countSelected+1);
-	}
-
-	function handleMarkAbsence(catechumen: CatechumenResponse) {
-		markAbsence(catechumen);
-		setCountSelected(countSelected-1);
-	}
-
 	function handleReview() {
 		if (countSelected === 0)  {
 			toast.info('Marque no mínimo 1 catequizando');
@@ -88,7 +78,6 @@ function RegisterPresence() {
 	function handleClear() {
 		clear();
 		setOpenClearDialog(false);
-		setCountSelected(0);
 	}
 
 	return (
@@ -185,8 +174,8 @@ function RegisterPresence() {
 									catechumen={catechumen}
 									isPresent={isPresent(catechumen)}
 									isBlockButtonPresence={isBlockButtonPresence(catechumen)}
-									handleMarkPresence={handleMarkPresence}
-									handleMarkAbsence={handleMarkAbsence}
+									handleMarkPresence={() => markPresence(catechumen)}
+									handleMarkAbsence={() => markAbsence(catechumen)}
 								/>
 							))
 					}
