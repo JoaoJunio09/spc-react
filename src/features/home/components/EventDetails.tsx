@@ -38,7 +38,7 @@ function EventDetails({ events }: EventCalendarProps) {
 									className={`btn-primary btn-register-presence ${event.isRegisteredPresence ? 'btn-primary-register-presence' : ''}`}
 									id="btn-register-attendance"
 								>
-									<Link to={`/missas/registrar-presenca/${event.title}`}>
+									<Link to={`/presencas/registrar/${event.title}`}>
 										{event.isRegisteredPresence ? 'Presença na Missa já foi registrada' : 'Registrar Presença'}
 									</Link>
 								</button>

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useDebounce from "../../../hooks/useDebounce";
 import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
 import CatechumenService from "../../../services/CatechumenService";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PresenceService from "../../../services/PresenceService";
 import type { PresenceResponse } from "../../../interfaces/presence/PresenceResponse";
 
@@ -16,6 +16,8 @@ function useRegisterPresence() {
 
 	const [catechumensPresent, setCatechumensPresent] = useState<CatechumenResponse[]>([]);
 	const [presencesOfCatechumensSavedInDatabase, setPresencesOfCatechumensSavedInDatabase] = useState<PresenceResponse[]>([]);
+
+	const navigate = useNavigate();
 
 	const { titleMass } = useParams();
 
@@ -65,6 +67,11 @@ function useRegisterPresence() {
 		}
 	}
 
+	function review() {
+		sessionStorage.setItem('@catechumensPresent', JSON.stringify(catechumensPresent));
+		navigate(`/presencas/confirmar/${titleMass}`);
+	}
+
 	function isPresent(catechumen: CatechumenResponse): boolean {
 		return catechumensPresent.some(catechumenPresent => catechumenPresent.id === catechumen.id);
 	}
@@ -101,11 +108,12 @@ function useRegisterPresence() {
 		stepId,
 		markPresence,
 		markAbsence,
+		review,
 		isPresent,
 		isBlockButtonPresence,
 		search,
 		listCatechumens,
-		clear
+		clear,
 	}
 }
 

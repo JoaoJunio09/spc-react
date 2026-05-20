@@ -1,17 +1,20 @@
 import { ChevronDown, Search } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
+import type { CatechumenResponse } from '../../../interfaces/catechumen/CatechumenResponse';
 import useLoadSteps from '../hooks/useLoadSteps';
 import useRegisterPresence from '../hooks/useRegisterPresence';
 import '../styles/registerPresence.css';
 import CardCatechumen from './CardCatechumen';
 import CardCatechumenSkeleton from './CardCatechumenSkeleton';
 import CardSteps from './CardSteps';
-import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
 
 function RegisterPresence() {
-	const [isOpenAccordionSteps, setIsOpenAccordionSteps] = useState<boolean>(false);
-	const [openClearDialog, setOpenClearDialog] = useState<boolean>(false);
+	const [isOpenAccordionSteps, setIsOpenAccordionSteps] = useState(false);
+	const [openClearDialog, setOpenClearDialog] = useState(false);
+	const [countSelected, setCountSelected] = useState(0);
+
 	const accordionRef = useRef<HTMLDivElement | null>(null);
 
 	const { steps, error: errorLoadSteps, loading: loadingSteps } = useLoadSteps();
@@ -22,6 +25,7 @@ function RegisterPresence() {
 		fullName,
 		markPresence,
 		markAbsence,
+		review,
 		isPresent,
 		isBlockButtonPresence,
 		search,
@@ -62,9 +66,29 @@ function RegisterPresence() {
 		}
 	}
 
+	function handleMarkPresence(catechumen: CatechumenResponse) {
+		markPresence(catechumen);
+		setCountSelected(countSelected+1);
+	}
+
+	function handleMarkAbsence(catechumen: CatechumenResponse) {
+		markAbsence(catechumen);
+		setCountSelected(countSelected-1);
+	}
+
+	function handleReview() {
+		if (countSelected === 0)  {
+			toast.info('Marque no mínimo 1 catequizando');
+			return;
+		}
+
+		review();
+	}
+
 	function handleClear() {
 		clear();
 		setOpenClearDialog(false);
+		setCountSelected(0);
 	}
 
 	return (
@@ -161,17 +185,17 @@ function RegisterPresence() {
 									catechumen={catechumen}
 									isPresent={isPresent(catechumen)}
 									isBlockButtonPresence={isBlockButtonPresence(catechumen)}
-									handleMarkPresence={markPresence}
-									handleMarkAbsence={markAbsence}
+									handleMarkPresence={handleMarkPresence}
+									handleMarkAbsence={handleMarkAbsence}
 								/>
 							))
 					}
 				</div>
 
 				<div className="actions-footer" id="actions-footer">
-					<button className="btn-confirm-final">
+					<button className="btn-confirm-final" onClick={() => handleReview()}>
 						<i data-lucide="eye"></i>
-						Revisar (<span id="countSelected">0</span>)
+						Revisar (<span id="countSelected">{countSelected}</span>)
 					</button>
 				</div>
 			</section>

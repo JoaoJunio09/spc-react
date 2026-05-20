@@ -18,7 +18,9 @@ function RoutesApp() {
 				<Route path="/missas" element={<MassesPage />} />
 
 				{/* Implementar proteção de rota */}
-				<Route path="/missas/registrar-presenca/:titleMass" element={<RegisterPresencePage />} />
+				{/* Verifico se o usuário que está registrando presença, está autenticado no sistema */}
+				<Route path="/presencas/registrar/:titleMass" element={<RegisterPresencePage />} />
+				<Route path="/presencas/confirmar/:titleMass" element={<RegisterPresencePage />} />
 			</Routes>
 		</BrowserRouter>
 	)
