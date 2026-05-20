@@ -1,4 +1,5 @@
 import type { ParamsPresenceAPI } from "../interfaces/presence/ParamsPresenceAPI";
+import type { PresenceRequest } from "../interfaces/presence/PresenceRequest";
 import type { PresenceResponse } from "../interfaces/presence/PresenceResponse";
 import api from "./api";
 
@@ -25,6 +26,21 @@ class PresenceService {
 			return (await response).data;
 		}
 		catch(err) {
+			throw err;
+		}
+	}
+
+	public async register(presence: PresenceRequest) {
+		try {
+			const response = api.post<PresenceResponse>(this.BASE_URL, presence);
+			
+			if ((await response).status === 500) {
+				// throw new Exceptions.InternalServerError('Erro ao carregar as datas das Missas');
+			}
+
+			return (await response).data;
+		}
+		catch (err) {
 			throw err;
 		}
 	}

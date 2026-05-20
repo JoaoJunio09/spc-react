@@ -6,6 +6,7 @@ import MassesPage from "./pages/MassesPage";
 import StepsAndCatechistsPage from "./pages/StepsAndCatechistsPage";
 import CatechumensPage from "./pages/CatechumensPage";
 import RegisterPresencePage from "./pages/RegisterPresencePage";
+import ConfirmPresencePage from "./pages/ConfirmPresencePage";
 
 function RoutesApp() {
 	return (
@@ -20,7 +21,7 @@ function RoutesApp() {
 				{/* Implementar proteção de rota */}
 				{/* Verifico se o usuário que está registrando presença, está autenticado no sistema */}
 				<Route path="/presencas/registrar/:titleMass" element={<RegisterPresencePage />} />
-				<Route path="/presencas/confirmar/:titleMass" element={<RegisterPresencePage />} />
+				<Route path="/presencas/confirmar/:titleMass" element={<ConfirmPresencePage />} />
 			</Routes>
 		</BrowserRouter>
 	)
