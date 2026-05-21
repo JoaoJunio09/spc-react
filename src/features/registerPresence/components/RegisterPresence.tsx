@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { ChevronDown, Search } from 'lucide-react';
 import useLoadSteps from '../hooks/useLoadSteps';
 import useRegisterPresence from '../hooks/useRegisterPresence';
-import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
+import ConfirmDialog from '../../../components/feedback/ConfirmDialog/ConfirmDialog';
 import CardCatechumen from './CardCatechumen';
 import CardCatechumenSkeleton from './CardCatechumenSkeleton';
 import CardSteps from './CardSteps';

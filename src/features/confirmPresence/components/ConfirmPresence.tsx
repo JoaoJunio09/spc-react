@@ -1,12 +1,13 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { DefineNameCatechists } from '../../../utils/DefineNameCatechists';
 import { FormatStep } from '../../../utils/FormatStep';
 import useConfirmPresense from '../hooks/useConfirmPresence';
+import ConflictInTheDatabaseException from '../../../exceptions/database/ConflicInTheDatabaseException';
+import InfoDialog from '../../../components/feedback/InfoDialog';
 import type { PresenceRequest } from '../../../interfaces/presence/PresenceRequest';
 
 import '../styles/confirmPresence.css';
-import ConflictInTheDatabaseException from '../../../exceptions/database/ConflicInTheDatabaseException';
 
 function ConfirmPresence() {
 	const {
@@ -14,10 +15,11 @@ function ConfirmPresence() {
 		confirmPresenceMutation,
 		massId,
 		catechistId,
-		clearPresenceFlow
+		clearPresenceFlow,
+		infoDialog,
+		openInfoDialog,
+		closeInfoDialog
 	} = useConfirmPresense();
-
-	const navigate = useNavigate();
 
 	async function handleConfirm() {
 		if (!massId || !catechistId || catechumensConfirm?.length === 0 || catechumensConfirm === null) {
@@ -39,18 +41,36 @@ function ConfirmPresence() {
 				presences.map((presence) => confirmPresenceMutation.mutateAsync(presence))
 			);
 
-			toast.success('Presenças registradas com sucesso');
-
-			clearPresenceFlow();
-			navigate('/inicio');
+			openInfoDialog({
+				variant: 'success',
+				title: "Presenças registradas com sucesso",
+        description: "Os catequizandos foram confirmados na missa e o sistema atualizou os registros corretamente.",
+        buttonText: "Perfeito",
+        path: "/inicio"
+			});
 		}
 		catch (err) {
 			if (err instanceof ConflictInTheDatabaseException) {
-				toast.success('Presenças registradas com sucesso');
+				openInfoDialog({
+					variant: 'warning',
+					title: "Presenças registradas",
+					description: "Você selecinou alguns catequizandos que já estavam marcados com presença na missa, mas a operação foi concluída com sucesso.",
+					buttonText: "Entendi, fechar",
+					path: "/inicio"
+				});
+				return;
 			}
-			else {
-				toast.error('Erro ao registrar presenças');
-			}
+
+			openInfoDialog({
+				variant: 'error',
+				title: "Erro no servidor",
+        description: "Houve um erro inesperado ao tentar registrar as presenças. Verifique sua conexão ou tente novamente em alguns instantes.",
+        buttonText: "Fechar",
+        path: "/inicio"
+			});
+		}
+		finally {
+			clearPresenceFlow();
 		}
 	}
 
@@ -64,7 +84,7 @@ function ConfirmPresence() {
 			<section className="review-section">
 				<div className="review-list" id="reviewList">
 					{catechumensConfirm?.map(catechumen => (
-						<div className="review-card">
+						<div key={catechumen.id} className="review-card">
 							<div className="review-info">
 								<h4 id="catechumen-name">{catechumen.firstName} {catechumen.lastName}</h4>
 								<p id="step-and-catechists-name">
@@ -102,6 +122,18 @@ function ConfirmPresence() {
 					<i data-lucide="check-circle-2"></i> Confirmar Presenças
 				</button>
 			</section>
+
+			<InfoDialog
+				open={infoDialog.open}
+				onOpenChange={(open) => {
+					if (!open) closeInfoDialog()
+				}}
+				variant={infoDialog.variant}
+				title={infoDialog.title}
+				description={infoDialog.description}
+				buttonText={infoDialog.buttonText}
+				path={infoDialog.path}
+			/>
     </main>
 	)
 }

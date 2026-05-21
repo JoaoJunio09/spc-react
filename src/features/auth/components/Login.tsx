@@ -4,9 +4,10 @@ import logoImg from '../../../assets/brasao_paroquia.png';
 import useLoadCatechists from '../hooks/useLoadCatechists';
 import useAuth from '../hooks/useAuth';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 function Login() {
-	const { catechists, error: loadCatechists } = useLoadCatechists();
+	const { catechists, error: errorLoadCatechists } = useLoadCatechists();
 	const {
 		selectedCatechistId,
 		setSelectedCatechistId,
@@ -16,10 +17,20 @@ function Login() {
 		auth
 	} = useAuth(catechists);
 
+	useEffect(() => {
+		if (errorLoadCatechists) {
+			toast.error(errorLoadCatechists);
+		}
+	}, [errorLoadCatechists]);
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+		}
+	}, [error]);
+
 	return (
 		<main className="login-container">
-			{error && toast.error(error)}
-			{loadCatechists && toast.error(loadCatechists)}
 			<section className="login-card">
 				<header className="login-header">
 					<div className="logo-wrapper">

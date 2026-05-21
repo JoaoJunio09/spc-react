@@ -1,4 +1,4 @@
-import Header from "../components/ui/header";
+import Header from "../components/layout/header";
 import Home from "../features/home/components/Home";
 
 function HomePage() {

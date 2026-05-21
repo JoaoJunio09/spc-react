@@ -45,7 +45,7 @@ function EventDetails({ events }: EventCalendarProps) {
 							</div>	
 						</div>
 					:
-						<div className="no-event-message">
+						<div key={event.title} className="no-event-message">
 							<p>{event.title}</p>
 						</div>
 				))}

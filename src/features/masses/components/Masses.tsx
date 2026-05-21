@@ -7,7 +7,7 @@ import MassFormModal from './MassFormModal';
 import '../styles/masses.css';
 import type { MassResponse } from '../../../interfaces/mass/MassResponse';
 import useMass from '../hooks/useMass';
-import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
+import ConfirmDialog from '../../../components/feedback/ConfirmDialog/ConfirmDialog';
 
 function Masses() {
 	const [isOpenModal, setIsOpenModal] 						= useState<boolean>(false);

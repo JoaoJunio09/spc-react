@@ -19,19 +19,19 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ToastContainer
-      position='top-right'
-      autoClose={3500}
-      hideProgressBar={false}
-      newestOnTop={true}
-      closeOnClick={true}
-      rtl={false}
-      limit={4}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme='light'
-    />
-    <App />
+        position='top-right'
+        autoClose={3500}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick={true}
+        rtl={false}
+        limit={4}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
+      <App />
     </QueryClientProvider>
   </StrictMode>,
 )
