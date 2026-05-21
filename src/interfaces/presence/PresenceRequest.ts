@@ -6,5 +6,5 @@ export interface PresenceRequest {
 	catechumenId: number,
 	massId: number,
 	status: PresenceStatus,
-	justification: string
+	justification: string | null
 }

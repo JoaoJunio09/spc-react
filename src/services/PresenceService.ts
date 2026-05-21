@@ -1,3 +1,5 @@
+import ConflictInTheDatabaseException from "../exceptions/database/ConflicInTheDatabaseException";
+import InternalServerError from "../exceptions/server/InternalServerError";
 import type { ParamsPresenceAPI } from "../interfaces/presence/ParamsPresenceAPI";
 import type { PresenceRequest } from "../interfaces/presence/PresenceRequest";
 import type { PresenceResponse } from "../interfaces/presence/PresenceResponse";
@@ -12,18 +14,18 @@ class PresenceService {
 
 	public async getAll(params: ParamsPresenceAPI) {
 		try {
-			const response = api.get<PresenceResponse[]>(this.BASE_URL, {
+			const response = await api.get<PresenceResponse[]>(this.BASE_URL, {
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				params
 			});
 
-			if ((await response).status === 500) {
-				// throw new Exceptions.InternalServerError('Erro ao carregar as datas das Missas');
+			if (response.status === 500) {
+				throw new InternalServerError('Erro ao carregar as Presenças');
 			}
 
-			return (await response).data;
+			return response.data;
 		}
 		catch(err) {
 			throw err;
@@ -32,13 +34,17 @@ class PresenceService {
 
 	public async register(presence: PresenceRequest) {
 		try {
-			const response = api.post<PresenceResponse>(this.BASE_URL, presence);
+			const response = await api.post<PresenceResponse>(this.BASE_URL, presence);
 			
-			if ((await response).status === 500) {
-				// throw new Exceptions.InternalServerError('Erro ao carregar as datas das Missas');
+			if (response.status === 500) {
+				throw new InternalServerError('Erro inesperado no servidor ao registrar');
 			}
 
-			return (await response).data;
+			if (response.status === 409) {
+				throw new ConflictInTheDatabaseException('Conflit in the saved database this Presences.');
+			}
+
+			return response.data;
 		}
 		catch (err) {
 			throw err;

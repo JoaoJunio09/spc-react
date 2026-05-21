@@ -1,26 +1,34 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { usePresenceContext } from "../../../context/PresenceContext";
 import useDebounce from "../../../hooks/useDebounce";
 import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
+import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 import CatechumenService from "../../../services/CatechumenService";
-import { useNavigate, useParams } from "react-router-dom";
+import MassService from "../../../services/MassService";
 import PresenceService from "../../../services/PresenceService";
-import type { PresenceResponse } from "../../../interfaces/presence/PresenceResponse";
 
 const catechumenService: CatechumenService = new CatechumenService();
 const presenceService: PresenceService = new PresenceService();
+const massService: MassService = new MassService();
 
 function useRegisterPresence() {
-	const [fullName, setFullName]				= useState<string>('');
-	const [stepId, setStepId]						= useState<number | null>(null);
+	const [fullName, setFullName]						= useState<string>('');
+	const [stepId, setStepId]								= useState<number | null>(null);
 	const [countSelected, setCountSelected] = useState(0);
+	const [titleMass, setTitleMass] 				= useState<string>('');
 
-	const [catechumensPresent, setCatechumensPresent] = useState<CatechumenResponse[]>([]);
-	const [presencesOfCatechumensSavedInDatabase, setPresencesOfCatechumensSavedInDatabase] = useState<PresenceResponse[]>([]);
+	const {
+		catechumensPresent,
+		setCatechumensPresent,
+		presencesOfCatechumensSavedInDatabase,
+		setPresencesOfCatechumensSavedInDatabase
+	} = usePresenceContext();
 
 	const navigate = useNavigate();
 
-	const { titleMass } = useParams();
+	const { massId } = useParams();
 
 	const debouncedName = useDebounce(fullName, 400);
 
@@ -44,21 +52,18 @@ function useRegisterPresence() {
 	});
 
 	useEffect(() => {
-		loadCatechumensPresentSessionStorage();
 		checkExistingsPresences();
+		setCountSelected(catechumensPresent.length);
 	}, [fullName]);
 
-	function loadCatechumensPresentSessionStorage() {
-		const catechumensPresentStorage = sessionStorage.getItem('@catechumensPresent');
-		if (!catechumensPresentStorage) return;
-
-		if (catechumensPresentStorage.length > 0) {
-			setCatechumensPresent(JSON.parse(catechumensPresentStorage));
-			setCountSelected(catechumensPresent.length);
-		}
-	}
-
 	async function checkExistingsPresences() {
+		if (titleMass === '') {
+			const mass: MassResponse = await massService.getById(Number(massId));
+			setTitleMass(mass.title);
+		}
+
+		if (!titleMass) return;
+
 		const catechumensIsPresent = await presenceService.getAll({ titleMass: titleMass });
 		if (catechumensIsPresent) {
 			setPresencesOfCatechumensSavedInDatabase(catechumensIsPresent);
@@ -83,7 +88,7 @@ function useRegisterPresence() {
 
 	function review() {
 		sessionStorage.setItem('@catechumensPresent', JSON.stringify(catechumensPresent));
-		navigate(`/presencas/confirmar/${titleMass}`);
+		navigate(`/presencas/confirmar/${massId}`);
 	}
 
 	function isPresent(catechumen: CatechumenResponse): boolean {
@@ -109,10 +114,9 @@ function useRegisterPresence() {
 		setStepId(null);
 		setCatechumensPresent([]);
 		setCountSelected(0);
-		sessionStorage.setItem('@catechumensPresent', '');
+		sessionStorage.removeItem('@catechumensPresent');
 
 		if (catechumensPresent.length === 0) return true;
-		
 		return false;
 	}
 

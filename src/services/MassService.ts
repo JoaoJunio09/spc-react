@@ -33,6 +33,26 @@ class MassService {
 		}
 	}
 
+	public async getById(id: number) {
+		const URL = `${this.BASE_URL}/${id}`;
+		try {
+			const response = await api.get<MassResponse>(URL, {
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+
+			return response.data;
+		}
+		catch (err: any) {
+			if (err?.response?.status === 500) {
+				throw new InternalServerError('Erro ao carregar as Missas');
+			}
+
+			throw err;
+		}
+	}
+
 	public async getMassesDatesByCommunityOrParish(params: ParamsMassAPI) {
 		const URL = `${this.BASE_URL}/massesDates`;
 		try {

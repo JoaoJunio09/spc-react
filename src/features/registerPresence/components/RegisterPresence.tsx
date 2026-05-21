@@ -1,19 +1,19 @@
-import { ChevronDown, Search } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
+import { ChevronDown, Search } from 'lucide-react';
 import useLoadSteps from '../hooks/useLoadSteps';
 import useRegisterPresence from '../hooks/useRegisterPresence';
-import '../styles/registerPresence.css';
+import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
 import CardCatechumen from './CardCatechumen';
 import CardCatechumenSkeleton from './CardCatechumenSkeleton';
 import CardSteps from './CardSteps';
+
+import '../styles/registerPresence.css';
 
 function RegisterPresence() {
 	const [isOpenAccordionSteps, setIsOpenAccordionSteps] = useState(false);
 	const [openClearDialog, setOpenClearDialog] = useState(false);
 	
-
 	const accordionRef = useRef<HTMLDivElement | null>(null);
 
 	const { steps, error: errorLoadSteps, loading: loadingSteps } = useLoadSteps();
