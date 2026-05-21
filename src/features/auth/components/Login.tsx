@@ -33,8 +33,8 @@ function Login() {
 		<main className="login-container">
 			<section className="login-card">
 				<header className="login-header">
-					<div className="logo-wrapper">
-						<img src={logoImg} alt="Brasão da Paróquia" />
+					<div className="logo-wrapper flex justify-center">
+						<img src={logoImg} alt="Brasão da Paróquia"/>
 					</div>
 					<div className="brand">
 						<h1>SPC</h1>

@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import "./index.css";
 import { useNavigate } from "react-router-dom";
+
+import "./index.css";
 
 type InfoDialogVariant = "success" | "error" | "info" | "warning";
 

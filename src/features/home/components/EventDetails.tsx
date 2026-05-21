@@ -8,7 +8,7 @@ type EventCalendarProps = {
 function EventDetails({ events }: EventCalendarProps) {
 	return (
 		<section className="event-details-section">
-			<div className="event-container" id="eventContainer">
+			<div className="event-container flex flex-col gap-15" id="eventContainer">
 				{events.map(event => (
 					event.isEvent
 					?
@@ -20,7 +20,7 @@ function EventDetails({ events }: EventCalendarProps) {
 							<div>
 								<div className="card-header">
 									<span className="badge">Missa</span>
-									<h2>{event.title}</h2>
+									<h2 className="font-bold">{event.title}</h2>
 								</div>
 								<div className="card-body">
 									<div className="info-item">

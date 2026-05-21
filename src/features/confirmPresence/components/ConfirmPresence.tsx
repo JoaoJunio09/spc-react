@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import InfoDialog from '../../../components/feedback/InfoDialog';
+import ConflictInTheDatabaseException from '../../../exceptions/database/ConflicInTheDatabaseException';
+import type { PresenceRequest } from '../../../interfaces/presence/PresenceRequest';
 import { DefineNameCatechists } from '../../../utils/DefineNameCatechists';
 import { FormatStep } from '../../../utils/FormatStep';
 import useConfirmPresense from '../hooks/useConfirmPresence';
-import ConflictInTheDatabaseException from '../../../exceptions/database/ConflicInTheDatabaseException';
-import InfoDialog from '../../../components/feedback/InfoDialog';
-import type { PresenceRequest } from '../../../interfaces/presence/PresenceRequest';
+import { useStatusBannerContext } from '../../../context/StatusBannerContext';
 
 import '../styles/confirmPresence.css';
 
@@ -20,6 +21,8 @@ function ConfirmPresence() {
 		openInfoDialog,
 		closeInfoDialog
 	} = useConfirmPresense();
+
+	const { showStatusBanner } = useStatusBannerContext();
 
 	async function handleConfirm() {
 		if (!massId || !catechistId || catechumensConfirm?.length === 0 || catechumensConfirm === null) {
@@ -48,6 +51,8 @@ function ConfirmPresence() {
         buttonText: "Perfeito",
         path: "/inicio"
 			});
+			
+			showStatusBanner('success', 'As Presenças foram registradas com sucesso.');
 		}
 		catch (err) {
 			if (err instanceof ConflictInTheDatabaseException) {
