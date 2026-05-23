@@ -23,8 +23,6 @@ function CatechumenCard({ presence }: CatechumenCardProps) {
 					{presence.catechumen.fullName}
 				</h4>
 
-				
-
 				<div className="flex flex-wrap items-center gap-x-4 gap-y-1">
 					<MetaItem icon={<Church className="size-[18px]" />}>
 						{presence.mass.location === 'MATRIZ' ? 'Matriz' : 'Capela do Divino'}

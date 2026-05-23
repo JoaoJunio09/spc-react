@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { usePresenceContext } from "../../../context/PresenceContext";
-import CatechumenService from "../../../services/CatechumenService";
-import MassService from "../../../services/MassService";
-import PresenceService from "../../../services/PresenceService";
 import useDebounce from "../../../hooks/useDebounce";
 import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
 import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import CatechumenService from "../../../services/CatechumenService";
+import MassService from "../../../services/MassService";
+import PresenceService from "../../../services/PresenceService";
 
 const catechumenService: CatechumenService = new CatechumenService();
 const presenceService: PresenceService = new PresenceService();
@@ -29,6 +29,9 @@ function useRegisterPresence() {
 	const navigate = useNavigate();
 
 	const { massId } = useParams();
+	const [searchParams] = useSearchParams();
+
+	const isRetroactive = searchParams.get('retroativo') === 'true';
 
 	const debouncedName = useDebounce(fullName, 400);
 
@@ -134,6 +137,7 @@ function useRegisterPresence() {
 		search,
 		listCatechumens,
 		countSelected,
+		isRetroactive,
 		clear,
 	}
 }

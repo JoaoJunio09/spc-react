@@ -1,16 +1,26 @@
-import { useRef, useState } from 'react';
-import { toast } from 'react-toastify';
 import { ChevronDown, Search } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
+import ConfirmDialog from '../../../components/feedback/ConfirmDialog/ConfirmDialog';
 import useLoadSteps from '../hooks/useLoadSteps';
 import useRegisterPresence from '../hooks/useRegisterPresence';
-import ConfirmDialog from '../../../components/feedback/ConfirmDialog/ConfirmDialog';
 import CardCatechumen from './CardCatechumen';
 import CardCatechumenSkeleton from './CardCatechumenSkeleton';
 import CardSteps from './CardSteps';
 
+import type { CatechumenResponse } from '../../../interfaces/catechumen/CatechumenResponse';
 import '../styles/registerPresence.css';
+import RetroactivePresenceModal from './RetroactivePresenceModal';
+
+type RetroactivePresenceModalType = {
+	openModal: boolean,
+	catechumen?: CatechumenResponse
+}
 
 function RegisterPresence() {
+	const [retroactiveModal, setRetroactiveModal] = useState<RetroactivePresenceModalType>({
+		openModal: false
+	});
 	const [isOpenAccordionSteps, setIsOpenAccordionSteps] = useState(false);
 	const [openClearDialog, setOpenClearDialog] = useState(false);
 	
@@ -30,8 +40,25 @@ function RegisterPresence() {
 		search,
 		listCatechumens,
 		countSelected,
+		isRetroactive,
 		clear
 	} = useRegisterPresence();
+
+	useEffect(() => {
+		if (loadingSteps) {
+			toast.loading('Carregando as Etapas');
+		}	else {
+			toast.dismiss();
+		}
+
+		if (errorLoadSteps) {
+			toast.error(errorLoadSteps);
+		}
+
+		if (error) {
+			toast.error(error.message);
+		}
+	}, [errorLoadSteps, loadingSteps, error]);
 
 	function handleAccordion() {
 		const accordion = accordionRef.current;
@@ -66,6 +93,17 @@ function RegisterPresence() {
 		}
 	}
 
+	function handleMarkPresence(catechumen: CatechumenResponse) {
+		if (isRetroactive) {
+			setRetroactiveModal({
+				openModal: true,
+				catechumen: catechumen
+			})
+		}
+
+		markPresence(catechumen);
+	}
+
 	function handleReview() {
 		if (countSelected === 0)  {
 			toast.info('Marque no mínimo 1 catequizando');
@@ -80,11 +118,15 @@ function RegisterPresence() {
 		setOpenClearDialog(false);
 	}
 
+	function handleCloseRetroactiveModal() {
+		setRetroactiveModal({
+			openModal: false
+		});
+		clear();
+	}
+
 	return (
 		<main className="register-presence-container">
-			{errorLoadSteps && toast.error(errorLoadSteps)}
-			{loadingSteps && toast.loading(loadingSteps)}
-			{error && toast.error(error.message)}
 			<section className="page-intro">
 				<h2>Registrar Presença na Missa</h2>
 				<p>Selecione uma turma ou pesquise um catequizando específico.</p>
@@ -174,7 +216,7 @@ function RegisterPresence() {
 										catechumen={catechumen}
 										isPresent={isPresent(catechumen)}
 										isBlockButtonPresence={isBlockButtonPresence(catechumen)}
-										handleMarkPresence={() => markPresence(catechumen)}
+										handleMarkPresence={() => handleMarkPresence(catechumen)}
 										handleMarkAbsence={() => markAbsence(catechumen)}
 									/>
 								))
@@ -188,6 +230,15 @@ function RegisterPresence() {
 					</button>
 				</div>
 			</section>
+
+			{retroactiveModal.openModal &&
+				<RetroactivePresenceModal
+					open={retroactiveModal.openModal}
+					loading={false}
+					catechumen={retroactiveModal.catechumen}
+					onClose={() => handleCloseRetroactiveModal}
+				/>
+			}
     </main>
 	)
 }

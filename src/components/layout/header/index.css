@@ -4,7 +4,7 @@
 	box-shadow: var(--shadow);
 	border-bottom: 4px solid var(--primary);
 	position: relative;
-	z-index: 1000;
+	z-index: 100;
 }
 
 .header-container {

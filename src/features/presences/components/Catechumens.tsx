@@ -64,7 +64,7 @@ function Catechumens({
                         <CatechumenCardSkeleton key={index} />
                       ))
                     : presences.map((presence) => (
-                        <CatechumenCard presence={presence} />
+                        <CatechumenCard key={presence.id} presence={presence} />
                       ))
                 }
               </div>

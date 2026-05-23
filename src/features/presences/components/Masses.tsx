@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 import MassCard from "./MasCard";
 import SectionTitle from "./SectionTitle";
+import { Link } from "react-router-dom";
 
 type MassesProps = {
 	masses: MassResponse[],
@@ -14,6 +15,14 @@ function Masses({ masses, onFilter }: MassesProps) {
 
 	return (
 		<section className="mb-12">
+			<div className="mb-10">
+				<button className="btn btn-primary">
+					<Link to={`/presencas/registrar/${masses[0].id}?retroativo=true`}>
+						Registrar presença retroativa
+					</Link>
+				</button>
+			</div>
+
 			<SectionTitle icon={<Church className="size-5" />}>
 				Missas encontradas
 			</SectionTitle>
