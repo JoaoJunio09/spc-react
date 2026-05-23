@@ -1,11 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import useDebounce from "../../../hooks/useDebounce";
 import MassService from "../../../services/MassService";
+import PresenceService from "../../../services/PresenceService";
 
 const massService: MassService = new MassService();
+const presenceService: PresenceService = new PresenceService();
 
 function usePresences() {
 	const [titleLiturgicalCalendar, setTitleLigurticalCalendar] = useState<string>('');
+	const [fullName, setFullName] = useState<string>('');
+	const [massId, setMassId] = useState<number | null>(null);
+
+	const debouncedName = useDebounce(fullName, 2000);
 	
 	const queryMasses = useQuery({
 		queryKey: [
@@ -16,15 +23,47 @@ function usePresences() {
 		retry: 3
 	});
 
-	function filter(title: string) {
-		setTitleLigurticalCalendar(title);
+	const queryPresences = useQuery({
+		queryKey: [
+			'presences',
+			titleLiturgicalCalendar,
+			debouncedName,
+			massId
+		],
+		queryFn: ({ signal }) => 
+			presenceService.getAll({
+				titleMass: titleLiturgicalCalendar ?? undefined,
+				massId: massId ?? undefined,
+				fullName: debouncedName ?? undefined,
+				signal
+			}),
+		enabled: !!titleLiturgicalCalendar || !!massId || !!fullName,
+		retry: 3,
+		staleTime: 1000 * 60 * 5
+	});
+
+	function filterMasses(value: string) {
+		setTitleLigurticalCalendar(value);
+	}
+
+	function filterByFullName(value: string) {
+		setFullName(value);
+	}
+
+	function filterByMass(id: number) {
+		setMassId(id);
 	}
 
 	return {
 		masses: queryMasses.data ?? [],
+		presences: queryPresences.data ?? [],
 		loadingMasses: queryMasses.isLoading,
 		errorMasses: queryMasses.isError,
-		filter,
+		loadingPresences: queryPresences.isLoading,
+		errorPresences: queryPresences.isError,
+		filterMasses,
+		filterByFullName,
+		filterByMass
 	}
 }
 

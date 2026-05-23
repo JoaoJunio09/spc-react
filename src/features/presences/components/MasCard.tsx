@@ -6,14 +6,18 @@ import { UtilsDate } from "../../../utils/UtilsDate";
 type MassCardProps = {
 	mass: MassResponse,
 	selected: boolean,
-	onSelect: () => void
+	onSelect: () => void,
+	onFilter: (param: number) => void
 }
 
-function MassCard({ mass, selected, onSelect }: MassCardProps) {
+function MassCard({ mass, selected, onSelect, onFilter }: MassCardProps) {
 	return (
 		<article
 			key={`${mass.id}`}
-			onClick={onSelect}
+			onClick={() => {
+				onFilter(mass.id)
+				onSelect();
+			}}
 			className={[
 				'flex cursor-pointer flex-col gap-3 rounded-2xl border-2 p-6 transition-all duration-200',
 				'hover:-translate-y-1 hover:border-[var(--primary)] hover:shadow-[0_4px_6px_-1px_rgb(0_0_0/0.1),0_2px_4px_-2px_rgb(0_0_0/0.1)]',
@@ -29,7 +33,7 @@ function MassCard({ mass, selected, onSelect }: MassCardProps) {
 
 			<div className="flex flex-col gap-1.5">
 				<MetaItem icon={<Calendar className="size-[18px]" />}>
-					{UtilsDate.formatDateTime(mass.dateTime)}
+					{UtilsDate.formatDateTimeForDate(mass.dateTime)}
 				</MetaItem>
 
 				<MetaItem icon={<Clock className="size-[18px]" />}>

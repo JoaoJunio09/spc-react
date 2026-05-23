@@ -169,15 +169,15 @@ function RegisterPresence() {
 									<CardCatechumenSkeleton key={index} />
 								))
 							: catechumens.map(catechumen => (
-								<CardCatechumen
-									key={catechumen.id}
-									catechumen={catechumen}
-									isPresent={isPresent(catechumen)}
-									isBlockButtonPresence={isBlockButtonPresence(catechumen)}
-									handleMarkPresence={() => markPresence(catechumen)}
-									handleMarkAbsence={() => markAbsence(catechumen)}
-								/>
-							))
+									<CardCatechumen
+										key={catechumen.id}
+										catechumen={catechumen}
+										isPresent={isPresent(catechumen)}
+										isBlockButtonPresence={isBlockButtonPresence(catechumen)}
+										handleMarkPresence={() => markPresence(catechumen)}
+										handleMarkAbsence={() => markAbsence(catechumen)}
+									/>
+								))
 					}
 				</div>
 

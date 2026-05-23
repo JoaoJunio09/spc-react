@@ -6,7 +6,7 @@ function MetaItem({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-2 text-[0.95rem] font-medium text-[var(--text-muted)]">
+    <div className="flex items-center gap-2 text-[.8rem] font-medium text-[var(--text-muted)]">
       {icon}
       <span>{children}</span>
     </div>

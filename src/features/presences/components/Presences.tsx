@@ -1,23 +1,25 @@
 import {
-	ChevronDown,
-	Church,
-	Search,
-	Users
+  ChevronDown
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import type { LiturgicalCalendarResponse } from '../../../interfaces/liturgicalCalendar/LiturgicalCalendarResponse';
 import useLiturgicalCalendar from '../hooks/useLiturgicalCalender';
-import EmptyState from './EmptyState';
-import SectionTitle from './SectionTitle';
 import usePresences from '../hooks/usePresences';
-import MassCard from './MasCard';
+import Masses from './Masses';
+import Catechumens from './Catechumens';
 
 function Presences() {
-	const [selectedMassId, setSelectedMassId] = useState<number | null>(null);
-
 	const { liturgicalCalendars, loading: loadingLiturgicalCalendar, error: errorLiturgicalCalendar } = useLiturgicalCalendar();
-	const { masses, filter } = usePresences();
+	const {
+    masses,
+    presences,
+    loadingPresences,
+    errorPresences,
+    filterMasses,
+    filterByFullName,
+    filterByMass
+  } = usePresences();
 
 	useEffect(() => {
 		if (loadingLiturgicalCalendar) {
@@ -32,8 +34,8 @@ function Presences() {
 		}
 	}, [loadingLiturgicalCalendar, errorLiturgicalCalendar]);
 
-	function handleFilterMass(e: React.ChangeEvent<HTMLSelectElement>) {
-		filter(e.target.value);
+	function handleFilterMasses(e: React.ChangeEvent<HTMLSelectElement>) {
+		filterMasses(e.target.value);
 	}
 
   return (
@@ -62,11 +64,11 @@ function Presences() {
               name="liturgicalCalendar"
               id="liturgicalCalendar"
               className="w-full appearance-none rounded-xl border-2 border-[#E2E8F0] bg-[#F8FAFC] px-[18px] py-[14px] text-[1.1rem] font-semibold text-[var(--text-main)] transition-all duration-200 cursor-pointer focus:border-[var(--primary)] focus:bg-white focus:outline-none focus:shadow-[0_0_0_4px_rgba(245,158,11,0.15)]"
-							onChange={(e) => handleFilterMass(e)}
+							onChange={(e) => handleFilterMasses(e)}
 						>
 							<option hidden>Selecione uma Missa</option>
 							{liturgicalCalendars.map((liturgicalCalendar: LiturgicalCalendarResponse) => (
-								<option value={liturgicalCalendar.title}>{liturgicalCalendar.title}</option>
+								<option key={liturgicalCalendar.id} value={liturgicalCalendar.title}>{liturgicalCalendar.title}</option>
 							))}
             </select>
 
@@ -75,57 +77,26 @@ function Presences() {
         </div>
       </section>
 			
-      <section className="mb-12">
-        <SectionTitle icon={<Church className="size-5" />}>
-          Missas encontradas
-        </SectionTitle>
+      {masses.length > 0
+        ? <Masses
+            masses={masses}
+            onFilter={filterByMass}
+          /> 
+        : null
+      }
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {masses.map(mass => (
-						<MassCard
-							mass={mass}
-							selected={selectedMassId === mass.id}
-							onSelect={() => setSelectedMassId(mass.id)}
-						/>
-          ))}
-        </div>
-      </section>
-
-      <section className="mb-8">
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="searchCatechumen"
-            className="text-[0.9rem] font-bold uppercase tracking-wide text-[var(--text-main)]"
-          >
-            Pesquisar catequizando
-          </label>
-
-          <div className="relative flex items-center">
-            <Search className="pointer-events-none absolute left-[18px] size-[22px] text-[var(--text-muted)]" />
-
-            <input
-              id="searchCatechumen"
-              type="text"
-              placeholder="Digite o nome do catequizando..."
-              className="w-full rounded-xl border-2 border-[#E2E8F0] bg-white py-4 pl-[52px] pr-4 text-[1.1rem] text-[var(--text-main)] transition-all duration-200 focus:border-[var(--primary)] focus:outline-none focus:shadow-[0_0_0_4px_rgba(245,158,11,0.15)]"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="mb-16">
-        <SectionTitle icon={<Users className="size-5" />}>
-          Catequizandos presentes
-        </SectionTitle>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* {catechumens.map((catechumen) => (
-						<CardCatechumen catechumen={catechumen} placeAndTime='Missa' />
-          ))} */}
-        </div>
-      </section>
-
-			<EmptyState />
+      {masses.length > 0 
+        ? 
+          <Catechumens
+            presences={presences}
+            onFilter={filterByFullName}
+            isLoading={loadingPresences}
+            isError={errorPresences}
+          /> 
+        :
+          null
+      }
+      
     </main>
   );
 }

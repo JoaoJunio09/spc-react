@@ -30,9 +30,16 @@ function formatDateTime(dateTime: string) {
 	return `Dia ${day} de ${month}, às ${time}`;
 }
 
+function formatDateTimeForDate(dateTime: string) {
+	const day = UtilsDate.formatDateTimeThisMissaForDate(dateTime).slice(8, 10);
+	const month = UtilsDate.returnsMonthAsAString(UtilsDate.formatDateTimeThisMissaForDate(dateTime).slice(5, 7));
+	return `Dia ${day} de ${month}`;
+}
+
 export const UtilsDate = {
 	formatDateTimeThisMissaForDate,
 	formatDateTimeThisMissaForTime,
 	returnsMonthAsAString,
-	formatDateTime
+	formatDateTime,
+	formatDateTimeForDate
 };
