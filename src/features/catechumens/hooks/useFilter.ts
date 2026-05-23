@@ -20,8 +20,6 @@ function useFilter() {
 
 	async function filter() {
 		try {
-			console.log(stepId);
-			console.log(catechistId);
 			setLoading(true);
 			setError(null);
 

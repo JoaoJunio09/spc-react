@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
 import { FormatStep } from "../../../utils/FormatStep";
 

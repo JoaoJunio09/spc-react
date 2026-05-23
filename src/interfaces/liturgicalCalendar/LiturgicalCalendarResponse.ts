@@ -1,4 +1,4 @@
-export interface liturgicalCalendarResponse {
+export interface LiturgicalCalendarResponse {
 	id: number,
 	title: string,
 	date: string

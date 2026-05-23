@@ -34,14 +34,27 @@ function EventDetails({ events }: EventCalendarProps) {
 										</span>
 									</div>
 								</div>
-								<button
-									className={`btn-primary btn-register-presence ${event.isRegisteredPresence ? 'btn-primary-register-presence' : ''}`}
-									id="btn-register-attendance"
-								>
-									<Link to={`/presencas/registrar/${event.massId}`}>
-										{event.isRegisteredPresence ? 'Presença na Missa já foi registrada' : 'Registrar Presença'}
-									</Link>
-								</button>
+								<div className="flex flex-col gap-3">
+									<button
+										className={`btn-primary btn-register-presence ${event.isRegisteredPresence ? 'btn-primary-register-presence' : ''}`}
+										id="btn-register-attendance"
+									>
+										<Link to={`/presencas/registrar/${event.massId}`}>
+											{event.isRegisteredPresence ? 'Presença na Missa já foi registrada' : 'Registrar Presença'}
+										</Link>
+									</button>
+									{
+										event.isRegisteredPresence
+										?
+											<button className="btn-primary btn-primary-register-presence-late">
+												<Link to={`/presencas/registrar-com-atraso/${event.massId}`}>
+													Registrar presenças atrasadas
+												</Link>
+											</button>
+										:
+											''
+									}
+								</div>
 							</div>	
 						</div>
 					:

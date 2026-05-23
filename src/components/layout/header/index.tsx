@@ -31,6 +31,7 @@ function Header({ active }: HeaderProps) {
 		else if (active === 'catechists' && menuActual === 'catechists') return 'active';
 		else if (active === 'steps-and-catechists' && menuActual === 'steps-and-catechists') return 'active';
 		else if (active === 'catechumens' && menuActual === 'catechumens') return 'active';
+		else if (active === 'presences' && menuActual === 'presences') return 'active';
 		else return '';
 	}
 
@@ -62,9 +63,10 @@ function Header({ active }: HeaderProps) {
 				<nav className={`main-nav ${isOpen ? 'open' : ''}`} id="mainNav">
 					<ul>
 						<li><Link to="/inicio" className={`${activateTheMenu('home')}`}>Início</Link></li>
-						<li><Link to="/etapas-e-catequistas" className={`${activateTheMenu('steps-and-catechists')}`}>Etapas e Catequistas</Link></li>
+						<li><Link to="/etapas-e-catequistas" className={`${activateTheMenu('steps-and-catechists')}`}>Etapas</Link></li>
 						<li><Link to="/catequizandos" className={`${activateTheMenu('catechumens')}`}>Catequizandos</Link></li>
 						<li><Link to="/missas" className={`${activateTheMenu('masses')}`}>Missas</Link></li>
+						<li><Link to="/presencas" className={`${activateTheMenu('presences')}`}>Histórico</Link></li>
 					</ul>
 				</nav>
 			</div>

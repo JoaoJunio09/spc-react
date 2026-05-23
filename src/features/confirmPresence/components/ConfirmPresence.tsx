@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import InfoDialog from '../../../components/feedback/InfoDialog';
+import { useStatusBannerContext } from '../../../context/StatusBannerContext';
 import ConflictInTheDatabaseException from '../../../exceptions/database/ConflicInTheDatabaseException';
 import type { PresenceRequest } from '../../../interfaces/presence/PresenceRequest';
 import { DefineNameCatechists } from '../../../utils/DefineNameCatechists';
-import { FormatStep } from '../../../utils/FormatStep';
 import useConfirmPresense from '../hooks/useConfirmPresence';
-import { useStatusBannerContext } from '../../../context/StatusBannerContext';
 
 import '../styles/confirmPresence.css';
 
@@ -93,7 +92,6 @@ function ConfirmPresence() {
 							<div className="review-info">
 								<h4 id="catechumen-name">{catechumen.firstName} {catechumen.lastName}</h4>
 								<p id="step-and-catechists-name">
-									{FormatStep.format(catechumen.step.stepName)} • 
 									{DefineNameCatechists.define(catechumen.step)}
 								</p>
 							</div>

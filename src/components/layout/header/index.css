@@ -1,6 +1,6 @@
 .main-header {
 	background-color: var(--white);
-	padding: 1.5rem 0;
+	padding: 0rem 0;
 	box-shadow: var(--shadow);
 	border-bottom: 4px solid var(--primary);
 	position: relative;
@@ -59,19 +59,28 @@
 .main-nav ul {
 	display: flex;
 	list-style: none;
-	gap: 30px;
+	gap: 24px;
 }
 
 .main-nav a {
 	text-decoration: none;
 	color: var(--text-main);
 	font-weight: 600;
-	font-size: 1.1rem;
-	transition: color 0.2s;
+	font-size: 1rem;
+	padding: 8px 12px;
+	border-radius: 12px;
+	transition: var(--transition-smooth);
 }
 
-.main-nav a:hover, .main-nav a.active {
+.main-nav a:hover {
+	background-color: #FEF3C7;
 	color: var(--primary-dark);
+}
+
+.main-nav a.active {
+	color: var(--primary-dark);
+	background-color: #FEF3C7;
+	font-weight: 700;
 }
 
 /* Botão de Menu Mobile (Escondido no Desktop) */

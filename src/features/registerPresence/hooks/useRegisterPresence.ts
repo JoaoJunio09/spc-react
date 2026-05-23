@@ -1,13 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { usePresenceContext } from "../../../context/PresenceContext";
-import useDebounce from "../../../hooks/useDebounce";
-import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 import CatechumenService from "../../../services/CatechumenService";
 import MassService from "../../../services/MassService";
 import PresenceService from "../../../services/PresenceService";
+import useDebounce from "../../../hooks/useDebounce";
+import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
+import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 
 const catechumenService: CatechumenService = new CatechumenService();
 const presenceService: PresenceService = new PresenceService();
