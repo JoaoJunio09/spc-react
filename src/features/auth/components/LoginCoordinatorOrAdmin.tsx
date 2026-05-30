@@ -1,6 +1,7 @@
 import { ArrowLeft, Eye, Lock, User } from "lucide-react";
 import LoginHeader from "./LoginHeader";
 import LoginFooter from "./LoginFooter";
+import type { onLoginSelectorProps } from "./Login";
 
 const RememberAccess: React.FC = () => (
 	<div className="flex items-center justify-between text-[0.85rem] mt-1">
@@ -25,15 +26,12 @@ const RememberAccess: React.FC = () => (
 	</div>
 );
 
-type LoginCoordinatorOrAdminProps = {
-  role: 'Coordenação' | 'Administrador';
-}
 
-function LoginCoordinatorOrAdmin({ role }: LoginCoordinatorOrAdminProps) {
+function LoginCoordinatorOrAdmin({ onSelectLogin, roleCoordinatorOrAdmin }: onLoginSelectorProps) {
 	return (
 		<div className="max-w-[400px] w-full bg-white p-10 rounded-[20px] shadow-[0_20px_25px_-5px_rgba(15,23,42,0.08),0_10px_10px_-5px_rgba(15,23,42,0.03)] border border-slate-200 flex flex-col gap-6 relative transition-transform duration-500 ease-out">
 			<LoginHeader 
-				title={`Acesso ${role}`} 
+				title={`Acesso ${roleCoordinatorOrAdmin}`} 
 				subTitle="Entre com suas credenciais administrativas." 
 			/>
 
@@ -78,10 +76,14 @@ function LoginCoordinatorOrAdmin({ role }: LoginCoordinatorOrAdminProps) {
 
 				{/* Botões de Acesso */}
 				<button type="submit" className="w-full bg-gradient-to-br from-[#F59E0B] to-[#EA580C] text-white border-none py-[14px] rounded-xl text-base font-extrabold cursor-pointer shadow-lg shadow-[#EA580C]/20 transition-all duration-200 hover:-translate-y-[2px] hover:shadow-xl hover:shadow-[#EA580C]/30 hover:brightness-[1.05] flex items-center justify-center gap-2">
-					Entrar como {role}
+					Entrar como {roleCoordinatorOrAdmin}
 				</button>
 
-				<button type="button" className="w-full bg-none border-[1.5px] border-slate-200 text-[#64748B] py-3 rounded-xl text-[0.9rem] font-bold cursor-pointer transition-all duration-200 hover:bg-slate-100 hover:text-[#1E293B] hover:border-slate-300 flex items-center justify-center gap-2">
+				<button
+					type="button"
+					className="w-full bg-none border-[1.5px] border-slate-200 text-[#64748B] py-3 rounded-xl text-[0.9rem] font-bold cursor-pointer transition-all duration-200 hover:bg-slate-100 hover:text-[#1E293B] hover:border-slate-300 flex items-center justify-center gap-2"
+					onClick={() => onSelectLogin(null)}
+				>
 					<ArrowLeft className="w-4 h-4" /> Voltar para seleção de perfil
 				</button>
 			</form>

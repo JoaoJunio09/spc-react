@@ -1,8 +1,9 @@
 import { ArrowLeft } from "lucide-react";
-import LoginHeader from "./LoginHeader";
+import type { onLoginSelectorProps } from "./Login";
 import LoginFooter from "./LoginFooter";
+import LoginHeader from "./LoginHeader";
 
-function LoginCatechist() {
+function LoginCatechist({ onSelectLogin }: onLoginSelectorProps) {
 	return (
 		<div className="max-w-[400px] w-full bg-white p-10 rounded-[20px] shadow-[0_20px_25px_-5px_rgba(15,23,42,0.08),0_10px_10px_-5px_rgba(15,23,42,0.03)] border border-slate-200 flex flex-col gap-6 relative transition-transform duration-500 ease-out">
 			<LoginHeader
@@ -20,7 +21,7 @@ function LoginCatechist() {
 							defaultValue="" 
 							className="w-full py-[14px] pl-11 pr-11 border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-[#1E293B] text-[0.95rem] font-medium outline-none transition-all duration-200 focus:border-[#F59E0B] focus:bg-white focus:ring-4 focus:ring-[#F59E0B]/12 appearance-none"
 						>
-							<option value="" disabled>Escolha seu nome na lista...</option>
+							<option value="" disabled>Quem é você?</option>
 							<option value="joao">João</option>
 							<option value="maria">Maria</option>
 							<option value="antonio">Antônio</option>
@@ -32,7 +33,7 @@ function LoginCatechist() {
 
 				{/* Campo Código da Paróquia */}
 				<div className="flex flex-col gap-2">
-					<label htmlFor="parish-code" className="text-[0.85rem] font-bold text-[#1E293B]">Código da paróquia</label>
+					<label htmlFor="parish-code" className="text-[0.85rem] font-bold text-[#1E293B]">Selecione o código</label>
 					<div className="relative flex items-center">
 						<select
 							id="catechist-select" 
@@ -53,7 +54,11 @@ function LoginCatechist() {
 				</button>
 
 				{/* Botão Voltar */}
-				<button type="button" className="w-full bg-none border-[1.5px] border-slate-200 text-[#64748B] py-3 rounded-xl text-[0.9rem] font-bold cursor-pointer transition-all duration-200 hover:bg-slate-100 hover:text-[#1E293B] hover:border-slate-300 flex items-center justify-center gap-2">
+				<button
+					type="button"
+					className="w-full bg-none border-[1.5px] border-slate-200 text-[#64748B] py-3 rounded-xl text-[0.9rem] font-bold cursor-pointer transition-all duration-200 hover:bg-slate-100 hover:text-[#1E293B] hover:border-slate-300 flex items-center justify-center gap-2"
+					onClick={() => onSelectLogin(null)}
+				>
 					<ArrowLeft className="w-4 h-4" /> Voltar para seleção de perfil
 				</button>
 			</form>

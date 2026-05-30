@@ -1,8 +1,9 @@
 import { BookOpen, ChevronRight, Settings, Users } from "lucide-react";
+import type { onLoginSelectorProps } from "./Login";
 import LoginFooter from "./LoginFooter";
 import LoginHeader from "./LoginHeader";
 
-function LoginSelector() {
+function LoginSelector({ onSelectLogin }: onLoginSelectorProps) {
 	return (
 		<div className="max-w-[400px] w-full bg-white p-10 rounded-[20px] shadow-[0_20px_25px_-5px_rgba(15,23,42,0.08),0_10px_10px_-5px_rgba(15,23,42,0.03)] border border-slate-200 flex flex-col gap-6 relative transition-transform duration-500 ease-out">
 			<LoginHeader
@@ -12,7 +13,10 @@ function LoginSelector() {
 			
 			<div className="flex flex-col gap-3.5">
 				{/* Opção Catequista */}
-				<button className="flex items-center gap-4 p-4 border-[1.5px] border-slate-200 hover:border-[#F59E0B] rounded-xl bg-white hover:bg-[#FFFDF5] cursor-pointer text-left transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm">
+				<button
+					className="flex items-center gap-4 p-4 border-[1.5px] border-slate-200 hover:border-[#F59E0B] rounded-xl bg-white hover:bg-[#FFFDF5] cursor-pointer text-left transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm"
+					onClick={() => onSelectLogin('Catechist')}
+				>
 					<div className="w-11 h-11 rounded-lg flex items-center justify-center text-xl bg-[#FEF3C7] text-[#D97706]">
 						<BookOpen className="w-5 h-5" />
 					</div>
@@ -24,7 +28,10 @@ function LoginSelector() {
 				</button>
 
 				{/* Opção Coordenação */}
-				<button className="flex items-center gap-4 p-4 border-[1.5px] border-slate-200 hover:border-[#F59E0B] rounded-xl bg-white hover:bg-[#FFFDF5] cursor-pointer text-left transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm">
+				<button
+					className="flex items-center gap-4 p-4 border-[1.5px] border-slate-200 hover:border-[#F59E0B] rounded-xl bg-white hover:bg-[#FFFDF5] cursor-pointer text-left transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm"
+					onClick={() => onSelectLogin('Coordinator')}	
+				>
 					<div className="w-11 h-11 rounded-lg flex items-center justify-center text-xl bg-[#DBEAFE] text-[#1E40AF]">
 						<Users className="w-5 h-5" />
 					</div>
@@ -36,7 +43,10 @@ function LoginSelector() {
 				</button>
 
 				{/* Opção Administrador */}
-				<button className="flex items-center gap-4 p-4 border-[1.5px] border-slate-200 hover:border-[#F59E0B] rounded-xl bg-white hover:bg-[#FFFDF5] cursor-pointer text-left transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm">
+				<button
+					className="flex items-center gap-4 p-4 border-[1.5px] border-slate-200 hover:border-[#F59E0B] rounded-xl bg-white hover:bg-[#FFFDF5] cursor-pointer text-left transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm"
+					onClick={() => onSelectLogin('Admin')}
+				>
 					<div className="w-11 h-11 rounded-lg flex items-center justify-center text-xl bg-[#FEE2E2] text-[#EF4444]">
 						<Settings className="w-5 h-5" />
 					</div>

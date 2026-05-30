@@ -1,15 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import CatechumensPage from "./pages/CatechumensPage";
+import ConfirmPresencePage from "./pages/ConfirmPresencePage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import MassesPage from "./pages/MassesPage";
-import StepsAndCatechistsPage from "./pages/StepsAndCatechistsPage";
-import CatechumensPage from "./pages/CatechumensPage";
 import RegisterPresencePage from "./pages/RegisterPresencePage";
-import ConfirmPresencePage from "./pages/ConfirmPresencePage";
+import StepsAndCatechistsPage from "./pages/StepsAndCatechistsPage";
 
 import { PresenceProvider } from "./context/PresenceContext";
 import { StatusBannerProvider } from "./context/StatusBannerContext";
+import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 import PresencesPage from "./pages/PresencesPage";
 
 function RoutesApp() {
@@ -29,6 +30,8 @@ function RoutesApp() {
 						<Route path="/presencas/registrar/:massId" element={<RegisterPresencePage />} />
 						<Route path="/presencas/confirmar/:massId" element={<ConfirmPresencePage />} />
 						<Route path="/presencas" element={<PresencesPage />} />
+
+						<Route path="/error" element={<InternalServerErrorPage />} />
 					</Routes>
 				</PresenceProvider>
 			</StatusBannerProvider>
