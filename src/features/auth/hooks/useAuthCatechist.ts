@@ -21,10 +21,10 @@ function assingsCommunityOrParish(selectedCode: string): CommunityOrParish | nul
 	return null;
 }
 
-function useAuth(catechists?: CatechistResponse[] | []) {
+function useAuthCatechist(catechists?: CatechistResponse[] | []) {
 	const [selectedCatechistId, setSelectedCatechistId] = useState('');
-	const [selectedCode, setSelectedCode]						= useState('');
-	const [error, setError]													= useState<string | null>(null);
+	const [selectedCode, setSelectedCode]								= useState('');
+	const [error, setError]															= useState<string | null>(null);
 
 	const nagivate = useNavigate();
 
@@ -71,7 +71,7 @@ function useAuth(catechists?: CatechistResponse[] | []) {
 
 	return {
 		selectedCatechistId, 
-		setSelectedCatechistId, 
+		setSelectedCatechistId,
 		selectedCode, 
 		setSelectedCode,
 		error,
@@ -79,4 +79,4 @@ function useAuth(catechists?: CatechistResponse[] | []) {
 	}
 }
 
-export default useAuth;
+export default useAuthCatechist;

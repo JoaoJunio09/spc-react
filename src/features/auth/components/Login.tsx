@@ -1,8 +1,8 @@
 import { useState } from "react";
 import InstitutionalSection from "./InstitutionalSection";
-import LoginSelector from "./LoginSelector";
 import LoginCatechist from "./LoginCatechist";
 import LoginCoordinatorOrAdmin from "./LoginCoordinatorOrAdmin";
+import LoginSelector from "./LoginSelector";
 
 export type SelectorType = 'Catechist' | 'Coordinator' | 'Admin' | null;
 
