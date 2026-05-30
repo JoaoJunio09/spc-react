@@ -1,4 +1,5 @@
 
+import InternalServerError from "../exceptions/server/InternalServerError";
 import type { CatechistResponse } from "../interfaces/catechist/CatechistResponse";
 import type { ParamsCatechistAPI } from "../interfaces/catechist/ParamsCatechistAPI";
 import api from "./api";
@@ -20,7 +21,7 @@ class CatechistService {
 			});
 
 			if ((await response).status === 500) {
-				// throw new Exceptions.InternalServerError('Erro ao carregar os Catequistas');
+				throw new InternalServerError('Erro ao carregar os Catequistas');
 			}
 
 			return (await response).data;

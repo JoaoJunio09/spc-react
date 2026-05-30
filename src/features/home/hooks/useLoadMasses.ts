@@ -6,7 +6,7 @@ import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 function useLoadMasses() {
 	const [masses, setMasses]						= useState<MassResponse[]>([]);
 	const [massesDates, setMassesDates] = useState<string[]>([]);
-	const [error, setError] 	= useState<string | null>(null);
+	const [error, setError] 						= useState<string | null>(null);
 
 	const massService:MassService = new MassService();
 
@@ -23,10 +23,10 @@ function useLoadMasses() {
 
 		try {
 			setError(null);
-			const dataMassesDates: string[] = await massService.getMassesDatesByCommunityOrParish({ communityOrParish: communityOrParish });
+			const dataMassesDates: string[] = await massService.getMassesDatesByCommunityOrParish({});
 			setMassesDates(dataMassesDates.map(date => UtilsDate.formatDateTimeThisMissaForDate(date)));
 
-			const dataMases: MassResponse[] = await massService.getAll({ communityOrParish: communityOrParish });
+			const dataMases: MassResponse[] = await massService.getAll({});
 			setMasses(dataMases);
 		}
 		catch (err) {

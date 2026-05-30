@@ -1,10 +1,9 @@
 import { Search, Users } from "lucide-react";
 import type { PresenceResponse } from "../../../interfaces/presence/PresenceResponse";
 import CatechumenCard from "./CatechumenCard";
+import CatechumenCardSkeleton from "./CatechumenCardSkeleton";
 import EmptyState from "./EmptyState";
 import SectionTitle from "./SectionTitle";
-import CardCatechumenSkeleton from "../../registerPresence/components/CardCatechumenSkeleton";
-import CatechumenCardSkeleton from "./CatechumenCardSkeleton";
 
 type CatechumensProps = {
 	presences: PresenceResponse[],

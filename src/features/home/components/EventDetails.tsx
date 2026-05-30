@@ -43,17 +43,6 @@ function EventDetails({ events }: EventCalendarProps) {
 											{event.isRegisteredPresence ? 'Presença na Missa já foi registrada' : 'Registrar Presença'}
 										</Link>
 									</button>
-									{
-										event.isRegisteredPresence
-										?
-											<button className="btn-primary btn-primary-register-presence-late">
-												<Link to={`/presencas/registrar-com-atraso/${event.massId}`}>
-													Registrar presenças atrasadas
-												</Link>
-											</button>
-										:
-											''
-									}
 								</div>
 							</div>	
 						</div>

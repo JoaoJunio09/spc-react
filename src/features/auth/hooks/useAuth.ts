@@ -1,10 +1,10 @@
 import { useState } from "react";
-import type { CatechistResponse } from "../../../interfaces/catechist/CatechistResponse";
-import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
 import AuthenticationError from "../../../exceptions/auth/AuthenticationError";
 import InvalidOrEmptyFields from "../../../exceptions/form/InvalidOrEmptyFields";
-import { toast } from "react-toastify";
+import type { CatechistResponse } from "../../../interfaces/catechist/CatechistResponse";
 
 function fieldValidation(id: number, communityOrParish: CommunityOrParish | null): void {
 	if (id === 0) {
