@@ -12,23 +12,22 @@ import StatusBanner from '../../../components/feedback/StatusBanner';
 
 import '../styles/home.css';
 import { useStatusBannerContext } from '../../../context/StatusBannerContext';
-
-function loadUserName(): string {
-	const userName = sessionStorage.getItem('userName');
-	
-	if (userName) return userName;
-	else return 'Usuário sem nome';
-}
+import { useAuthContext } from '../../../context/AuthContext';
 
 function Home() {
+	const [selectedDate, setSelectedDate] 						= useState<string | null>(null);
 	const { isOpen, setIsOpen }	 											= useCalendaryModal();
 	const { masses, massesDates, error: errorMasses } = useLoadMasses();
 	const { presences, error: errorPresences } 				= useLoadPresences();
 	const { daysOfWeek } 				 							 				= useWeekCalendary({ massesDates: massesDates });
 	const { events, loadEvent }  							 				= useLoadEvent({ masses: masses, presences: presences });
-	const [selectedDate, setSelectedDate] 						= useState<string | null>(null);
-
-	const { openStatusBanner, variant, message, clearStatusFlow } = useStatusBannerContext();
+	const {
+		openStatusBanner,
+		variant,
+		message,
+		clearStatusFlow
+	} = useStatusBannerContext();
+	const { fullName } = useAuthContext();
 
 	function handleSelectDate(date: string) {
 		setSelectedDate(date);
@@ -73,7 +72,7 @@ function Home() {
 			/>
 
 			<WeekOfCalendar
-				userName={loadUserName()}
+				userName={fullName}
 				daysOfWeek={daysOfWeek}
 				selectedDate={selectedDate}
 				massesDates={massesDates}

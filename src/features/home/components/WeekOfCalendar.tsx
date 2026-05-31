@@ -10,10 +10,12 @@ type WeekOfCalendarProps = {
 }
 
 function WeekOfCalendar({ userName, daysOfWeek, selectedDate, massesDates, handleSelectDate, setIsOpenModal }: WeekOfCalendarProps) {
+	if (!userName) return;
+
 	return (
 		<section className="week-calendar-section">
 			<div className="home-container">
-				<h1 className="welcome">Olá, <strong>{userName}</strong></h1>
+				<h1 className="welcome">Olá, <strong>{userName.split(' ')[0]}</strong></h1>
 				<h2 className="section-label">Agenda da Semana</h2>
 				<div className="week-grid" id="weekGrid">
 					{daysOfWeek.map(day => (

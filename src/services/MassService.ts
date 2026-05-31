@@ -98,8 +98,7 @@ class MassService {
 			const response = await api.put(this.BASE_URL, mass, {
 				headers: {
 					'Content-Type': 'application/json'
-				},
-			
+				}
 			});
 
 			return response.data;

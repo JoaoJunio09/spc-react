@@ -18,9 +18,12 @@ function Header({ active }: HeaderProps) {
 
 		let communityOrParish: CommunityOrParish | null = null;
 
-		communityOrParishForStorage === 'SAO_SEBASTIAO'
-			? communityOrParish = 'SAO_SEBASTIAO'
-			: communityOrParish = 'DIVINO_ESPIRITO_SANTO';
+		if (communityOrParishForStorage === 'SAO_SEBASTIAO') {
+			communityOrParish = 'SAO_SEBASTIAO';
+		}
+		else if (communityOrParishForStorage === 'DIVINO_ESPIRITO_SANTO') {
+			communityOrParish = 'DIVINO_ESPIRITO_SANTO';
+		}
 
 		return communityOrParish;
 	}
@@ -47,7 +50,7 @@ function Header({ active }: HeaderProps) {
 						{
 							communityOrParish === 'SAO_SEBASTIAO' ? <p>Paróquia <strong>São Sebastião</strong></p> 
 							: (communityOrParish === 'DIVINO_ESPIRITO_SANTO' ? <p>Capela <strong>Divino Espírito Santo</strong></p>
-							: <p>Presença da Catequese</p>)
+							: <p>Sistema de Presença da Catequese</p>)
 						}
 					</div>
 				</div>

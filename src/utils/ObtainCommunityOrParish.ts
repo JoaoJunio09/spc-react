@@ -2,13 +2,17 @@ import type { CommunityOrParish } from "../enums/CommunityOrParish";
 
 function obtain(): CommunityOrParish | null {
 	let communityOrParish: CommunityOrParish | null = null;
+
+	const communityOrParishStorage = sessionStorage.getItem('communityOrParish');
 		
-	communityOrParish = sessionStorage.getItem('communityOrParish') === 'SAO_SEBASTIAO'
-		? 'SAO_SEBASTIAO'
-		: 'DIVINO_ESPIRITO_SANTO';
-		
-	if (!communityOrParish) {
-		return null;
+	if (communityOrParishStorage === 'SAO_SEBASTIAO') {
+		communityOrParish = "SAO_SEBASTIAO";
+	}
+	else if (communityOrParishStorage === 'DIVINO_ESPIRITO_SANTO') {
+		communityOrParish = "DIVINO_ESPIRITO_SANTO";
+	}	
+	else {
+		communityOrParish = "BOTH";
 	}
 
 	return communityOrParish;

@@ -3,6 +3,7 @@ import type { StepOfCatechistResponse } from "../step/StepOfCatechistResponse";
 
 export interface CatechistResponse {
 	id: number,
+	userName: string,
 	firstName: string,
 	lastName: string,
 	communityOrParish: CommunityOrParish,

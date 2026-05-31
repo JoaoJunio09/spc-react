@@ -5,6 +5,7 @@ import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
 import AuthenticationError from "../../../exceptions/auth/AuthenticationError";
 import InvalidOrEmptyFields from "../../../exceptions/form/InvalidOrEmptyFields";
 import type { CatechistResponse } from "../../../interfaces/catechist/CatechistResponse";
+import { useAuthContext } from "../../../context/AuthContext";
 
 function fieldValidation(id: number, communityOrParish: CommunityOrParish | null): void {
 	if (id === 0) {
@@ -26,6 +27,8 @@ function useAuthCatechist(catechists?: CatechistResponse[] | []) {
 	const [selectedCode, setSelectedCode]								= useState('');
 	const [error, setError]															= useState<string | null>(null);
 
+	const { signIn } = useAuthContext();
+
 	const nagivate = useNavigate();
 
 	async function auth() {
@@ -40,6 +43,12 @@ function useAuthCatechist(catechists?: CatechistResponse[] | []) {
 
 			catechists?.forEach(catechist => {
 				if (catechist.id === id && catechist.communityOrParish === communityOrParish) {
+
+					// busco user no banco pelo id do catechist
+					// autentico o user com signIn
+
+					const userName = catechist.userName;
+
 					sessionStorage.setItem('communityOrParish', communityOrParish);
 					sessionStorage.setItem('catechist', JSON.stringify(catechist));
 					sessionStorage.setItem('userName', catechist.firstName);

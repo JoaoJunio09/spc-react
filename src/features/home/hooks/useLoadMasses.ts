@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 import MassService from "../../../services/MassService";
 import { UtilsDate } from "../../../utils/UtilsDate";
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
 
 function useLoadMasses() {
 	const [masses, setMasses]						= useState<MassResponse[]>([]);
@@ -10,19 +10,14 @@ function useLoadMasses() {
 
 	const massService:MassService = new MassService();
 
-	useEffect(() => {
+	useEffect(() => {		
 		loadMasses();
 	}, []);
 
 	async function loadMasses() {
-		const communityOrParish = sessionStorage.getItem('communityOrParish');
-		if (!communityOrParish) {
-			setError('Comunidade ou Pároquia indefinido');
-			return;
-		}
-
 		try {
 			setError(null);
+			
 			const dataMassesDates: string[] = await massService.getMassesDatesByCommunityOrParish({});
 			setMassesDates(dataMassesDates.map(date => UtilsDate.formatDateTimeThisMissaForDate(date)));
 

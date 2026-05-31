@@ -4,7 +4,7 @@ import PresenceService from "../../../services/PresenceService";
 
 function useLoadPresences() {
 	const [presences, setPresences] = useState<PresenceResponse[]>([]);
-	const [error, setError]				 = useState<string | null>(null);
+	const [error, setError]				 	= useState<string | null>(null);
 
 	const presenceService: PresenceService = new PresenceService();
 
