@@ -7,16 +7,19 @@ import api from "./api";
 
 class PresenceService {
 	BASE_URL: string = '';
+	private accessToken: string = '';
 
-	constructor() {
+	constructor(accessToken: string) {
 		this.BASE_URL = '/api/presences/v1';
+		this.accessToken = accessToken;
 	}
 
 	public async getAll(params: ParamsPresenceAPI) {
 		try {
 			const response = await api.get<PresenceResponse[]>(this.BASE_URL, {
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
 				},
 				params
 			});
@@ -34,7 +37,11 @@ class PresenceService {
 
 	public async register(presence: PresenceRequest) {
 		try {
-			const response = await api.post<PresenceResponse>(this.BASE_URL, presence);
+			const response = await api.post<PresenceResponse>(this.BASE_URL, presence, {
+				headers: {
+					'Authorization': `Bearer ${this.accessToken}`
+				}
+			});
 			
 			if (response.status === 500) {
 				throw new InternalServerError('Erro inesperado no servidor ao registrar');

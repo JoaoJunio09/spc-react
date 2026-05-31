@@ -3,14 +3,13 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../../context/AuthContext";
 import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
+import AuthenticationError from "../../../exceptions/auth/AuthenticationError";
+import InternalServerError from "../../../exceptions/server/InternalServerError";
+import type { CatechistCredentials } from "../../../interfaces/auth/CatechistCredentials";
 import useLoadCatechists from "../hooks/useLoadCatechists";
 import type { onLoginSelectorProps } from "./Login";
 import LoginFooter from "./LoginFooter";
 import LoginHeader from "./LoginHeader";
-import type { CatechistCredentials } from "../../../interfaces/auth/CatechistCredentials";
-import AuthenticationError from "../../../exceptions/auth/AuthenticationError";
-import InvalidOrEmptyFields from "../../../exceptions/form/InvalidOrEmptyFields";
-import InternalServerError from "../../../exceptions/server/InternalServerError";
 
 function assingsCommunityOrParish(selectedCode: string): CommunityOrParish | null {
 	if (selectedCode === '0') return 'SAO_SEBASTIAO';
@@ -27,27 +26,30 @@ function LoginCatechist({ onSelectLogin }: onLoginSelectorProps) {
 	const { signInCatechist } = useAuthContext();
 
 	async function handleSignIn() {
-		let communityOrParish: CommunityOrParish | null = assingsCommunityOrParish(code);
-		const id = Number(catechistId);
-
-		if (!communityOrParish) {
+		if (!catechistId) {
+			toast.error('Selecione quem é você');
 			return;
-		}
+    }
+    if (!code) {
+			toast.error('Selecione um código');
+			return;
+    }
 
 		const credentials: CatechistCredentials = {
-			catechistId: id,
-			communityOrParish: communityOrParish
+			catechistId: Number(catechistId),
+			communityOrParish: assingsCommunityOrParish(code)
 		}
 
 		try {
 			await signInCatechist(credentials);
 		}
 		catch (err) {
-			if (err instanceof InvalidOrEmptyFields) {
+			if (err instanceof AuthenticationError) {
 				toast.error(err.message);
-			}
-			if (err instanceof InternalServerError) {
+			} else if (err instanceof InternalServerError) {
 				toast.error(err.message);
+			} else {
+				toast.error('Eror inesperado. Tente novamente.');
 			}
 		}
 	}

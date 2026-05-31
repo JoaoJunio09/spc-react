@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import useDebounce from "../../../hooks/useDebounce";
-import MassService from "../../../services/MassService";
-import PresenceService from "../../../services/PresenceService";
-
-const massService: MassService = new MassService();
-const presenceService: PresenceService = new PresenceService();
+import useMassService from "../../../hooks/useMassService";
+import usePresenceService from "../../../hooks/usePresenceService";
 
 function usePresences() {
 	const [titleLiturgicalCalendar, setTitleLigurticalCalendar] = useState<string>('');
 	const [fullName, setFullName] = useState<string>('');
 	const [massId, setMassId] = useState<number | null>(null);
+
+	const massService = useMassService();
+	const presenceService = usePresenceService();
 
 	const debouncedName = useDebounce(fullName, 2000);
 	
@@ -37,7 +37,7 @@ function usePresences() {
 				fullName: debouncedName ?? undefined,
 				signal
 			}),
-		enabled: !!titleLiturgicalCalendar || !!massId || !!fullName,
+		enabled: !!titleLiturgicalCalendar || !!massId || !!debouncedName,
 		retry: 3,
 		staleTime: 1000 * 60 * 5
 	});

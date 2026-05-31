@@ -43,7 +43,7 @@ class AuthService {
 			}
 
 			if (err?.response?.status === 500) {
-				throw new InternalServerError('Usuário ou senha inválidos');
+				throw new InternalServerError('Catequista inválido');
 			}
 
 			throw err;

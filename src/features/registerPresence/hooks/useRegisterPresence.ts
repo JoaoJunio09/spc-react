@@ -2,16 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { usePresenceContext } from "../../../context/PresenceContext";
+import useCatechumenService from "../../../hooks/useCatechumenService";
 import useDebounce from "../../../hooks/useDebounce";
+import useMassService from "../../../hooks/useMassService";
+import usePresenceService from "../../../hooks/usePresenceService";
 import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
 import type { MassResponse } from "../../../interfaces/mass/MassResponse";
-import CatechumenService from "../../../services/CatechumenService";
-import MassService from "../../../services/MassService";
-import PresenceService from "../../../services/PresenceService";
-
-const catechumenService: CatechumenService = new CatechumenService();
-const presenceService: PresenceService = new PresenceService();
-const massService: MassService = new MassService();
 
 function useRegisterPresence() {
 	const [fullName, setFullName]						= useState<string>('');
@@ -25,6 +21,10 @@ function useRegisterPresence() {
 		presencesOfCatechumensSavedInDatabase,
 		setPresencesOfCatechumensSavedInDatabase
 	} = usePresenceContext();
+
+	const catechumenService = useCatechumenService();
+	const presenceService = usePresenceService();
+	const massService = useMassService();
 
 	const navigate = useNavigate();
 

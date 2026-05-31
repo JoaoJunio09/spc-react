@@ -236,7 +236,7 @@ function RegisterPresence() {
 					open={retroactiveModal.openModal}
 					loading={false}
 					catechumen={retroactiveModal.catechumen}
-					onClose={() => handleCloseRetroactiveModal}
+					onClose={handleCloseRetroactiveModal}
 				/>
 			}
     </main>

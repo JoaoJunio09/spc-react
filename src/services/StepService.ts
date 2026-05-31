@@ -5,16 +5,19 @@ import api from "./api";
 
 class StepService {
 	BASE_URL: string = '';
+	private accessToken: string = '';
 
-	constructor() {
+	constructor(accessToken: string) {
 		this.BASE_URL = '/api/steps/v1';
+		this.accessToken = accessToken;
 	}
 
 	public async getAll(params: ParamsStepAPI) {
 		try {
 			const response = api.get<StepResponse[]>(this.BASE_URL, {
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
 				},
 				params
 			});

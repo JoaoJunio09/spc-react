@@ -1,12 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import usePresenceService from "../../../hooks/usePresenceService";
 import type { CatechistResponse } from "../../../interfaces/catechist/CatechistResponse";
 import type { PresenceRequest } from "../../../interfaces/presence/PresenceRequest";
-import PresenceService from "../../../services/PresenceService";
 import type { InfoDialogState } from "../../../types/InfoDialogState";
-
-const presenceService: PresenceService = new PresenceService();
 
 function useRetroactivePresenceModal() {
 	const [catechistId, setCatechistId]			= useState<number>(0);
@@ -22,6 +20,8 @@ function useRetroactivePresenceModal() {
 		buttonText: '',
 		path: undefined
 	});
+
+	const presenceService = usePresenceService();
 
 	const { massId } = useParams();
 	const queryClient = useQueryClient();

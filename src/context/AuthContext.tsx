@@ -4,7 +4,6 @@ import type { AccountCredentials } from "../interfaces/auth/AccountCredentials";
 import type { CatechistCredentials } from "../interfaces/auth/CatechistCredentials";
 import type { Token } from "../interfaces/auth/Token";
 import AuthService from "../services/AuthService";
-import InvalidOrEmptyFields from "../exceptions/form/InvalidOrEmptyFields";
 
 type AuthContextType = {
 	auth: Token | null;
@@ -35,9 +34,13 @@ type AuthProviderProps = {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-	const [auth, setAuth] = useState<Token | null>(null);
-	const [username, setUsername] = useState<string | null>(null);
-	const [fullName, setFullName] = useState<string | null>(null);
+	const [auth, setAuth] = useState<Token | null>(() => {
+		const stored = sessionStorage.getItem('auth');
+		return stored ? JSON.parse(stored) : null;
+	});
+	
+	const username = auth?.username ?? null;
+	const fullName = auth?.fullName ?? null;
 
 	const authService = useMemo(() => new AuthService(), []);
 
@@ -51,8 +54,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			JSON.stringify(auth)
 		)
 		setAuth(auth);
-		setUsername(auth.username);
-		setFullName(auth.fullName);
 
 		auth.roles.forEach(role => {
 			if (role === 'ROLE_COORDINATOR' || role === 'ROLE_ADMIN') {
@@ -64,13 +65,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	async function signInCatechist(credentials: CatechistCredentials) {
-		if (credentials.catechistId === 0) {
-			throw new InvalidOrEmptyFields('Selecione quem é você');
-		}
-		if (credentials.communityOrParish === null) {
-			throw new InvalidOrEmptyFields('Selecione um código');
-		}
-
 		const auth = await authService.byCatechist(credentials);
 
 		sessionStorage.setItem(
@@ -78,8 +72,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			JSON.stringify(auth)
 		)
 		setAuth(auth);
-		setUsername(auth.username);
-		setFullName(auth.fullName);
 
 		if (auth.communityOrParish) {
 			sessionStorage.setItem('communityOrParish', auth.communityOrParish);

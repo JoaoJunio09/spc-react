@@ -6,9 +6,11 @@ import api from "./api";
 
 class CatechumenService {
 	BASE_URL: string = '';
+	private accessToken: string = '';
 
-	constructor() {
+	constructor(accessToken: string) {
 		this.BASE_URL = '/api/catechumens/v1';
+		this.accessToken = accessToken;
 	}
 
 	public async getAll({
@@ -18,7 +20,8 @@ class CatechumenService {
 		try {
 			const response = api.get<CatechumenResponse[]>(this.BASE_URL, {
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
 				},
 				params,
 				signal

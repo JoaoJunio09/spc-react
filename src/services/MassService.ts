@@ -1,23 +1,26 @@
+import type { MassRequest } from "../interfaces/mass/MassRequest";
 import type { MassResponse } from "../interfaces/mass/MassResponse";
 import type { ParamsMassAPI } from "../interfaces/mass/ParamsMassAPI";
-import type { MassRequest } from "../interfaces/mass/MassRequest";
 
-import api from "./api";
-import InternalServerError from "../exceptions/server/InternalServerError";
 import ConflictInTheDatabaseException from "../exceptions/database/ConflicInTheDatabaseException";
+import InternalServerError from "../exceptions/server/InternalServerError";
+import api from "./api";
 
 class MassService {
 	BASE_URL: string = '';
+	private accessToken: string = '';
 
-	constructor() {
+	constructor(accessToken: string) {
 		this.BASE_URL = '/api/masses/v1';
+		this.accessToken = accessToken;
 	}
 
 	public async getAll(params: ParamsMassAPI) {
 		try {
 			const response = await api.get<MassResponse[]>(this.BASE_URL, {
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
 				},
 				params
 			});
@@ -38,7 +41,8 @@ class MassService {
 		try {
 			const response = await api.get<MassResponse>(URL, {
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
 				}
 			});
 
@@ -58,7 +62,8 @@ class MassService {
 		try {
 			const response = await api.get(URL, {
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
 				},
 				params
 			});
@@ -78,7 +83,8 @@ class MassService {
 		try {
 			const response = await api.post(this.BASE_URL, mass, {
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
 				},			
 			});
 
@@ -97,7 +103,8 @@ class MassService {
 		try {
 			const response = await api.put(this.BASE_URL, mass, {
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
 				}
 			});
 
@@ -115,7 +122,11 @@ class MassService {
 	public async delete(id: number) {
 		const URL = `${this.BASE_URL}/${id}`;
 		try {
-			await api.delete(URL, {});
+			await api.delete(URL, {
+				headers: {
+					'Authorization': `Bearer ${this.accessToken}`
+				}
+			});
 		}
 		catch (err: any) {
 			if (err?.response?.status === 409) {

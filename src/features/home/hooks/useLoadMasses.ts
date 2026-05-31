@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import useMassService from "../../../hooks/useMassService";
 import type { MassResponse } from "../../../interfaces/mass/MassResponse";
-import MassService from "../../../services/MassService";
 import { UtilsDate } from "../../../utils/UtilsDate";
 
 function useLoadMasses() {
@@ -8,7 +8,7 @@ function useLoadMasses() {
 	const [massesDates, setMassesDates] = useState<string[]>([]);
 	const [error, setError] 						= useState<string | null>(null);
 
-	const massService:MassService = new MassService();
+	const massService = useMassService();
 
 	useEffect(() => {		
 		loadMasses();

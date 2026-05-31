@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import LiturgicalCalendarService from "../../../services/LiturgicalCalendarService";
-
-const liturgicalService: LiturgicalCalendarService = new LiturgicalCalendarService();
+import useLiturgicalCalendarService from "../../../hooks/useLiturgicalCalendarService";
 
 function useLiturgicalCalendar() {
+
+	const liturgicalCalendarService = useLiturgicalCalendarService();
+
 	const query = useQuery({
 		queryKey: ['liturgicalCalendars'],
-		queryFn: () => liturgicalService.getAll({}),
-		retry: 5
+		queryFn: () => liturgicalCalendarService.getAll({}),
+		retry: 3
 	});
 
 	return {
