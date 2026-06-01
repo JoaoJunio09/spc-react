@@ -124,6 +124,9 @@ function RegisterPresence() {
 	}
 
 	function handleCloseRetroactiveModal() {
+		setRetroactiveModal({
+			openModal: false
+		});
 		clear();
 	}
 

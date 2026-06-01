@@ -185,7 +185,7 @@ function RetroactivePresenceModal({
 								onClick={onClose}
 								className="appearance-none border-0 outline-none focus:outline-none flex items-center justify-center rounded-full p-[6px] text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
 							>
-								<X size={20} />
+								<X size={20} className="cursor-pointer" />
 							</button>
             </>
           )}
@@ -346,7 +346,7 @@ function RetroactivePresenceModal({
               <button
 								type="button"
 								onClick={onClose}
-								className="appearance-none border-0 outline-none focus:outline-none inline-flex items-center justify-center rounded-[10px] bg-slate-50 px-6 py-3 text-[0.95rem] font-bold text-slate-500 transition hover:bg-slate-200 hover:text-slate-800"
+								className="cursor-pointer appearance-none border-0 outline-none focus:outline-none inline-flex items-center justify-center rounded-[10px] bg-slate-50 px-6 py-3 text-[0.95rem] font-bold text-slate-500 transition hover:bg-slate-200 hover:text-slate-800"
 							>
 								Cancelar
 							</button>
@@ -354,7 +354,7 @@ function RetroactivePresenceModal({
               <button
 								type="button"
 								onClick={() => handleConfirm()}
-								className="appearance-none border-0 outline-none focus:outline-none inline-flex items-center justify-center rounded-[10px] bg-amber-500 px-6 py-3 text-[0.95rem] font-bold text-white shadow-[0_4px_6px_-1px_rgba(245,158,11,0.2)] transition hover:-translate-y-[1px] hover:bg-amber-600"
+								className="cursor-pointer appearance-none border-0 outline-none focus:outline-none inline-flex items-center justify-center rounded-[10px] bg-amber-500 px-6 py-3 text-[0.95rem] font-bold text-white shadow-[0_4px_6px_-1px_rgba(245,158,11,0.2)] transition hover:-translate-y-[1px] hover:bg-amber-600"
 							>
 								Confirmar presença
 							</button>
