@@ -9,14 +9,12 @@ type CatechumensProps = {
 	presences: PresenceResponse[],
   onFilter: (param: string) => void,
   isLoading: boolean,
-  isError: boolean
 }
 
 function Catechumens({
   presences,
   onFilter,
-  isLoading,
-  isError
+  isLoading
 }: CatechumensProps) {
 	return (
 		<div>

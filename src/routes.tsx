@@ -25,6 +25,7 @@ function RoutesApp() {
 							<Route path="/inicio" element={<HomePage />} />
 							<Route path="/etapas-e-catequistas" element={<StepsAndCatechistsPage />} />
 							<Route path="/catequizandos" element={<CatechumensPage />} />
+							<Route path="/meus-catequizandos" element={<CatechumensPage />} />
 							<Route path="/missas" element={<MassesPage />} />
 
 							{/* Implementar proteção de rota */}

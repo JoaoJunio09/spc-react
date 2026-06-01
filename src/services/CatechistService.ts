@@ -17,8 +17,7 @@ class CatechistService {
 		try {
 			const response = api.get<CatechistResponse[]>(this.BASE_URL, {
 				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${this.accessToken}`
+					'Content-Type': 'application/json'
 				},
 				params
 			});

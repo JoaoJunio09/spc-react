@@ -81,7 +81,7 @@ function Presences() {
         ? <Masses
             masses={masses}
             onFilter={filterByMass}
-          /> 
+          />
         : null
       }
 
@@ -91,8 +91,7 @@ function Presences() {
             presences={presences}
             onFilter={filterByFullName}
             isLoading={loadingPresences}
-            isError={errorPresences}
-          /> 
+          />
         :
           null
       }

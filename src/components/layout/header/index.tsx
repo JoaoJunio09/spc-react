@@ -1,9 +1,10 @@
 import './index.css';
 
-import logoImg from '../../../assets/brasao_paroquia.png';
-import type { CommunityOrParish } from '../../../enums/CommunityOrParish';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import logoImg from '../../../assets/brasao_paroquia.png';
+import { useAuthContext } from '../../../context/AuthContext';
+import type { CommunityOrParish } from '../../../enums/CommunityOrParish';
+import Nav from '../nav';
 
 type HeaderProps = {
 	active: string
@@ -38,6 +39,8 @@ function Header({ active }: HeaderProps) {
 		else return '';
 	}
 
+	const { auth } = useAuthContext();
+
 	return (
 		<header className="main-header">
 			<div className="container header-container">
@@ -62,16 +65,8 @@ function Header({ active }: HeaderProps) {
 				>
 					{isOpen ? '✕ FECHAR' : '☰ MENU'}	
 				</button>
-				
-				<nav className={`main-nav ${isOpen ? 'open' : ''}`} id="mainNav">
-					<ul>
-						<li><Link to="/inicio" className={`${activateTheMenu('home')}`}>Início</Link></li>
-						<li><Link to="/etapas-e-catequistas" className={`${activateTheMenu('steps-and-catechists')}`}>Etapas</Link></li>
-						<li><Link to="/catequizandos" className={`${activateTheMenu('catechumens')}`}>Catequizandos</Link></li>
-						<li><Link to="/missas" className={`${activateTheMenu('masses')}`}>Missas</Link></li>
-						<li><Link to="/presencas" className={`${activateTheMenu('presences')}`}>Histórico</Link></li>
-					</ul>
-				</nav>
+
+				{ auth && <Nav isOpen={isOpen} activateTheMenu={activateTheMenu} roles={auth.roles} /> }
 			</div>
     </header>
 	)

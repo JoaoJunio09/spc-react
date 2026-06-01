@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import type { CatechistResponse } from "../../../data/catechist/CatechistResponse";
-import CatechistService from "../../../services/CatechistService";
+import useCatechistService from "../../../hooks/useCatechistService";
 
 function useLoadCatechists() {
 	const [catechists, setCatechists] = useState<CatechistResponse[] | []>([]);
 	const [error, setError] 					= useState<string | null>(null);
 
-	const catechistService:CatechistService = new CatechistService();
+	const catechistService = useCatechistService();
 
 	useEffect(() => {
 		loadCatechists();
