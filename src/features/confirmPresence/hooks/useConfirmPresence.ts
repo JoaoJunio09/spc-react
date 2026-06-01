@@ -2,13 +2,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usePresenceContext } from "../../../context/PresenceContext";
+import usePresenceService from "../../../hooks/usePresenceService";
 import type { CatechistResponse } from "../../../interfaces/catechist/CatechistResponse";
 import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
 import type { PresenceRequest } from "../../../interfaces/presence/PresenceRequest";
-import PresenceService from "../../../services/PresenceService";
 import type { InfoDialogState } from "../../../types/InfoDialogState";
-
-const presenceService: PresenceService = new PresenceService();
 
 function useConfirmPresense() {
 	const [catechumensConfirm, setCatechumensConfirm] = useState<CatechumenResponse[] | null>([]);
@@ -22,6 +20,8 @@ function useConfirmPresense() {
 		buttonText: '',
 		path: undefined
 	});
+
+	const presenceService = usePresenceService();
 
 	const { clearPresenceFlow } = usePresenceContext();
 	const { massId } = useParams();

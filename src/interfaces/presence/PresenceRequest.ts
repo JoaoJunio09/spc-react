@@ -2,7 +2,7 @@ import type { PresenceStatus } from "../../enums/PresenceStatus";
 
 export interface PresenceRequest {
 	id: number | null,
-	catechistId: number,
+	username: string,
 	catechumenId: number,
 	massId: number,
 	status: PresenceStatus,

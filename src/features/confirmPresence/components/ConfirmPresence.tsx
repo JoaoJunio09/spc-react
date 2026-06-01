@@ -8,6 +8,7 @@ import { DefineNameCatechists } from '../../../utils/DefineNameCatechists';
 import useConfirmPresense from '../hooks/useConfirmPresence';
 
 import '../styles/confirmPresence.css';
+import { useAuthContext } from '../../../context/AuthContext';
 
 function ConfirmPresence() {
 	const {
@@ -23,16 +24,23 @@ function ConfirmPresence() {
 
 	const { showStatusBanner } = useStatusBannerContext();
 
+	const { username } = useAuthContext();
+
 	async function handleConfirm() {
 		if (!massId || !catechistId || catechumensConfirm?.length === 0 || catechumensConfirm === null) {
 			toast.error('Dados inválidos para confirmar presença');
 			return;
 		}
 
+		if (!username) {
+			toast.error('Usuário não definido');
+			return;
+		}
+
 		try {
 			const presences: PresenceRequest[] = catechumensConfirm.map((catechumen) => ({
 				id: null,
-				catechistId: catechistId,
+				username: username,
 				catechumenId: catechumen.id,
 				massId: Number(massId),
 				status: 'PRESENT',

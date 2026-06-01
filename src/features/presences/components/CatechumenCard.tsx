@@ -34,7 +34,8 @@ function CatechumenCard({ presence }: CatechumenCardProps) {
 				</div>
 
 				<p className="text-[.8rem] text-[var(--text-muted)]">
-					Registrado por: {presence.catechist.firstName}
+					Registrado por:
+					<span className="font-semibold ml-1">{presence.user.fullName.split(' ')[0] } {presence.user.fullName.split(' ')[1]}</span>
 				</p>
 				
 			</div>

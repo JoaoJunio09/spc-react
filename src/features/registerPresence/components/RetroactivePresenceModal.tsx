@@ -8,6 +8,7 @@ import { DefineNameCatechists } from "../../../utils/DefineNameCatechists";
 import useRetroactivePresenceModal from "../hooks/useRetroactivePresenceModal";
 import { useNavigate } from "react-router-dom";
 import ConflictInTheDatabaseException from "../../../exceptions/database/ConflicInTheDatabaseException";
+import { useAuthContext } from "../../../context/AuthContext";
 
 type RetroactivePresenceModalProps = {
   open: boolean;
@@ -28,7 +29,7 @@ function RetroactivePresenceModal({
   open,
   loading = false,
   catechumen,
-  onClose,
+  onClose
 }: RetroactivePresenceModalProps) {
   if (!open) return null;
 	if (!catechumen) return null;
@@ -40,7 +41,6 @@ function RetroactivePresenceModal({
 		proofImage,
 		setProofPreview,
 		proofPreview,
-		catechistId,
 		massId,
 		registerPresenceMutation,
 		infoDialog,
@@ -52,6 +52,8 @@ function RetroactivePresenceModal({
 
 	const navigate = useNavigate();
 
+	const { username } = useAuthContext();
+
 	useEffect(() => {
 		return () => {
 			if (proofPreview) {
@@ -61,7 +63,7 @@ function RetroactivePresenceModal({
 	}, [proofPreview]);
 
 	async function handleConfirm() {
-		if (!massId || !catechistId || !catechumen) {
+		if (!massId || !catechumen) {
 			toast.error('Dados inválidos para registrar a presença');
 			return;
 		}
@@ -71,10 +73,15 @@ function RetroactivePresenceModal({
 			return;
 		}
 
+		if (!username) {
+			toast.error('Usuário não definido');
+			return;
+		}
+
 		try {
 			const presence: PresenceRequest = {
 				id: null,
-				catechistId: catechistId,
+				username: username,
 				catechumenId: catechumen.id,
 				massId: Number(massId),
 				justification: justification,
@@ -82,8 +89,6 @@ function RetroactivePresenceModal({
 			}
 
 			await registerPresenceMutation.mutateAsync(presence);
-
-			onClose();
 
 			openInfoDialog({
 				variant: 'success',

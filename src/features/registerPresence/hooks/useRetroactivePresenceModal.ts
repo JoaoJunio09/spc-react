@@ -1,13 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import usePresenceService from "../../../hooks/usePresenceService";
-import type { CatechistResponse } from "../../../interfaces/catechist/CatechistResponse";
 import type { PresenceRequest } from "../../../interfaces/presence/PresenceRequest";
 import type { InfoDialogState } from "../../../types/InfoDialogState";
 
 function useRetroactivePresenceModal() {
-	const [catechistId, setCatechistId]			= useState<number>(0);
 	const [justification, setJustification] = useState('');
 	const [proofImage, setProofImage] 			= useState<File | null>(null);
 	const [proofPreview, setProofPreview] 	= useState<string | null>(null);
@@ -25,10 +23,6 @@ function useRetroactivePresenceModal() {
 
 	const { massId } = useParams();
 	const queryClient = useQueryClient();
-
-	useEffect(() => {
-		obtainCatechistId();
-	}, []);
 
 	const registerPresenceMutation = useMutation({
 		mutationFn: (data: PresenceRequest) => presenceService.register(data),
@@ -51,15 +45,6 @@ function useRetroactivePresenceModal() {
 		}));
 	}
 
-	function obtainCatechistId() {
-		const catechistStorage = sessionStorage.getItem('catechist');
-		if (!catechistStorage) return;
-
-		const catechist: CatechistResponse = JSON.parse(catechistStorage);
-
-		setCatechistId(catechist.id);
-	}
-
 	return {
 		justification,
 		setJustification,
@@ -67,7 +52,6 @@ function useRetroactivePresenceModal() {
 		proofImage,
 		setProofPreview,
 		proofPreview,
-		catechistId,
 		massId,
 		registerPresenceMutation,
 		infoDialog,
