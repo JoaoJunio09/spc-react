@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { CatechistSummary } from "../../../data/catechist/CatechistSummary";
 import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
 import type { StepResponse } from "../../../data/step/StepResponse";
-import CatechumenService from "../../../services/CatechumenService";
+import useCatechumenService from "../../../hooks/useCatechumenService";
 
 type UseCatechumensProps = {
 	catechists: CatechistSummary[],
@@ -13,7 +13,7 @@ function useCatechumens({ catechists, step }: UseCatechumensProps) {
 	const [catechumens, setCatechumens] = useState<CatechumenResponse[]>([]);
 	const [error, setError]							= useState<string | null>(null);
 
-	const catechumenService: CatechumenService = new CatechumenService();
+	const catechumenService = useCatechumenService();
 
 	useEffect(() => {
 		loadCatechumens();

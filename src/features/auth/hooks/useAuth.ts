@@ -53,11 +53,11 @@ function useAuth() {
 	}
 
 	async function signIn() {
-		if (authCoordinatorOrAdminData.username) {
+		if (!authCoordinatorOrAdminData.username) {
 			setError('Preencha o usuário');
 			return;
 		}
-		if (authCoordinatorOrAdminData.password) {
+		if (!authCoordinatorOrAdminData.password) {
 			setError('Informe a sua senha');
 			return;
 		}

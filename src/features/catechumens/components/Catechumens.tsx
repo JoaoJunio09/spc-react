@@ -1,18 +1,16 @@
+import { Users } from 'lucide-react';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import type { StepResponse } from '../../../data/step/StepResponse';
-import { FormatStep } from '../../../utils/FormatStep';
+import useFilter from '../hooks/useFilter';
 import useLoadSelectFilter from '../hooks/useLoadSelectFilter';
 import '../styles/catechumens.css';
-import useFilter from '../hooks/useFilter';
-import Table from './Table';
 import Select from './Select';
-import { Users } from 'lucide-react';
+import Table from './Table';
 
 function Catechumens() {
 
 	const { steps, error: errorFilter } = useLoadSelectFilter();
 	const {
-		filter,
 		setStepId,
 		setCatechistId,
 		catechumens,
@@ -30,9 +28,24 @@ function Catechumens() {
 		setCatechistId(Number(catechistId));
 	}
 
+	useEffect(() => {
+		if (loading) {
+			toast.loading('Carregando');
+		} else {
+			toast.dismiss();
+		}
+
+		if (error) {
+			toast.error(error);
+		}
+
+		if (errorFilter) {
+			toast.error(errorFilter);
+		}
+	}, [errorFilter, error, loading]);
+
 	return (
 		<main className="container-catechumens catequizandos-page">
-			{errorFilter && toast.error(errorFilter)}
 			<section className="page-intro">
 				<h1>Catequizandos</h1>
 				<p>Consulte a frequência dos catequizandos filtrando por etapa e catequista.</p>

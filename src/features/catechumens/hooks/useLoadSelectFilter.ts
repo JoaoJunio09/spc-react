@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import InternalServerError from "../../../exceptions/server/InternalServerError";
 import type { StepResponse } from "../../../data/step/StepResponse";
-import StepService from "../../../services/StepService";
+import InternalServerError from "../../../exceptions/server/InternalServerError";
+import useStepService from "../../../hooks/useStepService";
 
 function useLoadSelectFilter() {
 	const [steps, setSteps] = useState<StepResponse[]>([]);
 	const [error, setError] = useState<string | null>(null);
 
-	const stepService: StepService = new StepService();
+	const stepService = useStepService();
 
 	useEffect(() => {
 		loadStepsAndCatechists();

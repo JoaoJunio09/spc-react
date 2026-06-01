@@ -5,13 +5,19 @@ import { FormatStep } from '../../../utils/FormatStep';
 import useStepsAndCatechists from '../hooks/useStepsAndCatechists';
 
 import '../styles/stepsAndCatechists.css';
+import { useEffect } from 'react';
 
 function StepsAndCatechists() {
 	const { catechists, steps, error } = useStepsAndCatechists();
 
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+		}
+	}, [error]);
+
 	return (
 		<main>
-			{error && toast.error(error)}
 			<div className="steps-and-catechists-container">
         <section className="page-intro">
 					<h2>Gestão de Turmas e Catequistas</h2>

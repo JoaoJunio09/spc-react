@@ -1,13 +1,13 @@
 import { useState } from "react";
-import MassService from "../../../services/MassService";
 import { toast } from "react-toastify";
 import ConflictInTheDatabaseException from "../../../exceptions/database/ConflicInTheDatabaseException";
 import InternalServerError from "../../../exceptions/server/InternalServerError";
+import useMassService from "../../../hooks/useMassService";
 
 function useMass() {
 	const [error, setError] = useState<string | null>(null);
 
-	const massService: MassService = new MassService();
+	const massService = useMassService();
 	
 	async function deleteMass(id: number, onSuccess: () => Promise<void>) {
 		try {

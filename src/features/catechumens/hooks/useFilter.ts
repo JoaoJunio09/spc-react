@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
 import InternalServerError from "../../../exceptions/server/InternalServerError";
-import CatechumenService from "../../../services/CatechumenService";
+import useCatechumenService from "../../../hooks/useCatechumenService";
 
 function useFilter() {
 	const [catechumens, setCatechumens] = useState<CatechumenResponse[]>([]);
@@ -10,7 +10,7 @@ function useFilter() {
 	const [loading, setLoading] 				= useState<boolean>(false);
 	const [error, setError] 						= useState<string | null>(null);
 
-	const catechumenService: CatechumenService = new CatechumenService();
+	const catechumenService = useCatechumenService();
 
 	useEffect(() => {
 		if (!stepId || !catechistId) return;
@@ -40,7 +40,6 @@ function useFilter() {
 	}
 
 	return {
-		filter,
 		setStepId,
 		setCatechistId,
 		catechumens,

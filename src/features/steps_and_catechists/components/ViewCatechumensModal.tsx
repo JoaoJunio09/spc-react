@@ -4,6 +4,7 @@ import type { StepResponse } from "../../../data/step/StepResponse";
 import useCatechumens from "../hooks/useCatechumens";
 import Catechumen from "./Catechumen";
 import { FormatStep } from "../../../utils/FormatStep";
+import { useEffect } from "react";
 
 type ViewCatechumensModalProps = {
 	catechists: CatechistSummary[],
@@ -14,9 +15,14 @@ type ViewCatechumensModalProps = {
 function ViewCatechumensModal({ catechists, step, onClose }: ViewCatechumensModalProps) {
 	const { catechumens, error } = useCatechumens({ catechists, step });
 
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+		}
+	}, [error]);
+
 	return (
 		<div id="modalViewCatechumens" className="step-and-catechist-modal-overlay">
-			{error && toast.error(error)}
 			<div className="step-and-catechist-modal-content" style={{maxWidth: '650px'}}>
 				<div className="step-and-catechist-modal-header">
 					<h3 id="view-steps-title">{`Catequizandos: ${FormatStep.format(step.stepName)}`}</h3>

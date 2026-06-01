@@ -1,37 +1,28 @@
 import { useEffect, useState } from "react";
-import type { StepResponse } from "../../../data/step/StepResponse";
 import type { CatechistResponse } from "../../../data/catechist/CatechistResponse";
+import type { StepResponse } from "../../../data/step/StepResponse";
 import InternalServerError from "../../../exceptions/server/InternalServerError";
-import CatechistService from "../../../services/CatechistService";
-import StepService from "../../../services/StepService";
-import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
-import { ObtainCommunityOrParish } from "../../../utils/ObtainCommunityOrParish";
+import useCatechistService from "../../../hooks/useCatechistService";
+import useStepService from "../../../hooks/useStepService";
 
 function useStepsAndCatechists() {
 	const [catechists, setCatechists] = useState<CatechistResponse[] | []>();
 	const [steps, setSteps] 				 	= useState<StepResponse[] | []>([]);
 	const [error, setError] 				 	= useState<string | null>(null);
 
-	const catechistService: CatechistService = new CatechistService();
-	const stepService: StepService = new StepService();
+	const catechistService = useCatechistService();
+	const stepService = useStepService();
 
 	useEffect(() => {
 		loadStepsAndCatechists();
 	}, []);
 
 	async function loadStepsAndCatechists() {
-		let communityOrParish: CommunityOrParish | null = ObtainCommunityOrParish.obtain();
-
-		if (!communityOrParish) {
-			setError('Comunidade ou Paróquia indefinido');
-			return;
-		}
-
 		try {
 			setError(null);
 
-			const dataCatechists = await catechistService.getAll({ communityOrParish: communityOrParish });
-			const dataSteps = await stepService.getAll({ communityOrParish: communityOrParish });
+			const dataCatechists = await catechistService.getAll({});
+			const dataSteps = await stepService.getAll({});
 
 			setCatechists(dataCatechists);
 			setSteps(dataSteps);

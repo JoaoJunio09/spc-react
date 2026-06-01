@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import MassService from "../../../services/MassService";
 import type { MassResponse } from "../../../data/mass/MassResponse";
 import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
+import useMassService from "../../../hooks/useMassService";
 import { ObtainCommunityOrParish } from "../../../utils/ObtainCommunityOrParish";
 
 function useLoadMasses() {
-	const [masses, setMasses]						= useState<MassResponse[]>([]);
-	const [error, setError] 		= useState<string | null>(null);
+	const [masses, setMasses] = useState<MassResponse[]>([]);
+	const [error, setError] 	= useState<string | null>(null);
 
-	const massService:MassService = new MassService();
+	const massService = useMassService();
 
 	useEffect(() => {
 		loadMasses();
@@ -23,7 +23,7 @@ function useLoadMasses() {
 
 		try {
 			setError(null);
-			const dataMases: MassResponse[] = await massService.getAll({ communityOrParish: communityOrParish });
+			const dataMases: MassResponse[] = await massService.getAll({});
 			setMasses(dataMases);
 		}
 		catch (err) {

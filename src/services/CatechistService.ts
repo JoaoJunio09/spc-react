@@ -6,16 +6,19 @@ import api from "./api";
 
 class CatechistService {
 	BASE_URL: string = '';
+	private accessToken: string = '';
 
-	constructor() {
+	constructor(accessToken: string) {
 		this.BASE_URL = '/api/catechists/v1';
+		this.accessToken = accessToken;
 	}
 
 	public async getAll(params: ParamsCatechistAPI) {
 		try {
 			const response = api.get<CatechistResponse[]>(this.BASE_URL, {
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
 				},
 				params
 			});
