@@ -57,20 +57,19 @@ function useRegisterPresence() {
 	useEffect(() => {
 		checkExistingsPresences();
 		setCountSelected(catechumensPresent.length);
-	}, [fullName]);
+	}, [debouncedName]);
 
 	async function checkExistingsPresences() {
-		if (titleMass === '') {
+		let currentTitle = titleMass;
+
+		if (!currentTitle) {
 			const mass: MassResponse = await massService.getById(Number(massId));
-			setTitleMass(mass.title);
+			currentTitle = mass.title;
+			setTitleMass(currentTitle);
 		}
 
-		if (!titleMass) return;
-
-		const catechumensIsPresent = await presenceService.getAll({ titleMass: titleMass });
-		if (catechumensIsPresent) {
-			setPresencesOfCatechumensSavedInDatabase(catechumensIsPresent);
-		}
+		const catechumensIsPresent = await presenceService.getAll({ titleMass: currentTitle });
+		setPresencesOfCatechumensSavedInDatabase(catechumensIsPresent);
 	}
 
 	function markPresence(catechumen: CatechumenResponse) {
@@ -127,6 +126,7 @@ function useRegisterPresence() {
 		catechumens: query.data ?? [],
 		loading: query.isPending,
 		error: query.error,
+		checkExistingsPresences,
 		fullName,
 		stepId,
 		markPresence,

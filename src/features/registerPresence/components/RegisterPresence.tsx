@@ -31,6 +31,7 @@ function RegisterPresence() {
 		catechumens,
 		loading,
 		error,
+		checkExistingsPresences,
 		fullName,
 		markPresence,
 		markAbsence,
@@ -43,6 +44,10 @@ function RegisterPresence() {
 		isRetroactive,
 		clear
 	} = useRegisterPresence();
+
+	useEffect(() => {
+		checkExistingsPresences();
+	}, []);
 
 	useEffect(() => {
 		if (loadingSteps) {
