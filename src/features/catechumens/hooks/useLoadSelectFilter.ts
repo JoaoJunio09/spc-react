@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import InternalServerError from "../../../exceptions/server/InternalServerError";
-import type { StepResponse } from "../../../interfaces/step/StepResponse";
+import type { StepResponse } from "../../../data/step/StepResponse";
 import StepService from "../../../services/StepService";
 
 function useLoadSelectFilter() {

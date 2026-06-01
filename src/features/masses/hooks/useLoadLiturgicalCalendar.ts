@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { liturgicalCalendarResponse } from "../../../interfaces/liturgicalCalendar/LiturgicalCalendarResponse";
+import type { liturgicalCalendarResponse } from "../../../data/liturgicalCalendar/LiturgicalCalendarResponse";
 import LirtugicalCalendarService from "../../../services/LiturgicalCalendarService";
 
 function useLoadLiturgicalCalendar() {

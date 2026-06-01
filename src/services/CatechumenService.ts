@@ -1,7 +1,7 @@
 
 import InternalServerError from "../exceptions/server/InternalServerError";
-import type { CatechumenResponse } from "../interfaces/catechumen/CatechumenResponse";
-import type { ParamsCatechumenAPI } from "../interfaces/catechumen/ParamsCatechumenAPI";
+import type { CatechumenResponse } from "../data/catechumen/CatechumenResponse";
+import type { ParamsCatechumenAPI } from "../data/catechumen/ParamsCatechumenAPI";
 import api from "./api";
 
 class CatechumenService {

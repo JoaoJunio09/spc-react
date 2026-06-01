@@ -1,8 +1,8 @@
 import AuthenticationError from "../exceptions/auth/AuthenticationError";
 import InternalServerError from "../exceptions/server/InternalServerError";
-import type { AccountCredentials } from "../interfaces/auth/AccountCredentials";
-import type { CatechistCredentials } from "../interfaces/auth/CatechistCredentials";
-import type { Token } from "../interfaces/auth/Token";
+import type { AccountCredentials } from "../data/auth/AccountCredentials";
+import type { CatechistCredentials } from "../data/auth/CatechistCredentials";
+import type { Token } from "../data/auth/Token";
 import api from "./api";
 
 class AuthService {

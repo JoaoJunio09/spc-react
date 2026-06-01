@@ -1,8 +1,8 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import type { AccountCredentials } from "../interfaces/auth/AccountCredentials";
-import type { CatechistCredentials } from "../interfaces/auth/CatechistCredentials";
-import type { Token } from "../interfaces/auth/Token";
+import type { AccountCredentials } from "../data/auth/AccountCredentials";
+import type { CatechistCredentials } from "../data/auth/CatechistCredentials";
+import type { Token } from "../data/auth/Token";
 import AuthService from "../services/AuthService";
 
 type AuthContextType = {

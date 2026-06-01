@@ -1,6 +1,6 @@
-import type { MassRequest } from "../interfaces/mass/MassRequest";
-import type { MassResponse } from "../interfaces/mass/MassResponse";
-import type { ParamsMassAPI } from "../interfaces/mass/ParamsMassAPI";
+import type { MassRequest } from "../data/mass/MassRequest";
+import type { MassResponse } from "../data/mass/MassResponse";
+import type { ParamsMassAPI } from "../data/mass/ParamsMassAPI";
 
 import ConflictInTheDatabaseException from "../exceptions/database/ConflicInTheDatabaseException";
 import InternalServerError from "../exceptions/server/InternalServerError";

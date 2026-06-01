@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import useLoadMasses from '../hooks/useLoadMasses';
 import { UtilsDate } from '../../../utils/UtilsDate';
 import MassFormModal from './MassFormModal';
 
 import '../styles/masses.css';
-import type { MassResponse } from '../../../interfaces/mass/MassResponse';
+import type { MassResponse } from '../../../data/mass/MassResponse';
 import useMass from '../hooks/useMass';
 import ConfirmDialog from '../../../components/feedback/ConfirmDialog/ConfirmDialog';
 
@@ -28,11 +28,17 @@ function Masses() {
 		setMassIdDeleted(id);
 	}
 
+	useEffect(() => {
+		if (errorLoad) {
+			toast.error(errorLoad)
+		}
+		if (errorSavingMass) {
+			toast.error(errorSavingMass)
+		}
+	}, [errorLoad, errorSavingMass]);
+
 	return (
 		<main>
-			{errorLoad && toast.error(errorLoad)}
-			{errorSavingMass && toast.error(errorSavingMass)}
-
 			<div className="masses-container">
         <section className="page-intro">
 					<h2>Gerenciamento de Missas</h2>

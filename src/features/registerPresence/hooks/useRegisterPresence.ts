@@ -6,8 +6,8 @@ import useCatechumenService from "../../../hooks/useCatechumenService";
 import useDebounce from "../../../hooks/useDebounce";
 import useMassService from "../../../hooks/useMassService";
 import usePresenceService from "../../../hooks/usePresenceService";
-import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
+import type { MassResponse } from "../../../data/mass/MassResponse";
 
 function useRegisterPresence() {
 	const [fullName, setFullName]						= useState<string>('');

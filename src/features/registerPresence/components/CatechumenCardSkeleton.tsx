@@ -2,7 +2,7 @@ import Skeleton from "react-loading-skeleton";
 
 import styles from '../styles/CardCatechumenSkeleton.module.css';
 
-function CardCatechumenSkeleton() {
+function CatechumenCardSkeleton() {
 	return (
 		<div className="catequizando-card">
 			<div
@@ -44,4 +44,4 @@ function CardCatechumenSkeleton() {
 	)
 }
 
-export default CardCatechumenSkeleton;
+export default CatechumenCardSkeleton;

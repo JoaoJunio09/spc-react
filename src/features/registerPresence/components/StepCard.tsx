@@ -1,12 +1,12 @@
-import type { StepResponse } from "../../../interfaces/step/StepResponse";
+import type { StepResponse } from "../../../data/step/StepResponse";
 import { FormatStep } from "../../../utils/FormatStep";
 
-type CardStepsProps = {
+type StepCardProps = {
 	step: StepResponse
 	handleListCatechumens: () => void
 }
 
-function CardSteps({ step, handleListCatechumens }: CardStepsProps) {
+function StepCard({ step, handleListCatechumens }: StepCardProps) {
 	return (
 		<div id="card-step" className="turma-card" data-id={step.id}>
 			<h4>{FormatStep.format(step.stepName)}</h4>
@@ -24,4 +24,4 @@ function CardSteps({ step, handleListCatechumens }: CardStepsProps) {
 	)
 }
 
-export default CardSteps;
+export default StepCard;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { CatechistResponse } from "../../../interfaces/catechist/CatechistResponse";
+import type { CatechistResponse } from "../../../data/catechist/CatechistResponse";
 import CatechistService from "../../../services/CatechistService";
 
 function useLoadCatechists() {

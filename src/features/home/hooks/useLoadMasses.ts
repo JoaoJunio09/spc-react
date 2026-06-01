@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useMassService from "../../../hooks/useMassService";
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import type { MassResponse } from "../../../data/mass/MassResponse";
 import { UtilsDate } from "../../../utils/UtilsDate";
 
 function useLoadMasses() {

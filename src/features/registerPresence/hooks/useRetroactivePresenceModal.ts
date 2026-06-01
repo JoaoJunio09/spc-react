@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import usePresenceService from "../../../hooks/usePresenceService";
-import type { PresenceRequest } from "../../../interfaces/presence/PresenceRequest";
+import type { PresenceRequest } from "../../../data/presence/PresenceRequest";
 import type { InfoDialogState } from "../../../types/InfoDialogState";
 
 function useRetroactivePresenceModal() {

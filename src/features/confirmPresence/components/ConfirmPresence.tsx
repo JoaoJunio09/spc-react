@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import InfoDialog from '../../../components/feedback/InfoDialog';
 import { useStatusBannerContext } from '../../../context/StatusBannerContext';
 import ConflictInTheDatabaseException from '../../../exceptions/database/ConflicInTheDatabaseException';
-import type { PresenceRequest } from '../../../interfaces/presence/PresenceRequest';
+import type { PresenceRequest } from '../../../data/presence/PresenceRequest';
 import { DefineNameCatechists } from '../../../utils/DefineNameCatechists';
 import useConfirmPresense from '../hooks/useConfirmPresence';
 

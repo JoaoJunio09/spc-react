@@ -1,8 +1,8 @@
 import ConflictInTheDatabaseException from "../exceptions/database/ConflicInTheDatabaseException";
 import InternalServerError from "../exceptions/server/InternalServerError";
-import type { ParamsPresenceAPI } from "../interfaces/presence/ParamsPresenceAPI";
-import type { PresenceRequest } from "../interfaces/presence/PresenceRequest";
-import type { PresenceResponse } from "../interfaces/presence/PresenceResponse";
+import type { ParamsPresenceAPI } from "../data/presence/ParamsPresenceAPI";
+import type { PresenceRequest } from "../data/presence/PresenceRequest";
+import type { PresenceResponse } from "../data/presence/PresenceResponse";
 import api from "./api";
 
 class PresenceService {

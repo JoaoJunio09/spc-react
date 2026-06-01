@@ -1,5 +1,5 @@
 import { Search, Users } from "lucide-react";
-import type { PresenceResponse } from "../../../interfaces/presence/PresenceResponse";
+import type { PresenceResponse } from "../../../data/presence/PresenceResponse";
 import CatechumenCard from "./CatechumenCard";
 import CatechumenCardSkeleton from "./CatechumenCardSkeleton";
 import EmptyState from "./EmptyState";

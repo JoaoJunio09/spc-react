@@ -1,10 +1,10 @@
 import { ArrowLeft, Eye, Lock, User } from "lucide-react";
-import LoginHeader from "./LoginHeader";
-import LoginFooter from "./LoginFooter";
-import type { onLoginSelectorProps } from "./Login";
-import useAuthCoordinatorOrAdmin from "../hooks/useAuthCoordinatorOrAdmin";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import useAuth from "../hooks/useAuth";
+import type { onLoginSelectorProps } from "./Login";
+import LoginFooter from "./LoginFooter";
+import LoginHeader from "./LoginHeader";
 
 const RememberAccess: React.FC = () => (
 	<div className="flex items-center justify-between text-[0.85rem] mt-1">
@@ -29,9 +29,8 @@ const RememberAccess: React.FC = () => (
 	</div>
 );
 
-
 function LoginCoordinatorOrAdmin({ onSelectLogin, roleCoordinatorOrAdmin }: onLoginSelectorProps) {
-	const { handleOnChange, error, auth } = useAuthCoordinatorOrAdmin();
+	const { signIn, handleOnChange, authCoordinatorOrAdminData, error } = useAuth();
 
 	useEffect(() => {
 		if (error) {
@@ -58,6 +57,7 @@ function LoginCoordinatorOrAdmin({ onSelectLogin, roleCoordinatorOrAdmin }: onLo
 							type="text"
 							name="username"
 							id="username"
+							value={authCoordinatorOrAdminData.username}
 							onChange={handleOnChange}
 							placeholder="Digite seu usuário" 
 							className="w-full py-[14px] pl-11 pr-4 border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-[#1E293B] text-[0.95rem] font-medium outline-none transition-all duration-200 focus:border-[#F59E0B] focus:bg-white focus:ring-4 focus:ring-[#F59E0B]/12"
@@ -76,6 +76,7 @@ function LoginCoordinatorOrAdmin({ onSelectLogin, roleCoordinatorOrAdmin }: onLo
 							type="password" 
 							name="password"
 							id="password"
+							value={authCoordinatorOrAdminData.password}
 							onChange={handleOnChange}
 							placeholder="Digite sua senha" 
 							className="w-full py-[14px] pl-11 pr-12 border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-[#1E293B] text-[0.95rem] font-medium outline-none transition-all duration-200 focus:border-[#F59E0B] focus:bg-white focus:ring-4 focus:ring-[#F59E0B]/12"
@@ -93,7 +94,7 @@ function LoginCoordinatorOrAdmin({ onSelectLogin, roleCoordinatorOrAdmin }: onLo
 				<button
 					type="submit"
 					className="w-full bg-gradient-to-br from-[#F59E0B] to-[#EA580C] text-white border-none py-[14px] rounded-xl text-base font-extrabold cursor-pointer shadow-lg shadow-[#EA580C]/20 transition-all duration-200 hover:-translate-y-[2px] hover:shadow-xl hover:shadow-[#EA580C]/30 hover:brightness-[1.05] flex items-center justify-center gap-2"
-					onClick={() => auth()}
+					onClick={signIn}
 				>
 					Entrar como {roleCoordinatorOrAdmin}
 				</button>

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
-import type { PresenceResponse } from "../../../interfaces/presence/PresenceResponse";
+import type { MassResponse } from "../../../data/mass/MassResponse";
+import type { PresenceResponse } from "../../../data/presence/PresenceResponse";
 import { UtilsDate } from "../../../utils/UtilsDate";
 
 type UseLoadEventProps = {

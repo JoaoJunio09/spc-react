@@ -1,6 +1,6 @@
 import InternalServerError from "../exceptions/server/InternalServerError";
-import type { ParamsStepAPI } from "../interfaces/step/ParamsStepAPI";
-import type { StepResponse } from "../interfaces/step/StepResponse";
+import type { ParamsStepAPI } from "../data/step/ParamsStepAPI";
+import type { StepResponse } from "../data/step/StepResponse";
 import api from "./api";
 
 class StepService {

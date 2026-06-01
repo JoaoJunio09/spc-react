@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import usePresenceService from "../../../hooks/usePresenceService";
-import type { PresenceResponse } from "../../../interfaces/presence/PresenceResponse";
+import type { PresenceResponse } from "../../../data/presence/PresenceResponse";
 
 function useLoadPresences() {
 	const [presences, setPresences] = useState<PresenceResponse[]>([]);

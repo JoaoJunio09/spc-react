@@ -1,6 +1,8 @@
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import { useEffect } from "react";
+import type { MassResponse } from "../../../data/mass/MassResponse";
 import useLoadLiturgicalCalendar from "../hooks/useLoadLiturgicalCalendar";
 import useMassFormModal from "../hooks/useMassFormModal";
+import { toast } from "react-toastify";
 
 type MassFormModalProps = {
 	mass: MassResponse | null,
@@ -17,8 +19,14 @@ function MassFormModal({ mass, onClose, onSuccess }: MassFormModalProps) {
 		error
 	} = useMassFormModal(mass, onClose, onSuccess);
 
-	{error && console.log(error)};
-	{errorLoadingLiturgicalCalendar && console.log(errorLoadingLiturgicalCalendar)};
+	useEffect(() => {
+		if (errorLoadingLiturgicalCalendar) {
+			toast.error(errorLoadingLiturgicalCalendar);
+		}
+		if (error) {
+			toast.error(error);
+		}
+	}, [errorLoadingLiturgicalCalendar, error]);
 
 	return (
 		<div className="mass-modal-overlay" id="missaModal">

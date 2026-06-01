@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import type { CatechistSummary } from "../../../interfaces/catechist/CatechistSummary";
-import type { StepResponse } from "../../../interfaces/step/StepResponse";
+import type { CatechistSummary } from "../../../data/catechist/CatechistSummary";
+import type { StepResponse } from "../../../data/step/StepResponse";
 import useCatechumens from "../hooks/useCatechumens";
 import Catechumen from "./Catechumen";
 import { FormatStep } from "../../../utils/FormatStep";

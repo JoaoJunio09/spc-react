@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import type { StepResponse } from '../../../interfaces/step/StepResponse';
+import type { StepResponse } from '../../../data/step/StepResponse';
 import { FormatStep } from '../../../utils/FormatStep';
 import useLoadSelectFilter from '../hooks/useLoadSelectFilter';
 import '../styles/catechumens.css';

@@ -3,7 +3,7 @@ import {
 } from 'lucide-react';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import type { LiturgicalCalendarResponse } from '../../../interfaces/liturgicalCalendar/LiturgicalCalendarResponse';
+import type { LiturgicalCalendarResponse } from '../../../data/liturgicalCalendar/LiturgicalCalendarResponse';
 import useLiturgicalCalendar from '../hooks/useLiturgicalCalender';
 import usePresences from '../hooks/usePresences';
 import Masses from './Masses';

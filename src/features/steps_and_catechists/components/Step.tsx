@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FormatStep } from "../../../utils/FormatStep";
 import ViewCatechumensModal from "./ViewCatechumensModal";
-import type { CatechistSummary } from "../../../interfaces/catechist/CatechistSummary";
-import type { StepResponse } from "../../../interfaces/step/StepResponse";
+import type { CatechistSummary } from "../../../data/catechist/CatechistSummary";
+import type { StepResponse } from "../../../data/step/StepResponse";
 
 type StepProps = {
 	catechists: CatechistSummary[],

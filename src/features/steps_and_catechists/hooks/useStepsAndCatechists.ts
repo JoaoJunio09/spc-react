@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { StepResponse } from "../../../interfaces/step/StepResponse";
-import type { CatechistResponse } from "../../../interfaces/catechist/CatechistResponse";
+import type { StepResponse } from "../../../data/step/StepResponse";
+import type { CatechistResponse } from "../../../data/catechist/CatechistResponse";
 import InternalServerError from "../../../exceptions/server/InternalServerError";
 import CatechistService from "../../../services/CatechistService";
 import StepService from "../../../services/StepService";

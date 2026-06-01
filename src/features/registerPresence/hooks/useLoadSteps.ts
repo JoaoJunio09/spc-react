@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useStepService from "../../../hooks/useStepService";
-import type { StepResponse } from "../../../interfaces/step/StepResponse";
+import type { StepResponse } from "../../../data/step/StepResponse";
 
 function useLoadSteps() {
 	const [steps, setSteps] 		= useState<StepResponse[]>([]);

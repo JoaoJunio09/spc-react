@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { UtilsDate } from "../../../utils/UtilsDate";
-import MassService from "../../../services/MassService";
-import LiturgicalCalendarService from "../../../services/LiturgicalCalendarService";
+import type { MassRequest } from "../../../data/mass/MassRequest";
+import type { MassResponse } from "../../../data/mass/MassResponse";
 import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
-import type { MassRequest } from "../../../interfaces/mass/MassRequest";
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import useLiturgicalCalendarService from "../../../hooks/useLiturgicalCalendarService";
+import useMassService from "../../../hooks/useMassService";
 import { ObtainCommunityOrParish } from "../../../utils/ObtainCommunityOrParish";
+import { UtilsDate } from "../../../utils/UtilsDate";
 
 type MassFormData = {
 	id: number | null,
@@ -34,8 +34,8 @@ function useMassFormModal(
 
 	let communityOrParish: CommunityOrParish | null = ObtainCommunityOrParish.obtain();
 
-	const liturgicalCalendarService: LiturgicalCalendarService = new LiturgicalCalendarService();
-	const massService: MassService = new MassService();
+	const liturgicalCalendarService = useLiturgicalCalendarService();
+	const massService = useMassService();
 
 	useEffect(() => {
 		if (!mass || !communityOrParish) return;

@@ -4,11 +4,11 @@ import { toast } from 'react-toastify';
 import ConfirmDialog from '../../../components/feedback/ConfirmDialog/ConfirmDialog';
 import useLoadSteps from '../hooks/useLoadSteps';
 import useRegisterPresence from '../hooks/useRegisterPresence';
-import CardCatechumen from './CardCatechumen';
-import CardCatechumenSkeleton from './CardCatechumenSkeleton';
-import CardSteps from './CardSteps';
+import CatechumenCard from './CatechumenCard';
+import CatechumenCardSkeleton from './CatechumenCardSkeleton';
+import StepCard from './StepCard';
 
-import type { CatechumenResponse } from '../../../interfaces/catechumen/CatechumenResponse';
+import type { CatechumenResponse } from '../../../data/catechumen/CatechumenResponse';
 import '../styles/registerPresence.css';
 import RetroactivePresenceModal from './RetroactivePresenceModal';
 
@@ -158,7 +158,7 @@ function RegisterPresence() {
 					>
 						<div className="turmas-grid" id="listSteps">
 							{steps.map(step => (
-								<CardSteps
+								<StepCard
 									key={step.id}
 									step={step}
 									handleListCatechumens={() => handleListCatechumens(step.id)}
@@ -205,10 +205,10 @@ function RegisterPresence() {
 					{
 						loading
 							? Array.from({ length: 4 }).map((_, index) => (
-									<CardCatechumenSkeleton key={index} />
+									<CatechumenCardSkeleton key={index} />
 								))
 							: catechumens.map(catechumen => (
-									<CardCatechumen
+									<CatechumenCard
 										key={catechumen.id}
 										catechumen={catechumen}
 										isPresent={isPresent(catechumen)}

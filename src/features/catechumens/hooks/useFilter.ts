@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
+import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
 import InternalServerError from "../../../exceptions/server/InternalServerError";
 import CatechumenService from "../../../services/CatechumenService";
 

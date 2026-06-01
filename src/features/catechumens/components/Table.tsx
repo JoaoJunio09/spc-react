@@ -1,4 +1,4 @@
-import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
+import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
 import { FormatStep } from "../../../utils/FormatStep";
 
 type TableProps = {

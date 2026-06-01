@@ -1,5 +1,5 @@
-import type { StepByCatechumenResponse } from "../interfaces/step/StepByCatechumenResponse";
-import type { StepResponse } from "../interfaces/step/StepResponse";
+import type { StepByCatechumenResponse } from "../data/step/StepByCatechumenResponse";
+import type { StepResponse } from "../data/step/StepResponse";
 import { FormatStep } from "./FormatStep";
 
 function define(step: StepResponse | StepByCatechumenResponse) {

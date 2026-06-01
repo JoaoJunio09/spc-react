@@ -1,7 +1,7 @@
-import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
+import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
 import { FormatStep } from "../../../utils/FormatStep";
 
-type CardCatechumenProps = {
+type CatechumenCardProps = {
 	catechumen: CatechumenResponse,
 	isPresent: boolean,
 	isBlockButtonPresence: boolean,
@@ -9,13 +9,13 @@ type CardCatechumenProps = {
 	handleMarkAbsence: (catechumen: CatechumenResponse) => void
 }
 
-function CardCatechumen({
+function CatechumenCard({
 	catechumen,
 	isPresent,
 	isBlockButtonPresence,
 	handleMarkPresence,
 	handleMarkAbsence
-}: CardCatechumenProps) {
+}: CatechumenCardProps) {
 	return (
 		<div className="catequizando-card catechumen-card" data-catechumen="">
 			<div className="student-info">
@@ -51,4 +51,4 @@ function CardCatechumen({
 	)
 }
 
-export default CardCatechumen;
+export default CatechumenCard;

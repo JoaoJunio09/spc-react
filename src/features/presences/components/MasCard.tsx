@@ -1,5 +1,5 @@
 import { Calendar, Church, Clock } from "lucide-react";
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import type { MassResponse } from "../../../data/mass/MassResponse";
 import MetaItem from "./MetaItem";
 import { UtilsDate } from "../../../utils/UtilsDate";
 

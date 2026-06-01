@@ -1,6 +1,6 @@
 import { Church } from "lucide-react";
 import { useState } from "react";
-import type { MassResponse } from "../../../interfaces/mass/MassResponse";
+import type { MassResponse } from "../../../data/mass/MassResponse";
 import MassCard from "./MasCard";
 import SectionTitle from "./SectionTitle";
 import { Link } from "react-router-dom";

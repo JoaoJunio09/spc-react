@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { CatechumenResponse } from "../interfaces/catechumen/CatechumenResponse";
-import type { PresenceResponse } from "../interfaces/presence/PresenceResponse";
+import type { CatechumenResponse } from "../data/catechumen/CatechumenResponse";
+import type { PresenceResponse } from "../data/presence/PresenceResponse";
 
 type PresenceContextType = {
 	catechumensPresent: CatechumenResponse[];

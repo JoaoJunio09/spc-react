@@ -1,5 +1,5 @@
-import type { LiturgicalCalendarResponse } from "../interfaces/liturgicalCalendar/LiturgicalCalendarResponse";
-import type { ParamsLiturgicalCalendarAPI } from "../interfaces/liturgicalCalendar/ParamsLiturgicalCalendarAPI";
+import type { LiturgicalCalendarResponse } from "../data/liturgicalCalendar/LiturgicalCalendarResponse";
+import type { ParamsLiturgicalCalendarAPI } from "../data/liturgicalCalendar/ParamsLiturgicalCalendarAPI";
 import api from "./api";
 
 class LiturgicalCalendarService {

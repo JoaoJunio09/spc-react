@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { CatechistSummary } from "../../../interfaces/catechist/CatechistSummary";
-import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
-import type { StepResponse } from "../../../interfaces/step/StepResponse";
+import type { CatechistSummary } from "../../../data/catechist/CatechistSummary";
+import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
+import type { StepResponse } from "../../../data/step/StepResponse";
 import CatechumenService from "../../../services/CatechumenService";
 
 type UseCatechumensProps = {

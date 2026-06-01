@@ -1,64 +1,26 @@
 import { ArrowLeft } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { useAuthContext } from "../../../context/AuthContext";
-import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
-import AuthenticationError from "../../../exceptions/auth/AuthenticationError";
-import InternalServerError from "../../../exceptions/server/InternalServerError";
-import type { CatechistCredentials } from "../../../interfaces/auth/CatechistCredentials";
+import useAuth from "../hooks/useAuth";
 import useLoadCatechists from "../hooks/useLoadCatechists";
 import type { onLoginSelectorProps } from "./Login";
 import LoginFooter from "./LoginFooter";
 import LoginHeader from "./LoginHeader";
 
-function assingsCommunityOrParish(selectedCode: string): CommunityOrParish | null {
-	if (selectedCode === '0') return 'SAO_SEBASTIAO';
-	else if (selectedCode === '1') return 'DIVINO_ESPIRITO_SANTO';
-	return null;
-}
-
 function LoginCatechist({ onSelectLogin }: onLoginSelectorProps) {
 	const { catechists, error: errorLoadCatechists } = useLoadCatechists();
 
-	const [catechistId, setCatechistId] = useState('');
-	const [code, setCode]								= useState('');
-
-	const { signInCatechist } = useAuthContext();
-
-	async function handleSignIn() {
-		if (!catechistId) {
-			toast.error('Selecione quem é você');
-			return;
-    }
-    if (!code) {
-			toast.error('Selecione um código');
-			return;
-    }
-
-		const credentials: CatechistCredentials = {
-			catechistId: Number(catechistId),
-			communityOrParish: assingsCommunityOrParish(code)
-		}
-
-		try {
-			await signInCatechist(credentials);
-		}
-		catch (err) {
-			if (err instanceof AuthenticationError) {
-				toast.error(err.message);
-			} else if (err instanceof InternalServerError) {
-				toast.error(err.message);
-			} else {
-				toast.error('Eror inesperado. Tente novamente.');
-			}
-		}
-	}
+	const { signInCatechist, handleOnSelect, authCatechistData, error } = useAuth();
 
 	useEffect(() => {
 		if (errorLoadCatechists) {
 			toast.error(errorLoadCatechists);
 		}
-	}, [errorLoadCatechists]);
+
+		if (error) {
+			toast.error(error);
+		}
+	}, [errorLoadCatechists, error]);
 
 	return (
 		<div className="max-w-[400px] w-full bg-white p-10 rounded-[20px] shadow-[0_20px_25px_-5px_rgba(15,23,42,0.08),0_10px_10px_-5px_rgba(15,23,42,0.03)] border border-slate-200 flex flex-col gap-6 relative transition-transform duration-500 ease-out">
@@ -73,10 +35,10 @@ function LoginCatechist({ onSelectLogin }: onLoginSelectorProps) {
 					<label htmlFor="catechist-select" className="text-[0.85rem] font-bold text-[#1E293B]">Selecione seu nome</label>
 					<div className="relative flex items-center">
 						<select
-							id="selectedCatechistId" 
-							name="selectedCatechistId"
-							value={catechistId}
-							onChange={(e) => setCatechistId(e.target.value)} 
+							id="catechistId" 
+							name="catechistId"
+							value={authCatechistData.catechistId}
+							onChange={handleOnSelect} 
 							className="w-full py-[14px] pl-11 pr-11 border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-[#1E293B] text-[0.95rem] font-medium outline-none transition-all duration-200 focus:border-[#F59E0B] focus:bg-white focus:ring-4 focus:ring-[#F59E0B]/12 appearance-none"
 						>
 							<option value="" disabled>Quem é você?</option>							
@@ -95,10 +57,10 @@ function LoginCatechist({ onSelectLogin }: onLoginSelectorProps) {
 					<label htmlFor="parish-code" className="text-[0.85rem] font-bold text-[#1E293B]">Selecione o código</label>
 					<div className="relative flex items-center">
 						<select
-							id="catechist-select" 
-							name="selectedCode"
-							value={code}
-							onChange={(e) => setCode(e.target.value)}
+							id="code" 
+							name="code"
+							value={authCatechistData.code}
+							onChange={handleOnSelect}
 							className="w-full py-[14px] pl-11 pr-11 border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-[#1E293B] text-[0.95rem] font-medium outline-none transition-all duration-200 focus:border-[#F59E0B] focus:bg-white focus:ring-4 focus:ring-[#F59E0B]/12 appearance-none"
 						>
 							<option value="" disabled>Código da paróquia</option>
@@ -113,7 +75,7 @@ function LoginCatechist({ onSelectLogin }: onLoginSelectorProps) {
 				<button 
 					type="submit"
 					className="w-full bg-gradient-to-br from-[#F59E0B] to-[#EA580C] text-white border-none py-[14px] rounded-xl text-base font-extrabold cursor-pointer shadow-lg shadow-[#EA580C]/20 transition-all duration-200 hover:-translate-y-[2px] hover:shadow-xl hover:shadow-[#EA580C]/30 hover:brightness-[1.05] flex items-center justify-center gap-2"
-					onClick={() => handleSignIn()}
+					onClick={signInCatechist}
 				>
 					Entrar no Sistema
 				</button>

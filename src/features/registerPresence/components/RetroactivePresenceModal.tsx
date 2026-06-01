@@ -1,14 +1,14 @@
 import { Trash2, Upload, X } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import InfoDialog from "../../../components/feedback/InfoDialog";
-import type { CatechumenResponse } from "../../../interfaces/catechumen/CatechumenResponse";
-import type { PresenceRequest } from "../../../interfaces/presence/PresenceRequest";
+import { useAuthContext } from "../../../context/AuthContext";
+import ConflictInTheDatabaseException from "../../../exceptions/database/ConflicInTheDatabaseException";
+import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
+import type { PresenceRequest } from "../../../data/presence/PresenceRequest";
 import { DefineNameCatechists } from "../../../utils/DefineNameCatechists";
 import useRetroactivePresenceModal from "../hooks/useRetroactivePresenceModal";
-import { useNavigate } from "react-router-dom";
-import ConflictInTheDatabaseException from "../../../exceptions/database/ConflicInTheDatabaseException";
-import { useAuthContext } from "../../../context/AuthContext";
 
 type RetroactivePresenceModalProps = {
   open: boolean;

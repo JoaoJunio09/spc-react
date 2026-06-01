@@ -1,4 +1,4 @@
-import type { StepResponse } from "../../../interfaces/step/StepResponse";
+import type { StepResponse } from "../../../data/step/StepResponse";
 import { DefineNameCatechists } from "../../../utils/DefineNameCatechists";
 import { FormatStep } from "../../../utils/FormatStep";
 
