@@ -1,23 +1,34 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import useCalendaryModal from '../hooks/useCalendaryModal';
-import useLoadMasses from '../hooks/useLoadMasses';
-import CalendaryModal from './CalendaryModal';
-import useWeekCalendary from '../hooks/useWeekCalendary';
-import useLoadEvent from '../hooks/useLoadEvent';
-import useLoadPresences from '../hooks/useLoadPresences';
-import WeekOfCalendar from './WeekOfCalendar';
-import EventDetails from './EventDetails';
 import StatusBanner from '../../../components/feedback/StatusBanner';
+import useCalendaryModal from '../hooks/useCalendaryModal';
+import useLoadEvent from '../hooks/useLoadEvent';
+import useLoadMasses from '../hooks/useLoadMasses';
+import useLoadPresences from '../hooks/useLoadPresences';
+import useWeekCalendary from '../hooks/useWeekCalendary';
+import CalendaryModal from './CalendaryModal';
+import EventDetails from './EventDetails';
+import WeekOfCalendar from './WeekOfCalendar';
 
-import '../styles/home.css';
-import { useStatusBannerContext } from '../../../context/StatusBannerContext';
 import { useAuthContext } from '../../../context/AuthContext';
+import { useStatusBannerContext } from '../../../context/StatusBannerContext';
+import '../styles/home.css';
+import LoadingDialog from '../../../components/feedback/LoadingDialog';
+import InfoDialog from '../../../components/feedback/InfoDialog';
 
 function Home() {
 	const [selectedDate, setSelectedDate] 						= useState<string | null>(null);
 	const { isOpen, setIsOpen }	 											= useCalendaryModal();
-	const { masses, massesDates, error: errorMasses } = useLoadMasses();
+	const {
+		masses,
+		massesDates,
+		isLoading,
+		setIsLoading,
+		infoDialog,
+		openInfoDialog,
+		closeInfoDialog,
+		progress, error: errorMasses
+	} = useLoadMasses();
 	const { presences, error: errorPresences } 				= useLoadPresences();
 	const { daysOfWeek } 				 							 				= useWeekCalendary({ massesDates: massesDates });
 	const { events, loadEvent }  							 				= useLoadEvent({ masses: masses, presences: presences });
@@ -55,7 +66,13 @@ function Home() {
 
 	useEffect(() => {
 		if (errorMasses) {
-			toast.error(errorMasses);
+			openInfoDialog({
+				variant: 'info',
+				title: 'Erro ao carregar',
+				description: 'Não foi possível carregar as informações, aguarde um momento',
+				buttonText: 'Tente novamente',
+				path: '/'
+			});
 		}
 
 		if (errorPresences) {
@@ -65,6 +82,26 @@ function Home() {
 
 	return (
 		<main>
+			<LoadingDialog
+				open={isLoading}
+				onOpenChange={setIsLoading}
+				title='Carregando, aguarde um momento'
+				status='Carregando as missas'
+				progress={progress}
+			/>
+
+			<InfoDialog
+				open={infoDialog.open}
+				onOpenChange={(open) => {
+					if (!open) closeInfoDialog()
+				}}
+				variant={infoDialog.variant}
+				title={infoDialog.title}
+				description={infoDialog.description}
+				buttonText={infoDialog.buttonText}
+				path={infoDialog.path}
+			/>
+
 			<StatusBanner
 				open={openStatusBanner}
 				variant={variant}
