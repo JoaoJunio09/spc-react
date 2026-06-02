@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useDebounce from "../../../hooks/useDebounce";
 import useMassService from "../../../hooks/useMassService";
 import usePresenceService from "../../../hooks/usePresenceService";
+import useLiturgicalCalendarService from "../../../hooks/useLiturgicalCalendarService";
 
 function usePresences() {
 	const [titleLiturgicalCalendar, setTitleLigurticalCalendar] = useState<string>('');
@@ -11,6 +12,7 @@ function usePresences() {
 
 	const massService = useMassService();
 	const presenceService = usePresenceService();
+	const liturgicalCalendarService = useLiturgicalCalendarService();
 
 	const debouncedName = useDebounce(fullName, 2000);
 	
@@ -20,6 +22,7 @@ function usePresences() {
 			titleLiturgicalCalendar
 		],
 		queryFn: () => massService.getAll({ title: titleLiturgicalCalendar }),
+		enabled: !!titleLiturgicalCalendar,
 		retry: 3
 	});
 
@@ -54,6 +57,11 @@ function usePresences() {
 		setMassId(id);
 	}
 
+	async function previous() {
+		const liturgicalCalendar = await liturgicalCalendarService.previous();
+		filterMasses(liturgicalCalendar.title);
+	}
+
 	return {
 		masses: queryMasses.data ?? [],
 		presences: queryPresences.data ?? [],
@@ -63,7 +71,9 @@ function usePresences() {
 		errorPresences: queryPresences.isError,
 		filterMasses,
 		filterByFullName,
-		filterByMass
+		filterByMass,
+		titleLiturgicalCalendar,
+		previous
 	}
 }
 

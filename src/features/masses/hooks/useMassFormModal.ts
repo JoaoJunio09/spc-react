@@ -7,6 +7,7 @@ import useLiturgicalCalendarService from "../../../hooks/useLiturgicalCalendarSe
 import useMassService from "../../../hooks/useMassService";
 import { ObtainCommunityOrParish } from "../../../utils/ObtainCommunityOrParish";
 import { UtilsDate } from "../../../utils/UtilsDate";
+import type { MassLocation } from "../../../enums/MassLocation";
 
 type MassFormData = {
 	id: number | null,
@@ -32,20 +33,28 @@ function useMassFormModal(
 	});
 	const [error, setError] = useState<string | null>(null);
 
-	let communityOrParish: CommunityOrParish | null = ObtainCommunityOrParish.obtain();
-
 	const liturgicalCalendarService = useLiturgicalCalendarService();
 	const massService = useMassService();
 
+	function communityOrParishByLocation(location: MassLocation) {
+		let communityOrParish: CommunityOrParish | null = null; 
+		if (location === 'MATRIZ') {
+			communityOrParish = "SAO_SEBASTIAO";
+		} else {
+			communityOrParish = 'DIVINO_ESPIRITO_SANTO';
+		}
+		return communityOrParish;
+	}
+
 	useEffect(() => {
-		if (!mass || !communityOrParish) return;
+		if (!mass) return;
 		setFormData({
 			id: mass.id,
 			massTitleOfLicaturgicalCalendar: mass.massOfLiturgicalCalendar.title,
 			date: UtilsDate.formatDateTimeThisMissaForDate(mass.dateTime),
 			time: UtilsDate.formatDateTimeThisMissaForTime(mass.dateTime),
 			location: mass.location,
-			communityOrParish: communityOrParish
+			communityOrParish: communityOrParishByLocation(mass.location)
 		});
 	}, [mass]);
 
@@ -92,14 +101,12 @@ function useMassFormModal(
 			toast.error('Erro ao buscar Missa do Calendário Litúrgico');
 		}
 
-		if (!communityOrParish) return;
-
 		let mass: MassRequest = {
 			id: formData.id,
 			massOfLiturgicalCalendarId: massLiturgicalCalendarId,
 			dateTime: `${formData.date}T${formData.time}`,
 			location: formData.location,
-			communityOrParish: communityOrParish
+			communityOrParish: formData.location === 'MATRIZ' ? 'SAO_SEBASTIAO' : 'DIVINO_ESPIRITO_SANTO'
 		};
 
 		try {

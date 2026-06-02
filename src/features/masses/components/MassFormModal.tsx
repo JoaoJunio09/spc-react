@@ -82,12 +82,9 @@ function MassFormModal({ mass, onClose, onSuccess }: MassFormModalProps) {
 							onChange={handleOnChange}
 							required
 						>
-							<option value="" hidden>Selecione o Local</option>
-							{
-								sessionStorage.getItem('communityOrParish') === 'SAO_SEBASTIAO'
-								? <option value="MATRIZ">Matriz</option> 
-								: <option value="CAPELA_DO_DIVINO">Capela do Divino</option>
-							}
+							<option value="" disabled>Selecione o Local</option>
+							<option value="MATRIZ">Matriz</option> 
+							<option value="CAPELA_DO_DIVINO">Capela do Divino</option>
 						</select>
 					</div>
 					<div className="modal-actions">

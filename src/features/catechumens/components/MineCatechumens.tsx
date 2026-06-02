@@ -1,13 +1,15 @@
-import {
-	AlertTriangle,
-	BookOpen,
-	Calendar,
-	ChevronRight,
-	Church,
-	Percent,
-	Search,
-	Sparkles,
-	Users
+import React from 'react';
+import { 
+  Search, 
+  Users, 
+  Percent, 
+  AlertTriangle, 
+  ChevronRight, 
+  Inbox, 
+  Church, 
+  Sparkles,
+  BookOpen,
+  Calendar
 } from 'lucide-react';
 
 interface Student {
@@ -79,66 +81,37 @@ function MineCatechumens() {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased text-left">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased text-left">
       
       {}
-      {/* <header className="w-full bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-xl flex items-center justify-center shadow-md shadow-orange-600/10">
-              <Church className="w-5.5 h-5.5" />
-            </div>
-            <div className="leading-none">
-              <span className="text-lg font-black tracking-tight text-slate-900">SPC</span>
-              <span className="block text-[0.68rem] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Presença Catequese</span>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-2 text-slate-500 bg-slate-100/80 px-3.5 py-1.5 rounded-xl border border-slate-200">
-            <BookOpen className="w-4 h-4 text-amber-600" />
-            <span className="text-xs sm:text-sm font-semibold text-slate-700">Turma: 1ª Etapa • Sábado</span>
-          </div>
-        </div>
-      </header> */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body, .font-sans {
+          font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+        }
+      `}</style>
 
       {/* CONTEÚDO PRINCIPAL */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {}
         <div className="mb-8 md:flex md:items-center md:justify-between">
-          <div className="max-w-xl">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+          <div className="max-w-xl flex flex-col items-center md:items-start">
+            <h1 className="mb-2 text-2xl md:mb-0 sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
               Meus Catequizandos
-              <Sparkles className="w-5 h-5 text-amber-500 animate-pulse hidden sm:inline" />
             </h1>
-            <p className="mt-1.5 text-sm sm:text-base text-slate-500 font-medium">
+            <p className="mt-1.5 max-md:text-center text-sm sm:text-base text-slate-500 font-medium">
               Acompanhe a frequência detalhada e a participação dos seus catequizandos nas missas.
             </p>
           </div>
-          <div className="mt-4 md:mt-0 bg-amber-50/50 border border-amber-200/60 rounded-xl p-3.5 flex items-center gap-3 max-w-sm">
-            <Calendar className="w-5 h-5 text-amber-600 flex-shrink-0" />
-            <p className="text-xs text-amber-800 font-medium leading-relaxed">
-              Próximo encontro agendado para o próximo sábado às <strong className="font-bold">09:00h</strong>.
-            </p>
+          <div className="mt-5 md:mt-0 flex items-center gap-2 text-slate-500 bg-slate-100/80 px-3.5 py-1.5 rounded-xl border border-slate-200">
+            <BookOpen className="w-4 h-4 text-amber-600" />
+            <span className="text-xs sm:text-sm font-semibold text-slate-700">Turma • 1ª Etapa</span>
           </div>
         </div>
 
         {}
-        <section className="mb-8">
-          <div className="relative w-full max-w-2xl">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-slate-400" />
-            </div>
-            <input
-              type="text"
-              className="block w-full h-14 pl-12 pr-4 text-base bg-white border border-slate-200 rounded-2xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 transition-all shadow-sm"
-              placeholder="Pesquisar catequizando pelo nome..."
-            />
-          </div>
-        </section>
-
-        {}
-        <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mb-10">
+        <section className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mb-10">
           {/* Card Principal 1: Total de Catequizandos */}
           <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center gap-4 transition-all hover:border-slate-300 col-span-1">
             <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
@@ -196,9 +169,23 @@ function MineCatechumens() {
         </section>
 
         {}
+        <section className="mb-8">
+          <div className="relative w-full">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-slate-400" />
+            </div>
+            <input
+              type="text"
+              className="block w-full h-14 pl-12 pr-4 text-base bg-white border border-slate-200 rounded-2xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 transition-all shadow-sm"
+              placeholder="Pesquisar catequizando pelo nome..."
+            />
+          </div>
+        </section>
+
+        {}
         <section className="mb-12">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Catequizandos da Minha Turma</h2>
+            <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Meus catequizandos</h2>
             <span className="text-xs bg-slate-200 text-slate-600 font-bold px-2.5 py-1 rounded-full">Exibindo 6</span>
           </div>
 
@@ -305,7 +292,7 @@ function MineCatechumens() {
         <p className="text-[0.8rem] font-bold text-slate-800 mb-0.5">SPC — Sistema de Presença da Catequese</p>
         <p className="text-[0.72rem] text-slate-400 font-medium">Versão 2.1 • Desenvolvido com carinho para as paróquias e comunidades</p>
       </footer>
-    </main>
+    </div>
   );
 }
 

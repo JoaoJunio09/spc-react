@@ -27,7 +27,7 @@ function ConfirmPresence() {
 	const { username } = useAuthContext();
 
 	async function handleConfirm() {
-		if (!massId || !catechistId || catechumensConfirm?.length === 0 || catechumensConfirm === null) {
+		if (!massId || catechumensConfirm?.length === 0 || catechumensConfirm === null) {
 			toast.error('Dados inválidos para confirmar presença');
 			return;
 		}

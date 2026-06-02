@@ -18,10 +18,16 @@ function Presences() {
     errorPresences,
     filterMasses,
     filterByFullName,
-    filterByMass
+    filterByMass,
+    titleLiturgicalCalendar,
+    previous
   } = usePresences();
 
 	useEffect(() => {
+    if (titleLiturgicalCalendar === '') {
+      previous();
+    }
+
 		if (loadingLiturgicalCalendar) {
 			toast.loading('Carregando Missas');
 		}
@@ -32,14 +38,18 @@ function Presences() {
 		if (errorLiturgicalCalendar) {
 			toast.error('Erro ao carregar as missas do calendário litúrgico');
 		}
-	}, [loadingLiturgicalCalendar, errorLiturgicalCalendar]);
+
+    if (errorPresences) {
+			toast.error('Erro ao carregar as presenças');
+		}
+	}, [loadingLiturgicalCalendar, errorLiturgicalCalendar, errorPresences, titleLiturgicalCalendar]);
 
 	function handleFilterMasses(e: React.ChangeEvent<HTMLSelectElement>) {
 		filterMasses(e.target.value);
 	}
 
   return (
-    <main className="w-full max-w-[1100px] mx-auto px-6 overflow-x-hidden">
+    <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       <section className="pt-12 pb-8">
         <h2 className="text-[2rem] font-extrabold uppercase text-[var(--text-main)]">
           HISTÓRICO DE PRESENÇAS
@@ -61,12 +71,13 @@ function Presences() {
 
           <div className="relative flex items-center">
             <select
-              name="liturgicalCalendar"
-              id="liturgicalCalendar"
               className="w-full appearance-none rounded-xl border-2 border-[#E2E8F0] bg-[#F8FAFC] px-[18px] py-[14px] text-[1.1rem] font-semibold text-[var(--text-main)] transition-all duration-200 cursor-pointer focus:border-[var(--primary)] focus:bg-white focus:outline-none focus:shadow-[0_0_0_4px_rgba(245,158,11,0.15)]"
-							onChange={(e) => handleFilterMasses(e)}
+              id="liturgicalCalendar"
+              name="liturgicalCalendar"
+              value={titleLiturgicalCalendar}
+							onChange={handleFilterMasses}
 						>
-							<option hidden>Selecione uma Missa</option>
+							<option value='' disabled>Selecione uma Missa</option>
 							{liturgicalCalendars.map((liturgicalCalendar: LiturgicalCalendarResponse) => (
 								<option key={liturgicalCalendar.id} value={liturgicalCalendar.title}>{liturgicalCalendar.title}</option>
 							))}

@@ -1,5 +1,6 @@
 import type { LiturgicalCalendarResponse } from "../data/liturgicalCalendar/LiturgicalCalendarResponse";
 import type { ParamsLiturgicalCalendarAPI } from "../data/liturgicalCalendar/ParamsLiturgicalCalendarAPI";
+import InternalServerError from "../exceptions/server/InternalServerError";
 import api from "./api";
 
 class LiturgicalCalendarService {
@@ -13,7 +14,7 @@ class LiturgicalCalendarService {
 
 	public async getAll(params: ParamsLiturgicalCalendarAPI) {
 		try {
-			const response = api.get<LiturgicalCalendarResponse[]>(this.BASE_URL, {
+			const response = await api.get<LiturgicalCalendarResponse[]>(this.BASE_URL, {
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Bearer ${this.accessToken}`
@@ -21,11 +22,32 @@ class LiturgicalCalendarService {
 				params
 			});
 
-			if ((await response).status === 500) {
-				// throw new Exceptions.InternalServerError('Erro ao carregar as Missas');
+			if (response.status === 500) {
+				throw new InternalServerError('Erro ao carregar calendário litúrgico');
 			}
 
-			return (await response).data;
+			return response.data;
+		}
+		catch (err) {
+			throw err;
+		}
+	}
+
+	public async previous() {
+		const URL = `${this.BASE_URL}/previous`;
+		try {
+			const response = await api.get<LiturgicalCalendarResponse>(URL, {
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
+				}
+			});
+
+			if (response.status === 500) {
+				throw new InternalServerError('Erro ao carregar última data do calendário litúrgico');
+			}
+
+			return response.data;
 		}
 		catch (err) {
 			throw err;

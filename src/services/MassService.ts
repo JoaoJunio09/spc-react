@@ -91,6 +91,7 @@ class MassService {
 			return response.data;
 		}
 		catch (err: any) {
+			console.log(mass)
 			if (err?.response?.status === 500) {
 				throw new InternalServerError('Erro ao registrar Missa');
 			}
