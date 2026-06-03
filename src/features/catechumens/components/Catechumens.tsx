@@ -5,6 +5,8 @@ import useLoadSelectFilter from '../hooks/useLoadSelectFilter';
 import '../styles/catechumens.css';
 import AllCatechumens from './AllCatechumens';
 import MineCatechumens from './MineCatechumens';
+import { Spool } from 'lucide-react';
+import useCatechumens from '../hooks/useCatechumens';
 
 type CatechumensScope = {
 	scope: 'mine' | 'all'
@@ -19,6 +21,10 @@ function Catechumens({ scope }: CatechumensScope) {
 		loading,
 		error
 	} = useFilter();
+	const {
+		loadCatechumensByCatechist,
+		catechumens: mineCatechumens
+	} = useCatechumens();
 
 	function handleFilter(e: React.ChangeEvent<HTMLSelectElement>) {
 		const value = e.target.value.split('-');
@@ -29,6 +35,14 @@ function Catechumens({ scope }: CatechumensScope) {
 		setStepId(Number(stepId));
 		setCatechistId(Number(catechistId));
 	}
+
+	useEffect(() => {
+		if (scope === 'mine') {
+			loadCatechumensByCatechist();
+		} else {
+			
+		}
+	}, []);
 
 	useEffect(() => {
 		if (loading) {
@@ -50,7 +64,7 @@ function Catechumens({ scope }: CatechumensScope) {
 		<div>
 			{
 				scope === 'mine'
-					? <MineCatechumens />
+					? <MineCatechumens catechumens={mineCatechumens} />
 					: <AllCatechumens steps={steps} catechumens={catechumens} handleFilter={handleFilter} />
 			}
 		</div>

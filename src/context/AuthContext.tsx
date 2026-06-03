@@ -4,6 +4,8 @@ import type { AccountCredentials } from "../data/auth/AccountCredentials";
 import type { CatechistCredentials } from "../data/auth/CatechistCredentials";
 import type { Token } from "../data/auth/Token";
 import AuthService from "../services/AuthService";
+import useCatechistService from "../hooks/useCatechistService";
+import CatechistService from "../services/CatechistService";
 
 type AuthContextType = {
 	auth: Token | null;
@@ -43,6 +45,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const fullName = auth?.fullName ?? null;
 
 	const authService = useMemo(() => new AuthService(), []);
+	const catechistService = useMemo(() => new CatechistService(''), []);
 
 	const navigate = useNavigate();
 
@@ -64,8 +67,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		navigate('/inicio');
 	}
 
-	async function signInCatechist(credentials: CatechistCredentials) {
+	async function signInCatechist(credentials: CatechistCredentials) {		
 		const auth = await authService.byCatechist(credentials);
+		const catechist = await catechistService.getAll({ username: auth.username });
 
 		sessionStorage.setItem(
 			'auth',
@@ -73,8 +77,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		)
 		setAuth(auth);
 
-		if (auth.communityOrParish) {
+		if (auth.communityOrParish && catechist) {
 			sessionStorage.setItem('communityOrParish', auth.communityOrParish);
+			sessionStorage.setItem(
+				'catechist',
+				JSON.stringify(catechist[0])
+			);
 		}
 		
 		navigate('/inicio');
