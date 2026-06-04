@@ -14,16 +14,9 @@ import {
 } from 'lucide-react';
 import type { CatechistResponse } from '../../../data/catechist/CatechistResponse';
 import type { CatechumenResponse } from '../../../data/catechumen/CatechumenResponse';
-
-interface Student {
-  id: number;
-  name: string;
-  status: 'good' | 'attention' | 'critical';
-  statusText: string;
-  presences: number;
-  absences: number;
-  frequency: number;
-}
+import type { GeneralDataType } from '../hooks/useCatechumens';
+import LoadingDialog from '../../../components/feedback/LoadingDialog';
+import TopProgressBar from '../../../components/feedback/TopProgressBar';
 
 const Apresentation = () => {
   return (
@@ -47,7 +40,7 @@ const Apresentation = () => {
 type GeneralDataCardProps = {
   icon: React.ReactNode,
   title: string,
-  data: string,
+  data: number | undefined,
   type: 'total_catechumens' | 'frequency' | 'warning' | 'total_masses' | 'masses_occurred'
 }
 
@@ -96,21 +89,27 @@ const GeneralDataCard = ({
             ${type === 'total_masses' || type === 'masses_occurred' ? 'text-xl font-extrabold' : 'text-2xl'}
           `}
         >
-          {data}
+          {type === 'frequency' ? `${data?.toFixed(1)}%` : data}
         </span>
       </div>
     </div>
   )
 }
 
-const GeneralData = () => {
+const GeneralData = ({
+  totalCatechumens,
+  mediumFrequency,
+  attention,
+  totalMasses,
+  massesOccurred
+}: GeneralDataType) => {
   return (
     <section className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-4 mb-10">
       {/* Card Principal 1: Total de Catequizandos */}
       <GeneralDataCard
         icon={<Users className="w-6 h-6" />}
         title='Total de Catequizandos'
-        data='18'
+        data={totalCatechumens}
         type='total_catechumens'
       />
 
@@ -118,7 +117,7 @@ const GeneralData = () => {
       <GeneralDataCard
         icon={<Percent className="w-6 h-6" />}
         title='Frequência Média'
-        data='84%'
+        data={mediumFrequency}
         type='frequency'
       />
 
@@ -126,7 +125,7 @@ const GeneralData = () => {
       <GeneralDataCard
         icon={<AlertTriangle className="w-6 h-6" />}
         title='Em Atenção'
-        data='3'
+        data={attention}
         type='warning'
       />
 
@@ -134,7 +133,7 @@ const GeneralData = () => {
       <GeneralDataCard
         icon={<Church className="w-6 h-6" />}
         title='Total de Missas'
-        data='50'
+        data={totalMasses}
         type='total_masses'
       />
       
@@ -143,7 +142,7 @@ const GeneralData = () => {
       <GeneralDataCard
         icon={<Church className="w-6 h-6" />}
         title='Missas Ocorridas'
-        data='20'
+        data={massesOccurred}
         type='masses_occurred'
       />
     </section>
@@ -168,51 +167,61 @@ const SearchCatechumen = () => {
 }
 
 type CatechumenCardProps = {
-  student: Student
+  catechumen: CatechumenResponse
+  status: string
+  statusText: string
 }
 
 const CatechumenCard = ({
-  student
+  catechumen,
+  status,
+  statusText
 }: CatechumenCardProps) => {
   const badgeColors = {
     good: "bg-emerald-50 text-emerald-700 border-emerald-200",
     attention: "bg-amber-50 text-amber-700 border-amber-200",
     critical: "bg-rose-50 text-rose-700 border-rose-200",
-  }[student.status];
+  }[status];
 
   const progressColors = {
     good: "bg-emerald-500",
     attention: "bg-amber-500",
     critical: "bg-rose-500",
-  }[student.status];
+  }[status];
 
   return (
     <article 
-      key={student.id} 
+      key={catechumen.id} 
       className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between"
     >
       <div>
         {/* Badge do Status individual */}
         <div className="flex items-start justify-between gap-2 mb-4">
           <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-extrabold tracking-wide uppercase border ${badgeColors}`}>
-            {student.statusText}
+            {statusText}
           </span>
         </div>
 
         {/* Nome do Catequizando */}
         <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-tight mb-4">
-          {student.name}
+          {catechumen.firstName} {catechumen.lastName}
         </h3>
 
         {/* Indicadores de Frequência em formato de grid compacto de duas colunas */}
         <div className="grid grid-cols-2 gap-x-4 mb-5 border-t border-b border-slate-100 py-4">
           <div>
             <span className="block text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Presenças</span>
-            <span className="text-xl font-black text-emerald-600">{student.presences}</span>
+            <span className="text-xl font-black text-emerald-600">
+              {/* {student.presences} */}
+              10
+            </span>
           </div>
           <div className="border-l border-slate-100 pl-4">
             <span className="block text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Ausências</span>
-            <span className="text-xl font-black text-rose-500">{student.absences}</span>
+            <span className="text-xl font-black text-rose-500">
+              {/* {student.absences} */}
+              5
+            </span>
           </div>
         </div>
       </div>
@@ -220,14 +229,18 @@ const CatechumenCard = ({
       {/* Progresso de Frequência e Barra visual */}
       <div className="mb-6">
         <div className="flex items-center justify-between text-xs font-bold mb-1.5">
-          <span className="text-slate-400 uppercase tracking-wider">Frequência Atual</span>
-          <span className="text-slate-700">{student.frequency}%</span>
+          <span className="text-slate-400 uppercase tracking-wider">
+            {/* Frequência Atual */}
+          </span>
+          <span className="text-slate-700">
+            {catechumen.currentFrequency}%
+          </span>
         </div>
         {/* Barra de Progresso Real */}
         <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
           <div 
             className={`h-full ${progressColors} rounded-full transition-all duration-500`}
-            style={{ width: `${student.frequency}%` }}
+            style={{ width: `${catechumen.currentFrequency}%` }}
           />
         </div>
       </div>
@@ -242,22 +255,53 @@ const CatechumenCard = ({
 }
 
 type ListMineCatechumensProps = {
-  students: Student[]
+  catechumens: CatechumenResponse[]
 }
 
 const ListMineCatechumens = ({
-  students
+  catechumens
 }: ListMineCatechumensProps) => {
+  function getStatus(catechumen: CatechumenResponse) {
+    if (catechumen.currentFrequency < 50) {
+      return 'critical';
+    }
+    else if (catechumen.currentFrequency < 75) {
+      return 'attention';
+    }
+    else {
+      return 'good';
+    }
+  }
+
+  function getStatusText(catechumen: CatechumenResponse) {
+    if (catechumen.currentFrequency < 50) {
+      return 'Baixa Frequência';
+    }
+    else if (catechumen.currentFrequency < 75) {
+      return 'Atenção';
+    }
+    else {
+      return 'Boa Frequência';
+    }
+  }
+
   return (
     <section className="mb-12">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Meus catequizandos</h2>
-        <span className="text-xs bg-slate-200 text-slate-600 font-bold px-2.5 py-1 rounded-full">Exibindo 6</span>
+        <span className="text-xs bg-slate-200 text-slate-600 font-bold px-2.5 py-1 rounded-full">
+          Exibindo {catechumens.length}
+        </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {students.map((student) => (
-          <CatechumenCard key={student.id} student={student} /> 
+        {catechumens.map((catechumen) => (
+          <CatechumenCard
+            key={catechumen.id}
+            catechumen={catechumen}
+            status={getStatus(catechumen)}
+            statusText={getStatusText(catechumen)}
+          /> 
         ))}
       </div>
     </section>
@@ -265,80 +309,37 @@ const ListMineCatechumens = ({
 }
 
 type MineCatechumensProps = {
-  catechumens: CatechumenResponse[]
+  catechumens: CatechumenResponse[],
+  generalData: GeneralDataType,
+  isLoading: boolean
 }
 
 function MineCatechumens({
-  catechumens
+  catechumens,
+  generalData,
+  isLoading
 }: MineCatechumensProps) {
-  // console.log(catechumens);
-  const students: Student[] = [
-    { 
-      id: 1, 
-      name: "João Pedro Silva", 
-      status: "good", 
-      statusText: "Boa Frequência", 
-      presences: 18, 
-      absences: 2, 
-      frequency: 90 
-    },
-    { 
-      id: 2, 
-      name: "Ana Clara Oliveira", 
-      status: "good", 
-      statusText: "Boa Frequência", 
-      presences: 19, 
-      absences: 1, 
-      frequency: 95 
-    },
-    { 
-      id: 3, 
-      name: "Lucas Santos Rocha", 
-      status: "attention", 
-      statusText: "Atenção", 
-      presences: 13, 
-      absences: 7, 
-      frequency: 65 
-    },
-    { 
-      id: 4, 
-      name: "Mariana Costa Souza", 
-      status: "good", 
-      statusText: "Boa Frequência", 
-      presences: 16, 
-      absences: 4, 
-      frequency: 80 
-    },
-    { 
-      id: 5, 
-      name: "Matheus Henrique Lima", 
-      status: "critical", 
-      statusText: "Baixa Frequência", 
-      presences: 8, 
-      absences: 12, 
-      frequency: 40 
-    },
-    { 
-      id: 6, 
-      name: "Beatriz Alves Rezende", 
-      status: "attention", 
-      statusText: "Atenção", 
-      presences: 11, 
-      absences: 9, 
-      frequency: 55 
-    },
-  ];
-
+  if (!generalData) return;
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased text-left">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {isLoading && (
+          <TopProgressBar />
+        )}
+
         <Apresentation />
 
-        <GeneralData />
+        <GeneralData
+          totalCatechumens={generalData.totalCatechumens}
+          mediumFrequency={generalData.mediumFrequency}
+          attention={generalData.attention}
+          totalMasses={generalData.totalMasses}
+          massesOccurred={generalData.massesOccurred}
+        />
 
         <SearchCatechumen />
         
-        <ListMineCatechumens students={students} />
+        <ListMineCatechumens catechumens={catechumens} />
 
         {/* 
           ==========================================

@@ -1,12 +1,10 @@
 import { useEffect } from 'react';
-import { toast } from 'react-toastify';
+import useCatechumens from '../hooks/useCatechumens';
 import useFilter from '../hooks/useFilter';
 import useLoadSelectFilter from '../hooks/useLoadSelectFilter';
 import '../styles/catechumens.css';
 import AllCatechumens from './AllCatechumens';
 import MineCatechumens from './MineCatechumens';
-import { Spool } from 'lucide-react';
-import useCatechumens from '../hooks/useCatechumens';
 
 type CatechumensScope = {
 	scope: 'mine' | 'all'
@@ -22,9 +20,14 @@ function Catechumens({ scope }: CatechumensScope) {
 		error
 	} = useFilter();
 	const {
-		loadCatechumensByCatechist,
-		catechumens: mineCatechumens
-	} = useCatechumens();
+		generalData,
+		loadCatechist,
+		catechumens: mineCatechumens,
+		search,
+		errorCatechumens,
+		isLoadingCatechumens,
+		isFetchingCatechumens,
+} = useCatechumens();
 
 	function handleFilter(e: React.ChangeEvent<HTMLSelectElement>) {
 		const value = e.target.value.split('-');
@@ -38,33 +41,19 @@ function Catechumens({ scope }: CatechumensScope) {
 
 	useEffect(() => {
 		if (scope === 'mine') {
-			loadCatechumensByCatechist();
-		} else {
-			
+			loadCatechist();
 		}
 	}, []);
-
-	useEffect(() => {
-		if (loading) {
-			toast.loading('Carregando');
-		} else {
-			toast.dismiss();
-		}
-
-		if (error) {
-			toast.error(error);
-		}
-
-		if (errorFilter) {
-			toast.error(errorFilter);
-		}
-	}, [errorFilter, error, loading]);
 
 	return (
 		<div>
 			{
 				scope === 'mine'
-					? <MineCatechumens catechumens={mineCatechumens} />
+					? <MineCatechumens
+							catechumens={mineCatechumens}
+							generalData={generalData}
+							isLoading={isLoadingCatechumens}
+						/>
 					: <AllCatechumens steps={steps} catechumens={catechumens} handleFilter={handleFilter} />
 			}
 		</div>

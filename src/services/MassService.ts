@@ -1,5 +1,6 @@
 import type { MassRequest } from "../data/mass/MassRequest";
 import type { MassResponse } from "../data/mass/MassResponse";
+import type { NumberOfMassesResponse } from "../data/mass/NumberOfMassesResponse";
 import type { ParamsMassAPI } from "../data/mass/ParamsMassAPI";
 
 import ConflictInTheDatabaseException from "../exceptions/database/ConflicInTheDatabaseException";
@@ -73,6 +74,27 @@ class MassService {
 		catch (err: any) {
 			if (err?.response?.status === 500) {
 				throw new InternalServerError('Erro ao tentar obter data das Missas');
+			}
+
+			throw err;
+		}
+	}
+
+	public async getNumberOfMasses() {
+		const URL = `${this.BASE_URL}/numberOfMasses`;
+		try {
+			const response = await api.get<NumberOfMassesResponse>(URL, {
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
+				}
+			});
+
+			return response.data;
+		}
+		catch (err: any) {
+			if (err?.response?.status === 500) {
+				throw new InternalServerError('Erro ao tentar obter a quantidade de Missas');
 			}
 
 			throw err;
