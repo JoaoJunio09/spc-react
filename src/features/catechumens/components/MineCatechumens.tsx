@@ -212,15 +212,13 @@ const CatechumenCard = ({
           <div>
             <span className="block text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Presenças</span>
             <span className="text-xl font-black text-emerald-600">
-              {/* {student.presences} */}
-              10
+              {catechumen.presences}
             </span>
           </div>
           <div className="border-l border-slate-100 pl-4">
             <span className="block text-[0.68rem] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Ausências</span>
             <span className="text-xl font-black text-rose-500">
-              {/* {student.absences} */}
-              5
+              {catechumen.absences}
             </span>
           </div>
         </div>

@@ -8,6 +8,7 @@ import useLiturgicalCalendar from '../hooks/useLiturgicalCalender';
 import usePresences from '../hooks/usePresences';
 import Masses from './Masses';
 import Catechumens from './Catechumens';
+import TopProgressBar from '../../../components/feedback/TopProgressBar';
 
 function Presences() {
 	const { liturgicalCalendars, loading: loadingLiturgicalCalendar, error: errorLiturgicalCalendar } = useLiturgicalCalendar();
@@ -28,13 +29,6 @@ function Presences() {
       previous();
     }
 
-		if (loadingLiturgicalCalendar) {
-			toast.loading('Carregando Missas');
-		}
-		else {
-			toast.dismiss();
-		}
-
 		if (errorLiturgicalCalendar) {
 			toast.error('Erro ao carregar as missas do calendário litúrgico');
 		}
@@ -50,6 +44,10 @@ function Presences() {
 
   return (
     <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-hidden">
+      {loadingPresences && (
+        <TopProgressBar />
+      )}
+
       <section className="pt-12 pb-8">
         <h2 className="text-[2rem] font-extrabold uppercase text-[var(--text-main)]">
           HISTÓRICO DE PRESENÇAS

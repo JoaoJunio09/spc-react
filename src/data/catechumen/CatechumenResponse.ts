@@ -9,5 +9,7 @@ export interface CatechumenResponse {
 	communityOrParish: CommunityOrParish,
 	step: StepByCatechumenResponse,
 	currentFrequency: number,
-	totalFrequency: number
+	totalFrequency: number,
+	presences: number,
+	absences: number
 }
