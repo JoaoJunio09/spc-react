@@ -1,24 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CatechistResponse } from "../../../data/catechist/CatechistResponse";
-import type { NumberOfMassesResponse } from "../../../data/mass/NumberOfMassesResponse";
+import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
+import { emptyPageable } from "../../../data/pageable/Pageable";
+import type { PageableParamsAPI } from "../../../data/pageable/PageableParamsAPI";
 import useCatechumenService from "../../../hooks/useCatechumenService";
 import useDebounce from "../../../hooks/useDebounce";
 import useMassService from "../../../hooks/useMassService";
 import useStepService from "../../../hooks/useStepService";
 
 export type GeneralDataType = {
-	totalCatechumens: number,
-  mediumFrequency: number,
-  attention: number,
-  totalMasses: number,
-  massesOccurred: number,
+	totalCatechumens?: number,
+  mediumFrequency?: number,
+  attention?: number,
+  totalMasses?: number,
+  massesOccurred?: number,
 }
 
-function useCatechumens() {
+function useCatechumens(scope: string) {
 	const [fullName, setFullName] = useState('');
 	const [catechistId, setCatechistId] = useState(0);
-	const [numberOfMasses, setNumberOfMasses] = useState<NumberOfMassesResponse | null>(null);
+	const [pageableParamsAPI, setPageableParamsAPI] = useState<PageableParamsAPI>({
+		page: 0,
+		size: 20,
+		direction: 'asc'
+	});
 
 	const catechumenService = useCatechumenService();
 	const massService = useMassService();
@@ -26,32 +32,18 @@ function useCatechumens() {
 
 	const debouncedName = useDebounce(fullName, 1000);
 
-	const queryCatechumensGeneral = useQuery({
-		queryKey: [
-			'generalData',
-			catechistId
-		],
-		queryFn: () => catechumenService.getAll({
-			catechistId: catechistId ?? undefined
-		}),
-		enabled: !!catechistId,
-		retry: 3
+	useEffect(() => {
+		if (scope === 'mine') {
+			loadCatechist();
+		}
+	}, []);
+
+	const queryNumberOfMasses = useQuery({
+		queryKey: ['numberOfMasses'],
+		queryFn: () => massService.getNumberOfMasses(),
 	});
 
-	const queryCatechumens = useQuery({
-		queryKey: [
-			'catechumens',
-			debouncedName,
-			catechistId
-		],
-		queryFn: ({ signal }) => catechumenService.getAll({
-			catechistId: catechistId ?? undefined,
-			fullName: debouncedName ?? undefined,
-			signal
-		}),
-		enabled: !!debouncedName || !!catechistId,
-		retry: 3
-	});
+	const numberOfMasses = queryNumberOfMasses.data;
 
 	const queryStep = useQuery({
 		queryKey: [
@@ -65,34 +57,90 @@ function useCatechumens() {
 		retry: 3
 	});
 
-	const generalData = useMemo<GeneralDataType>(() => ({
-		totalCatechumens: queryCatechumensGeneral.data?.length ?? 0,
-		mediumFrequency: calculateMediumFrequency() ?? 0,
-		attention: inAttention(),
+	const queryMineCatechumensGeneral = useQuery({
+		queryKey: [
+			'mineGeneralData',
+			catechistId
+		],
+		queryFn: () => catechumenService.getAll({
+			catechistId: catechistId ?? undefined
+		}),
+		enabled: !!catechistId,
+		retry: 3
+	});
+
+	const queryAllCatechumensGeneral = useQuery({
+		queryKey: ['allGeneralData'],
+		queryFn: () => catechumenService.retrieveDashboard(),
+		retry: 3
+	});
+
+	const queryMineCatechumens = useQuery({
+		queryKey: [
+			'mineCatechumens',
+			debouncedName,
+			catechistId
+		],
+		queryFn: ({ signal }) => catechumenService.getAll({
+			catechistId: catechistId ?? undefined,
+			fullName: debouncedName ?? undefined,
+			signal
+		}),
+		enabled: !!debouncedName || !!catechistId,
+		retry: 3
+	});
+
+	const queryAllCatechumens = useQuery({
+		queryKey: [
+			'allCatechumens',
+			pageableParamsAPI.page,
+			debouncedName
+		],
+		queryFn: ({ signal }) => catechumenService.getAll({
+			pageable: pageableParamsAPI,
+			fullName: debouncedName ?? undefined,
+			signal
+		}),
+		retry: 3
+	});
+
+	const generalDataMineCatechumens = useMemo<GeneralDataType>(() => ({
+		totalCatechumens: queryMineCatechumensGeneral.data?._embedded.catechumens.length ?? 0,
+		mediumFrequency: mediumFrequencyMineCatechumens() ?? 0,
+		attention: inAttentionMineCatechumens(),
 		totalMasses: numberOfMasses?.totalMasses ?? 0,
 		massesOccurred: numberOfMasses?.totalMassesToThisToday ?? 0,
 	}), [
-		queryCatechumensGeneral.data,
+		queryMineCatechumensGeneral.data,
 		numberOfMasses
 	]);
 
-	
+	const generalDataAllCatechumens = useMemo<GeneralDataType>(() => ({
+		totalCatechumens: queryAllCatechumensGeneral.data?.total ?? 0,
+		mediumFrequency: queryAllCatechumensGeneral.data?.mediumFrequency ?? 0,
+		attention: queryAllCatechumensGeneral.data?.attention ?? 0,
+		totalMasses: queryAllCatechumensGeneral.data?.totalMasses ?? 0,
+		massesOccurred: queryAllCatechumensGeneral.data?.massesOccurred ?? 0,
+	}), [
+		queryAllCatechumensGeneral.data,
+		numberOfMasses
+	]);
 
-	function calculateMediumFrequency() {
+	function mediumFrequencyMineCatechumens() {
 		let frequency = 0;
-		queryCatechumensGeneral.data?.forEach(catechumen => {
+		queryMineCatechumensGeneral.data?._embedded.catechumens.forEach(catechumen => {
 			frequency += catechumen.currentFrequency;
 		});
-		const size = queryCatechumensGeneral.data?.length;
+		const size = queryMineCatechumensGeneral.data?._embedded.catechumens.length;
 		if (!size) {
 			return;
 		}
 		return frequency / size;
 	}
 
-	function inAttention() {
+	function inAttentionMineCatechumens() {
 		let attention = 0;
-			queryCatechumensGeneral.data?.forEach(catechumen => {
+			queryMineCatechumensGeneral.data?._embedded.catechumens.forEach(catechumen => {
 			if (catechumen.currentFrequency < 50) {
 				attention++;
 			}
@@ -100,7 +148,7 @@ function useCatechumens() {
 		return attention;
 	}
 
-	async function loadCatechist() {
+	function loadCatechist() {
 		let catechist: CatechistResponse | null = null;
 		const catechistStorage = sessionStorage.getItem('catechist');
 
@@ -110,24 +158,47 @@ function useCatechumens() {
 
 		catechist = JSON.parse(catechistStorage);
 		setCatechistId(Number(catechist?.id));
-		const numberOfMasses = await massService.getNumberOfMasses();
-		setNumberOfMasses(numberOfMasses);
 	}
 
 	function search(value: string) {
 		setFullName(value);
 	}
 
+	function selectPage(page: number) {
+		setPageableParamsAPI(prev => ({
+			...prev,
+			page
+		}));	
+	}
+
+	function nextPage() {
+		setPageableParamsAPI(prev => ({
+			...prev,
+			page: (prev.page ?? 0) + 1
+		}));
+		console.log(pageableParamsAPI)
+	}
+
+	function previousPage() {
+		setPageableParamsAPI(prev => ({
+			...prev,
+			page: (prev.page ?? 0) - 1
+		}));	
+	}
+
 	return {
-		generalData,
-		loadCatechist,
-		catechumens: queryCatechumens.data ?? [],
+		selectPage,
+		nextPage,
+		previousPage,
+		generalDataMineCatechumens,
+		generalDataAllCatechumens,
+		mineCatechumens: queryMineCatechumens.data ?? emptyPageable<CatechumenResponse, 'catechumens'>('catechumens'),
+		allCatechumens: queryAllCatechumens.data ?? emptyPageable<CatechumenResponse, 'catechumens'>('catechumens'),
 		steps: queryStep.data,
 		fullName,
 		search,
-		errorCatechumens: queryCatechumens.isError,
-		isLoadingCatechumens: queryCatechumens.isLoading,
-		isFetchingCatechumens: queryCatechumens.isFetching
+		isLoadingMineCatechumens: queryMineCatechumens.isLoading,
+		isLoadingAllCatechumens: queryAllCatechumens.isLoading,
 	}
 }
 

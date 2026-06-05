@@ -1,51 +1,69 @@
-import { Users } from "lucide-react";
-import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
-import type { StepResponse } from "../../../data/step/StepResponse";
-import Select from "./Select";
-import Table from "./Table";
+import TopProgressBar from "../../../components/feedback/TopProgressBar";
+import type { CatechumenPage } from "../../../data/catechumen/CatechumenPage";
+import type { GeneralDataType } from "../hooks/useCatechumens";
+import Apresentation from "./Apresentation";
+import GeneralData from "./GeneralData";
+import ListCatechumens from "./ListCatechumens";
+import SearchCatechumen from "./Search";
 
 type AllCatechumensProps = {
-	steps: StepResponse[],
-	catechumens: CatechumenResponse[],
-	handleFilter: (e: React.ChangeEvent<HTMLSelectElement>) => void
+	pageable: CatechumenPage,
+	selectPage: (page: number) => void,
+	nextPage: () => void,
+	previousPage: () => void,
+	generalData: GeneralDataType | null,
+	isLoading: boolean,
+	fullName: string,
+	search: (value: string) => void
 }
 
 function AllCatechumens({
-	steps,
-	catechumens,
-	handleFilter
+	pageable,
+	selectPage,
+	nextPage,
+	previousPage,
+	generalData,
+	isLoading,
+	fullName,
+	search
 }: AllCatechumensProps) {
+	if (!generalData) return;
 	return (
-		<main className="container-catechumens catequizandos-page">
-			<section className="page-intro">
-				<h1>Catequizandos</h1>
-				<p>Consulte a frequência dos catequizandos filtrando por etapa e catequista.</p>
-			</section>
+		<div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased text-left">
+			<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+				{isLoading && (
+					<TopProgressBar />
+				)}
+				
+				<Apresentation
+          title='Catequizandos da Paróquia'
+          description='Acompanhe a frequência detalhada e a participação de todos os catequizandos nas missas.'
+          stepName={undefined}
+        />
 
-			<section className="toolbar-filtros">
-				<div className="card-filtros">
-					<div className="filtros-main">
-						<div className="filtro-group">
-							<label htmlFor="filtro-etapa">Etapa e Catequista</label>
-							<Select steps={steps} handleFilter={handleFilter} />
-						</div>
-					</div>
-				</div>
-			</section>
+				 <GeneralData
+          totalCatechumens={generalData.totalCatechumens}
+          mediumFrequency={generalData.mediumFrequency}
+          attention={generalData.attention}
+          totalMasses={generalData.totalMasses}
+          massesOccurred={generalData.massesOccurred}
+        />
 
-			<section className="tabela-section">
-				<div className="tabela-container">
-					<Table catechumens={catechumens} />
-				</div>
-				<div className="estado-vazio" id="estado-vazio-filtros" style={{ display: `${catechumens.length === 0 ? 'initial' : 'none'}` }}>
-					<div className="vazio-content">
-						<Users className='vazio-icon' />
-						<h3>Filtre os catequizandos por ETAPA e CATEQUISTA</h3>
-						<p>Selecione uma etapa e um catequista para visualizar os catequizandos e suas frequências.</p>
-					</div>
-				</div>
-			</section>
-		</main>
+				<SearchCatechumen
+          fullName={fullName}
+          search={search}
+        />
+
+				<ListCatechumens
+          pageable={pageable}
+					selectPage={selectPage}
+					nextPage={nextPage}
+					previousPage={previousPage}
+          isLoading={isLoading}
+          clearSearch={search}
+        />  
+			</main>
+		</div>
 	)
 }
 

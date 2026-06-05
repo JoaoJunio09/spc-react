@@ -53,7 +53,7 @@ function Header({ active }: HeaderProps) {
 						{
 							communityOrParish === 'SAO_SEBASTIAO' ? <p>Paróquia <strong>São Sebastião</strong></p> 
 							: (communityOrParish === 'DIVINO_ESPIRITO_SANTO' ? <p>Capela <strong>Divino Espírito Santo</strong></p>
-							: <p>Sistema de Presença da Catequese</p>)
+							: <p>Coordenação <strong>São Sebastião</strong></p>)
 						}
 					</div>
 				</div>

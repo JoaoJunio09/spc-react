@@ -1,7 +1,8 @@
 
-import InternalServerError from "../exceptions/server/InternalServerError";
-import type { CatechumenResponse } from "../data/catechumen/CatechumenResponse";
+import type { CatechumenDashboardResponse } from "../data/catechumen/CatechumenDashboardResponse";
+import type { CatechumenPage } from "../data/catechumen/CatechumenPage";
 import type { ParamsCatechumenAPI } from "../data/catechumen/ParamsCatechumenAPI";
+import InternalServerError from "../exceptions/server/InternalServerError";
 import api from "./api";
 
 class CatechumenService {
@@ -15,22 +16,53 @@ class CatechumenService {
 
 	public async getAll({
 		signal,
+		pageable,
 		...params
 	}: ParamsCatechumenAPI) {
 		try {
-			const response = api.get<CatechumenResponse[]>(this.BASE_URL, {
+			const response = await api.get<CatechumenPage>(this.BASE_URL, {
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Bearer ${this.accessToken}`
 				},
-				params,
+				params: {
+					...params,
+					page: pageable?.page,
+					size: pageable?.size,
+					direction: pageable?.direction
+				},
 				signal
 			});
-			return (await response).data;
+			const data = response.data;
+			return data;
 		}
 		catch (err: any) {
 			if (err.name === 'CanceledError') {
-				return [];
+				// return emptyPageable<CatechumenResponse>();
+			}
+			
+			if (err?.response?.status === 500) {
+      	throw new InternalServerError("Erro ao remover Missa");
+    	}
+
+			throw err;
+		}
+	}
+
+	public async retrieveDashboard() {
+		const URL = `${this.BASE_URL}/dashboard`;
+		try {
+			const response = await api.get<CatechumenDashboardResponse>(URL, {
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
+				}
+			});
+			return response.data;
+		}
+		catch (err: any) {
+			if (err.name === 'CanceledError') {
+				// return emptyPageable<CatechumenResponse>();
 			}
 			
 			if (err?.response?.status === 500) {

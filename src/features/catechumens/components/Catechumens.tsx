@@ -1,8 +1,4 @@
-import { useEffect } from 'react';
 import useCatechumens from '../hooks/useCatechumens';
-import useFilter from '../hooks/useFilter';
-import useLoadSelectFilter from '../hooks/useLoadSelectFilter';
-import '../styles/catechumens.css';
 import AllCatechumens from './AllCatechumens';
 import MineCatechumens from './MineCatechumens';
 
@@ -11,58 +7,45 @@ type CatechumensScope = {
 }
 
 function Catechumens({ scope }: CatechumensScope) {
-	const { steps: stepsFilter, error: errorFilter } = useLoadSelectFilter();
 	const {
-		setStepId,
-		setCatechistId,
-		catechumens,
-		loading,
-		error
-	} = useFilter();
-	const {
-		generalData,
-		loadCatechist,
-		catechumens: mineCatechumens,
+		selectPage,
+		nextPage,
+		previousPage,
+		generalDataMineCatechumens,
+		generalDataAllCatechumens,
+		mineCatechumens,
+		allCatechumens,
 		steps,
 		fullName,
 		search,
-		errorCatechumens,
-		isLoadingCatechumens,
-		isFetchingCatechumens,
-} = useCatechumens();
-
-	function handleFilter(e: React.ChangeEvent<HTMLSelectElement>) {
-		const value = e.target.value.split('-');
-		
-		const stepId = value[0];
-		const catechistId = value[1];
-
-		setStepId(Number(stepId));
-		setCatechistId(Number(catechistId));
-	}
-
-	useEffect(() => {
-		if (scope === 'mine') {
-			loadCatechist();
-		}
-	}, []);
+		isLoadingMineCatechumens,
+		isLoadingAllCatechumens,
+	} = useCatechumens(scope);
 
 	return (
 		<div>
 			{
 				scope === 'mine'
 					? <MineCatechumens
-							catechumens={mineCatechumens}
+							pageable={mineCatechumens}
+							selectPage={selectPage}
+							nextPage={nextPage}
+							previousPage={previousPage}
 							steps={steps}
-							generalData={generalData}
-							isLoading={isFetchingCatechumens}
+							generalData={generalDataMineCatechumens}
+							isLoading={isLoadingMineCatechumens}
 							fullName={fullName}
 							search={search}
 						/>
 					: <AllCatechumens
-							steps={stepsFilter}
-							catechumens={catechumens}
-							handleFilter={handleFilter}
+							pageable={allCatechumens}
+							selectPage={selectPage}
+							nextPage={nextPage}
+							previousPage={previousPage}
+							generalData={generalDataAllCatechumens}
+							isLoading={isLoadingAllCatechumens}
+							fullName={fullName}
+							search={search}
 						/>
 			}
 		</div>
