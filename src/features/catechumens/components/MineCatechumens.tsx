@@ -1,24 +1,26 @@
-import React from 'react';
-import { 
-  Search, 
-  Users, 
-  Percent, 
-  AlertTriangle, 
-  ChevronRight, 
-  Inbox, 
-  Church, 
-  Sparkles,
+import {
+  AlertTriangle,
   BookOpen,
-  Calendar,
-  type LucideProps
+  ChevronRight,
+  Church,
+  Percent,
+  Search,
+  Users
 } from 'lucide-react';
-import type { CatechistResponse } from '../../../data/catechist/CatechistResponse';
-import type { CatechumenResponse } from '../../../data/catechumen/CatechumenResponse';
-import type { GeneralDataType } from '../hooks/useCatechumens';
-import LoadingDialog from '../../../components/feedback/LoadingDialog';
+import React from 'react';
 import TopProgressBar from '../../../components/feedback/TopProgressBar';
+import type { CatechumenResponse } from '../../../data/catechumen/CatechumenResponse';
+import { FormatStep } from '../../../utils/FormatStep';
+import type { GeneralDataType } from '../hooks/useCatechumens';
+import Skeleton from 'react-loading-skeleton';
 
-const Apresentation = () => {
+type ApresentationProps = {
+  stepName: string
+}
+
+const Apresentation = ({
+  stepName
+}: ApresentationProps) => {
   return (
     <div className="mb-8 md:flex md:items-center md:justify-between">
       <div className="max-w-xl flex flex-col items-center md:items-start">
@@ -31,7 +33,28 @@ const Apresentation = () => {
       </div>
       <div className="mt-5 md:mt-0 flex items-center gap-2 text-slate-500 bg-slate-100/80 px-3.5 py-1.5 rounded-xl border border-slate-200">
         <BookOpen className="w-4 h-4 text-amber-600" />
-        <span className="text-xs sm:text-sm font-semibold text-slate-700">Turma • 1ª Etapa</span>
+        <span className="text-xs sm:text-sm font-semibold text-slate-700">
+          Turma • {FormatStep.format(stepName)} 
+        </span>
+      </div>
+    </div>
+  )
+}
+
+const ApresentationSkeleton = () => {
+  return (
+    <div className="mb-8 md:flex md:items-center md:justify-between">
+      <div className="max-w-xl flex flex-col items-center md:items-start">
+        <div className="w-full sm:w-40 md:w-50">
+          <Skeleton className='h-10 md:h-10' />
+        </div>
+
+        <div className="w-full mt-2 sm:w-52 md:w-96 md:mt-0">
+          <Skeleton height={40} />
+        </div>
+      </div>
+      <div className="w-full mt-2 md:w-40 md:mt-0">
+        <Skeleton height={40} />
       </div>
     </div>
   )
@@ -101,7 +124,7 @@ const GeneralData = ({
   mediumFrequency,
   attention,
   totalMasses,
-  massesOccurred
+  massesOccurred,
 }: GeneralDataType) => {
   return (
     <section className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-4 mb-10">
@@ -149,7 +172,15 @@ const GeneralData = ({
   )
 }
 
-const SearchCatechumen = () => {
+type SearchCatechumenProps = {
+  fullName: string,
+  search: (value: string) => void
+}
+
+const SearchCatechumen = ({
+  fullName,
+  search
+}: SearchCatechumenProps) => {
   return (
     <section className="mb-8">
       <div className="relative w-full">
@@ -158,6 +189,10 @@ const SearchCatechumen = () => {
         </div>
         <input
           type="text"
+          id='fullName'
+          name='fullName'
+          value={fullName}
+          onChange={(e) => search(e.target.value)}
           className="block w-full h-14 pl-12 pr-4 text-base bg-white border border-slate-200 rounded-2xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 transition-all shadow-sm"
           placeholder="Pesquisar catequizando pelo nome..."
         />
@@ -170,6 +205,44 @@ type CatechumenCardProps = {
   catechumen: CatechumenResponse
   status: string
   statusText: string
+}
+
+const CatechumenCardSkeleton = () => {
+  return (
+    <article 
+      className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between"
+    >
+      <div>
+        <div className="flex items-start justify-between gap-2 mb-4">
+          <Skeleton height={30} width={130} />
+        </div>
+
+        <Skeleton height={30} width={240} />
+
+        <div className="grid grid-cols-2 gap-x-4 mb-5 border-t border-b border-slate-100 py-4">
+          <div>
+            <Skeleton height={20} width={80} />
+            <Skeleton height={20} width={30} />
+          </div>
+          <div className="border-l border-slate-100 pl-4">
+            <Skeleton height={20} width={80} />
+            <Skeleton height={20} width={30} />
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <div className="flex items-center justify-between text-xs font-bold mb-1.5">
+          <span className="text-slate-400 uppercase tracking-wider">
+          </span>
+          <Skeleton height={20} width={30} />
+        </div>
+       <Skeleton borderRadius={10} height={12} width={240} />
+      </div>
+
+      <Skeleton borderRadius={10} height={40} width={240} />
+    </article>
+  )
 }
 
 const CatechumenCard = ({
@@ -286,21 +359,29 @@ const ListMineCatechumens = ({
   return (
     <section className="mb-12">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Meus catequizandos</h2>
+        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+          {catechumens.length > 0 ? 'Meus catequizandos' : 'Carregando'}
+        </h2>
         <span className="text-xs bg-slate-200 text-slate-600 font-bold px-2.5 py-1 rounded-full">
           Exibindo {catechumens.length}
         </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {catechumens.map((catechumen) => (
-          <CatechumenCard
-            key={catechumen.id}
-            catechumen={catechumen}
-            status={getStatus(catechumen)}
-            statusText={getStatusText(catechumen)}
-          /> 
-        ))}
+        {
+          catechumens.length > 0
+          ? catechumens.map((catechumen) => (
+              <CatechumenCard
+                key={catechumen.id}
+                catechumen={catechumen}
+                status={getStatus(catechumen)}
+                statusText={getStatusText(catechumen)}
+              /> 
+            ))
+          : Array.from({ length: 4 }).map((_, index) => (
+              <CatechumenCardSkeleton key={index} />
+            ))
+        }
       </div>
     </section>
   )
@@ -308,14 +389,18 @@ const ListMineCatechumens = ({
 
 type MineCatechumensProps = {
   catechumens: CatechumenResponse[],
-  generalData: GeneralDataType,
-  isLoading: boolean
+  generalData: GeneralDataType | null,
+  isLoading: boolean,
+  fullName: string,
+  search: (value: string) => void
 }
 
 function MineCatechumens({
   catechumens,
   generalData,
-  isLoading
+  isLoading,
+  fullName,
+  search
 }: MineCatechumensProps) {
   if (!generalData) return;
   return (
@@ -325,7 +410,11 @@ function MineCatechumens({
           <TopProgressBar />
         )}
 
-        <Apresentation />
+        {
+          catechumens.length > 0
+            ? <Apresentation stepName={catechumens[0].step.stepName} />
+            : <Apresentation stepName={''} />
+        }
 
         <GeneralData
           totalCatechumens={generalData.totalCatechumens}
@@ -335,33 +424,12 @@ function MineCatechumens({
           massesOccurred={generalData.massesOccurred}
         />
 
-        <SearchCatechumen />
+        <SearchCatechumen
+          fullName={fullName}
+          search={search}
+        />
         
-        <ListMineCatechumens catechumens={catechumens} />
-
-        {/* 
-          ==========================================
-          ESTADO VAZIO (COMENTADO PARA DEMONSTRAÇÃO)
-          ==========================================
-          Para fins de testes de renderização do estado vazio, basta habilitar o trecho abaixo:
-        */}
-        {/* 
-        <section className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm text-center max-w-lg mx-auto my-12 animate-fade-in">
-          <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-400">
-            <Inbox className="w-8 h-8" />
-          </div>
-          <h3 className="text-lg font-black text-slate-900 tracking-tight mb-2">
-            Nenhum catequizando encontrado
-          </h3>
-          <p className="text-sm text-slate-500 font-medium leading-relaxed mb-6">
-            Não há catequizandos cadastrados que correspondam à sua pesquisa ou que estejam vinculados a você nesta etapa da catequese.
-          </p>
-          <button className="h-11 bg-amber-500 text-white font-extrabold px-6 rounded-xl text-sm shadow-md hover:bg-amber-600 transition-all cursor-pointer">
-            Limpar Busca
-          </button>
-        </section> 
-        */}
-
+        <ListMineCatechumens catechumens={catechumens} />     
       </main>
     </div>
   );

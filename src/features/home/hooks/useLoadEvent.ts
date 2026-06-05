@@ -13,7 +13,6 @@ export type Event = {
 	massDate?: string,
 	massLocation?: string,
 	title?: string,
-	isRegisteredPresence?: boolean | undefined,
 	isEvent: boolean
 }
 
@@ -38,7 +37,6 @@ function useLoadEvent({ masses, presences }: UseLoadEventProps){
 					title: mass.title,
 					massDate: dateMontage(mass),
 					massLocation: locationMontage(mass),
-					isRegisteredPresence: catechistRegisteredPresence(presences, mass.id),
 					isEvent: true
 				});
 			}
@@ -79,20 +77,6 @@ function dateMontage(mass: MassResponse): string {
 
 function locationMontage(mass: MassResponse) {
 	return `${UtilsDate.formatDateTimeThisMissaForTime(mass.dateTime)}h, na ${mass.location === "MATRIZ" ? "Matriz" : "Capela do Divino"}`;
-}
-
-function catechistRegisteredPresence(presences: PresenceResponse[], massId: number): boolean | undefined {
-	const catechistStorage = sessionStorage.getItem('catechist');
-	if (!catechistStorage) return;
-
-	const catechist = JSON.parse(catechistStorage);
-
-	if (!presences) return;
-	
-	return presences.some(p => 
-		p.mass.id === massId &&
-		p.catechist.id === catechist.id
-	);
 }
 
 export default useLoadEvent;

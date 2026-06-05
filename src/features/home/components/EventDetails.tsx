@@ -14,7 +14,7 @@ function EventDetails({ events }: EventCalendarProps) {
 					?
 						<div
 							key={event.massId}
-							className={`event-card mass-card ${event.isRegisteredPresence && 'event-card-register-presence'}`}
+							className='event-card mass-card'
 							mass-date={event.massId}
 						>
 							<div>
@@ -36,11 +36,11 @@ function EventDetails({ events }: EventCalendarProps) {
 								</div>
 								<div className="flex flex-col gap-3">
 									<button
-										className={`btn-primary btn-register-presence ${event.isRegisteredPresence ? 'btn-primary-register-presence' : ''}`}
+										className='btn-primary btn-register-presence'
 										id="btn-register-attendance"
 									>
 										<Link to={`/presencas/registrar/${event.massId}`}>
-											{event.isRegisteredPresence ? 'Presença na Missa já foi registrada' : 'Registrar Presença'}
+											Registrar Presença
 										</Link>
 									</button>
 								</div>

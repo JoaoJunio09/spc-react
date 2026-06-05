@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { CatechistResponse } from "../../../data/catechist/CatechistResponse";
+import type { NumberOfMassesResponse } from "../../../data/mass/NumberOfMassesResponse";
 import useCatechumenService from "../../../hooks/useCatechumenService";
 import useDebounce from "../../../hooks/useDebounce";
 import useMassService from "../../../hooks/useMassService";
-import type { NumberOfMassesResponse } from "../../../data/mass/NumberOfMassesResponse";
 
 export type GeneralDataType = {
 	totalCatechumens: number,
@@ -15,7 +15,6 @@ export type GeneralDataType = {
 }
 
 function useCatechumens() {
-	const [isLoading, setIsLoading] = useState(false);
 	const [fullName, setFullName] = useState('');
 	const [catechistId, setCatechistId] = useState(0);
 	const [numberOfMasses, setNumberOfMasses] = useState<NumberOfMassesResponse | null>(null);
@@ -23,7 +22,19 @@ function useCatechumens() {
 	const catechumenService = useCatechumenService();
 	const massService = useMassService();
 
-	const debouncedName = useDebounce(fullName, 2000);
+	const debouncedName = useDebounce(fullName, 1000);
+
+	const queryCatechumensGeneral = useQuery({
+		queryKey: [
+			'generalData',
+			catechistId
+		],
+		queryFn: () => catechumenService.getAll({
+			catechistId: catechistId ?? undefined
+		}),
+		enabled: !!catechistId,
+		retry: 3
+	});
 
 	const queryCatechumens = useQuery({
 		queryKey: [
@@ -31,32 +42,32 @@ function useCatechumens() {
 			debouncedName,
 			catechistId
 		],
-		queryFn: async () => {
-  await new Promise(resolve => setTimeout(resolve, 3000));
-
-  return catechumenService.getAll({
-    catechistId: catechistId ?? undefined,
-    fullName: debouncedName ?? undefined
-  });
-},
+		queryFn: ({ signal }) => catechumenService.getAll({
+			catechistId: catechistId ?? undefined,
+			fullName: debouncedName ?? undefined,
+			signal
+		}),
 		enabled: !!debouncedName || !!catechistId,
 		retry: 3
 	});
 
-	const generalData: GeneralDataType = {
-		totalCatechumens: queryCatechumens.data?.length ?? 0,
+	const generalData = useMemo<GeneralDataType>(() => ({
+		totalCatechumens: queryCatechumensGeneral.data?.length ?? 0,
 		mediumFrequency: calculateMediumFrequency() ?? 0,
 		attention: inAttention(),
 		totalMasses: numberOfMasses?.totalMasses ?? 0,
 		massesOccurred: numberOfMasses?.totalMassesToThisToday ?? 0
-	};
+	}), [
+		queryCatechumensGeneral.data,
+		numberOfMasses
+	]);
 
 	function calculateMediumFrequency() {
 		let frequency = 0;
-		queryCatechumens.data?.forEach(catechumen => {
+		queryCatechumensGeneral.data?.forEach(catechumen => {
 			frequency += catechumen.currentFrequency;
 		});
-		const size = queryCatechumens.data?.length;
+		const size = queryCatechumensGeneral.data?.length;
 		if (!size) {
 			return;
 		}
@@ -65,7 +76,7 @@ function useCatechumens() {
 
 	function inAttention() {
 		let attention = 0;
-		queryCatechumens.data?.forEach(catechumen => {
+		queryCatechumensGeneral.data?.forEach(catechumen => {
 			if (catechumen.currentFrequency < 50) {
 				attention++;
 			}
@@ -95,6 +106,7 @@ function useCatechumens() {
 		generalData,
 		loadCatechist,
 		catechumens: queryCatechumens.data ?? [],
+		fullName,
 		search,
 		errorCatechumens: queryCatechumens.isError,
 		isLoadingCatechumens: queryCatechumens.isLoading,

@@ -23,6 +23,7 @@ function Catechumens({ scope }: CatechumensScope) {
 		generalData,
 		loadCatechist,
 		catechumens: mineCatechumens,
+		fullName,
 		search,
 		errorCatechumens,
 		isLoadingCatechumens,
@@ -53,8 +54,14 @@ function Catechumens({ scope }: CatechumensScope) {
 							catechumens={mineCatechumens}
 							generalData={generalData}
 							isLoading={isLoadingCatechumens}
+							fullName={fullName}
+							search={search}
 						/>
-					: <AllCatechumens steps={steps} catechumens={catechumens} handleFilter={handleFilter} />
+					: <AllCatechumens
+							steps={steps}
+							catechumens={catechumens}
+							handleFilter={handleFilter}
+						/>
 			}
 		</div>
 	)
