@@ -3,24 +3,28 @@ import {
   BookOpen,
   ChevronRight,
   Church,
+  Inbox,
   Percent,
   Search,
   Users
 } from 'lucide-react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import TopProgressBar from '../../../components/feedback/TopProgressBar';
 import type { CatechumenResponse } from '../../../data/catechumen/CatechumenResponse';
 import { FormatStep } from '../../../utils/FormatStep';
 import type { GeneralDataType } from '../hooks/useCatechumens';
 import Skeleton from 'react-loading-skeleton';
+import type { CatechistResponse } from '../../../data/catechist/CatechistResponse';
+import type { StepResponse } from '../../../data/step/StepResponse';
 
 type ApresentationProps = {
-  stepName: string
+  stepName: string | undefined
 }
 
 const Apresentation = ({
   stepName
 }: ApresentationProps) => {
+  if (!stepName) return;
   return (
     <div className="mb-8 md:flex md:items-center md:justify-between">
       <div className="max-w-xl flex flex-col items-center md:items-start">
@@ -124,7 +128,7 @@ const GeneralData = ({
   mediumFrequency,
   attention,
   totalMasses,
-  massesOccurred,
+  massesOccurred
 }: GeneralDataType) => {
   return (
     <section className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-4 mb-10">
@@ -325,12 +329,44 @@ const CatechumenCard = ({
   )
 }
 
+type EmptyStateProps = {
+  clearSearch: (value: string) => void
+}
+
+const EmptyState = ({
+  clearSearch
+}: EmptyStateProps) => {
+  return (
+    <section className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm text-center max-w-lg mx-auto my-12 animate-fade-in">
+      <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-400">
+        <Inbox className="w-8 h-8" />
+      </div>
+      <h3 className="text-lg font-black text-slate-900 tracking-tight mb-2">
+        Nenhum catequizando encontrado
+      </h3>
+      <p className="text-sm text-slate-500 font-medium leading-relaxed mb-6">
+        Não há catequizandos cadastrados que correspondam à sua pesquisa ou que estejam vinculados a você nesta etapa da catequese.
+      </p>
+      <button
+        className="h-11 bg-amber-500 text-white font-extrabold px-6 rounded-xl text-sm shadow-md hover:bg-amber-600 transition-all cursor-pointer"
+        onClick={() => clearSearch('')}  
+      >
+        Limpar Busca
+      </button>
+    </section>
+  )
+}
+
 type ListMineCatechumensProps = {
-  catechumens: CatechumenResponse[]
+  catechumens: CatechumenResponse[],
+  isLoading: boolean,
+  clearSearch: (value: string) => void
 }
 
 const ListMineCatechumens = ({
-  catechumens
+  catechumens,
+  isLoading,
+  clearSearch
 }: ListMineCatechumensProps) => {
   function getStatus(catechumen: CatechumenResponse) {
     if (catechumen.currentFrequency < 50) {
@@ -359,9 +395,7 @@ const ListMineCatechumens = ({
   return (
     <section className="mb-12">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">
-          {catechumens.length > 0 ? 'Meus catequizandos' : 'Carregando'}
-        </h2>
+        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Meus catequizandos</h2>
         <span className="text-xs bg-slate-200 text-slate-600 font-bold px-2.5 py-1 rounded-full">
           Exibindo {catechumens.length}
         </span>
@@ -369,8 +403,11 @@ const ListMineCatechumens = ({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {
-          catechumens.length > 0
-          ? catechumens.map((catechumen) => (
+          isLoading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <CatechumenCardSkeleton key={index} />
+            ))
+          : catechumens.map((catechumen) => (
               <CatechumenCard
                 key={catechumen.id}
                 catechumen={catechumen}
@@ -378,17 +415,19 @@ const ListMineCatechumens = ({
                 statusText={getStatusText(catechumen)}
               /> 
             ))
-          : Array.from({ length: 4 }).map((_, index) => (
-              <CatechumenCardSkeleton key={index} />
-            ))
         }
       </div>
+
+      {catechumens.length === 0 && !isLoading && (
+        <EmptyState clearSearch={clearSearch} />
+      )}
     </section>
   )
 }
 
 type MineCatechumensProps = {
   catechumens: CatechumenResponse[],
+  steps: StepResponse[] | undefined,
   generalData: GeneralDataType | null,
   isLoading: boolean,
   fullName: string,
@@ -397,12 +436,15 @@ type MineCatechumensProps = {
 
 function MineCatechumens({
   catechumens,
+  steps,
   generalData,
   isLoading,
   fullName,
   search
 }: MineCatechumensProps) {
   if (!generalData) return;
+  if (!steps) return;
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased text-left">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -410,11 +452,9 @@ function MineCatechumens({
           <TopProgressBar />
         )}
 
-        {
-          catechumens.length > 0
-            ? <Apresentation stepName={catechumens[0].step.stepName} />
-            : <Apresentation stepName={''} />
-        }
+        <Apresentation
+          stepName={steps[0].stepName}
+        />
 
         <GeneralData
           totalCatechumens={generalData.totalCatechumens}
@@ -429,7 +469,11 @@ function MineCatechumens({
           search={search}
         />
         
-        <ListMineCatechumens catechumens={catechumens} />     
+        <ListMineCatechumens
+          catechumens={catechumens}
+          isLoading={isLoading}
+          clearSearch={search}
+        />     
       </main>
     </div>
   );

@@ -5,13 +5,14 @@ import type { NumberOfMassesResponse } from "../../../data/mass/NumberOfMassesRe
 import useCatechumenService from "../../../hooks/useCatechumenService";
 import useDebounce from "../../../hooks/useDebounce";
 import useMassService from "../../../hooks/useMassService";
+import useStepService from "../../../hooks/useStepService";
 
 export type GeneralDataType = {
 	totalCatechumens: number,
   mediumFrequency: number,
   attention: number,
   totalMasses: number,
-  massesOccurred: number
+  massesOccurred: number,
 }
 
 function useCatechumens() {
@@ -21,6 +22,7 @@ function useCatechumens() {
 
 	const catechumenService = useCatechumenService();
 	const massService = useMassService();
+	const stepService = useStepService();
 
 	const debouncedName = useDebounce(fullName, 1000);
 
@@ -51,16 +53,30 @@ function useCatechumens() {
 		retry: 3
 	});
 
+	const queryStep = useQuery({
+		queryKey: [
+			'step',
+			catechistId
+		],
+		queryFn: () => stepService.getAll({
+			catechistId: catechistId ?? undefined
+		}),
+		enabled: !!catechistId,
+		retry: 3
+	});
+
 	const generalData = useMemo<GeneralDataType>(() => ({
 		totalCatechumens: queryCatechumensGeneral.data?.length ?? 0,
 		mediumFrequency: calculateMediumFrequency() ?? 0,
 		attention: inAttention(),
 		totalMasses: numberOfMasses?.totalMasses ?? 0,
-		massesOccurred: numberOfMasses?.totalMassesToThisToday ?? 0
+		massesOccurred: numberOfMasses?.totalMassesToThisToday ?? 0,
 	}), [
 		queryCatechumensGeneral.data,
 		numberOfMasses
 	]);
+
+	
 
 	function calculateMediumFrequency() {
 		let frequency = 0;
@@ -76,7 +92,7 @@ function useCatechumens() {
 
 	function inAttention() {
 		let attention = 0;
-		queryCatechumensGeneral.data?.forEach(catechumen => {
+			queryCatechumensGeneral.data?.forEach(catechumen => {
 			if (catechumen.currentFrequency < 50) {
 				attention++;
 			}
@@ -106,6 +122,7 @@ function useCatechumens() {
 		generalData,
 		loadCatechist,
 		catechumens: queryCatechumens.data ?? [],
+		steps: queryStep.data,
 		fullName,
 		search,
 		errorCatechumens: queryCatechumens.isError,

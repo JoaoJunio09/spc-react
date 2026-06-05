@@ -11,7 +11,7 @@ type CatechumensScope = {
 }
 
 function Catechumens({ scope }: CatechumensScope) {
-	const { steps, error: errorFilter } = useLoadSelectFilter();
+	const { steps: stepsFilter, error: errorFilter } = useLoadSelectFilter();
 	const {
 		setStepId,
 		setCatechistId,
@@ -23,6 +23,7 @@ function Catechumens({ scope }: CatechumensScope) {
 		generalData,
 		loadCatechist,
 		catechumens: mineCatechumens,
+		steps,
 		fullName,
 		search,
 		errorCatechumens,
@@ -52,13 +53,14 @@ function Catechumens({ scope }: CatechumensScope) {
 				scope === 'mine'
 					? <MineCatechumens
 							catechumens={mineCatechumens}
+							steps={steps}
 							generalData={generalData}
-							isLoading={isLoadingCatechumens}
+							isLoading={isFetchingCatechumens}
 							fullName={fullName}
 							search={search}
 						/>
 					: <AllCatechumens
-							steps={steps}
+							steps={stepsFilter}
 							catechumens={catechumens}
 							handleFilter={handleFilter}
 						/>
