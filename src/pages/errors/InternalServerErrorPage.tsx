@@ -7,7 +7,8 @@ import {
 	Server
 } from 'lucide-react';
 import React from 'react';
-import type InternalServerError from '../exceptions/server/InternalServerError';
+import type InternalServerError from '../../exceptions/server/InternalServerError';
+import { Link } from 'react-router-dom';
 
 // ==========================================
 // COMPONENTE: ErrorIllustration
@@ -78,17 +79,21 @@ const ErrorActions: React.FC = () => (
       type="button" 
       className="w-full border-none sm:flex-1 h-12 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-xl text-[0.95rem] font-bold shadow-md hover:shadow-lg shadow-orange-600/10 hover:shadow-orange-600/20 hover:-translate-y-0.5 hover:brightness-[1.05] active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
     >
-      <RefreshCw className="w-4.5 h-4.5" />
-      Tentar novamente
+      <Link className='flex items-center justify-center gap-2 cursor-pointer' to='/'>
+        <RefreshCw className="w-4.5 h-4.5 " />
+        Tentar novamente
+      </Link>
     </button>
     
     {/* Botão Secundário: Voltar ao Início */}
     <button 
       type="button" 
-      className="w-full sm:flex-1 h-12 bg-white border-2 border-slate-200 text-slate-600 hover:text-slate-800 hover:bg-slate-50 rounded-xl text-[0.95rem] font-bold hover:border-slate-300 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+      className="w-full sm:flex-1 h-12 bg-white border-2 border-slate-200  hover:text-slate-800 hover:bg-slate-50 rounded-xl text-[0.95rem] font-bold hover:border-slate-300 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
     >
-      <Home className="w-4.5 h-4.5" />
-      Voltar ao início
+      <Link className='text-slate-600 flex items-center justify-center gap-2 cursor-pointer' to='/'>
+        <Home className="w-4.5 h-4.5" />
+        Voltar ao início
+      </Link>
     </button>
   </div>
 );
@@ -132,12 +137,6 @@ function InternalServerErrorPage() {
           <HelpSection />
         </div>
       </main>
-
-      {/* RODAPÉ DO SISTEMA */}
-      <footer className="w-full text-center py-4 relative z-10">
-        <p className="text-[0.8rem] font-semibold text-slate-800 mb-0.5">SPC — Sistema de Presença da Catequese</p>
-        <p className="text-[0.72rem] text-slate-400 font-medium">Desenvolvido com carinho para as paróquias e comunidades</p>
-      </footer>
 
       {/* Estilos Auxiliares Locais para Animação de Entrada e Reset */}
       <style>{`

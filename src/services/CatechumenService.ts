@@ -1,6 +1,7 @@
 
 import type { CatechumenDashboardResponse } from "../data/catechumen/CatechumenDashboardResponse";
 import type { CatechumenPage } from "../data/catechumen/CatechumenPage";
+import type { CatechumenResponse } from "../data/catechumen/CatechumenResponse";
 import type { ParamsCatechumenAPI } from "../data/catechumen/ParamsCatechumenAPI";
 import InternalServerError from "../exceptions/server/InternalServerError";
 import api from "./api";
@@ -65,6 +66,26 @@ class CatechumenService {
 				// return emptyPageable<CatechumenResponse>();
 			}
 			
+			if (err?.response?.status === 500) {
+      	throw new InternalServerError("Erro ao remover Missa");
+    	}
+
+			throw err;
+		}
+	}
+
+	public async getById(id: number) {
+		const URL = `${this.BASE_URL}/${id}`;
+		try {
+			const response = await api.get<CatechumenResponse>(URL, {
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${this.accessToken}`
+				}
+			});
+			return response.data;
+		}
+		catch (err: any) {
 			if (err?.response?.status === 500) {
       	throw new InternalServerError("Erro ao remover Missa");
     	}

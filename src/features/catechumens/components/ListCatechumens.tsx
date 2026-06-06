@@ -1,10 +1,9 @@
 import { BookOpen, ChevronLeft, ChevronRight, Inbox, Users } from "lucide-react";
-import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 import type { CatechumenPage } from "../../../data/catechumen/CatechumenPage";
 import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
 import { FormatStep } from "../../../utils/FormatStep";
-import { Link } from "react-router-dom";
 
 const CatechumenCardSkeleton = () => {
   return (
@@ -149,7 +148,7 @@ const CatechumenCard = ({
 
       {/* Ação: Ver Histórico Completo */}
       <button className="w-full mt-2 h-10 bg-slate-50 border border-slate-200 hover:bg-amber-50/50 hover:border-amber-300 hover:text-amber-700 text-slate-600 rounded-xl text-xs sm:text-sm font-bold transition-all">
-        <Link to='/presencas/individual' className="text-slate-600 flex items-center justify-center gap-1.5 cursor-pointer">
+        <Link to={`/catequizando/${catechumen.id}/presencas`} className="text-slate-600 flex items-center justify-center gap-1.5 cursor-pointer">
           Ver Histórico Completo
           <ChevronRight className="w-4 h-4" />
         </Link>

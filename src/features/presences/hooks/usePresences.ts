@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useDebounce from "../../../hooks/useDebounce";
+import useLiturgicalCalendarService from "../../../hooks/useLiturgicalCalendarService";
 import useMassService from "../../../hooks/useMassService";
 import usePresenceService from "../../../hooks/usePresenceService";
-import useLiturgicalCalendarService from "../../../hooks/useLiturgicalCalendarService";
 
 function usePresences() {
 	const [titleLiturgicalCalendar, setTitleLigurticalCalendar] = useState<string>('');

@@ -2,14 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { usePresenceContext } from "../../../context/PresenceContext";
+import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
+import type { MassResponse } from "../../../data/mass/MassResponse";
+import { emptyPageable } from "../../../data/pageable/Pageable";
 import useCatechumenService from "../../../hooks/useCatechumenService";
 import useDebounce from "../../../hooks/useDebounce";
 import useMassService from "../../../hooks/useMassService";
 import usePresenceService from "../../../hooks/usePresenceService";
-import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
-import type { MassResponse } from "../../../data/mass/MassResponse";
-import { emptyPageable } from "../../../data/pageable/Pageable";
-import type { CatechumenPage } from "../../../data/catechumen/CatechumenPage";
 
 function useRegisterPresence() {
 	const [fullName, setFullName]						= useState<string>('');
