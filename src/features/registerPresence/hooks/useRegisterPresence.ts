@@ -8,6 +8,8 @@ import useMassService from "../../../hooks/useMassService";
 import usePresenceService from "../../../hooks/usePresenceService";
 import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
 import type { MassResponse } from "../../../data/mass/MassResponse";
+import { emptyPageable } from "../../../data/pageable/Pageable";
+import type { CatechumenPage } from "../../../data/catechumen/CatechumenPage";
 
 function useRegisterPresence() {
 	const [fullName, setFullName]						= useState<string>('');
@@ -123,7 +125,7 @@ function useRegisterPresence() {
 	}
 
 	return {
-		catechumens: query.data ?? [],
+		pageable: query.data ?? emptyPageable<CatechumenResponse, 'catechumens'>('catechumens'),
 		loading: query.isPending,
 		error: query.error,
 		checkExistingsPresences,

@@ -13,6 +13,7 @@ import { PresenceProvider } from "./context/PresenceContext";
 import { StatusBannerProvider } from "./context/StatusBannerContext";
 import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 import PresencesPage from "./pages/PresencesPage";
+import IndividualPresencePage from "./pages/IndividualPresencePage";
 
 function RoutesApp() {
 	return (
@@ -33,6 +34,7 @@ function RoutesApp() {
 							<Route path="/presencas/registrar/:massId" element={<RegisterPresencePage />} />
 							<Route path="/presencas/confirmar/:massId" element={<ConfirmPresencePage />} />
 							<Route path="/presencas" element={<PresencesPage />} />
+							<Route path="/presencas/individual" element={<IndividualPresencePage />} />
 
 							<Route path="/error" element={<InternalServerErrorPage />} />
 						</Routes>

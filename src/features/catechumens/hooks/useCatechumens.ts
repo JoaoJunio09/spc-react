@@ -176,7 +176,6 @@ function useCatechumens(scope: string) {
 			...prev,
 			page: (prev.page ?? 0) + 1
 		}));
-		console.log(pageableParamsAPI)
 	}
 
 	function previousPage() {

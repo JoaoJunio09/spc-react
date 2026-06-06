@@ -28,7 +28,7 @@ function RegisterPresence() {
 
 	const { steps, error: errorLoadSteps, loading: loadingSteps } = useLoadSteps();
 	const {
-		catechumens,
+		pageable,
 		loading,
 		error,
 		checkExistingsPresences,
@@ -180,7 +180,7 @@ function RegisterPresence() {
 			<section
 				className="attendance-section"
 				style={{
-					display: fullName || catechumens.length > 0
+					display: fullName || (pageable._embedded?.catechumens?.length ?? 0) > 0
 						? 'block'
 						: 'none'
 				}}
@@ -215,7 +215,7 @@ function RegisterPresence() {
 							? Array.from({ length: 4 }).map((_, index) => (
 									<CatechumenCardSkeleton key={index} />
 								))
-							: catechumens.map(catechumen => (
+							: pageable._embedded?.catechumens.map(catechumen => (
 									<CatechumenCard
 										key={catechumen.id}
 										catechumen={catechumen}

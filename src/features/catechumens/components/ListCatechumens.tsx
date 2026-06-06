@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import type { CatechumenPage } from "../../../data/catechumen/CatechumenPage";
 import type { CatechumenResponse } from "../../../data/catechumen/CatechumenResponse";
 import { FormatStep } from "../../../utils/FormatStep";
+import { Link } from "react-router-dom";
 
 const CatechumenCardSkeleton = () => {
   return (
@@ -147,9 +148,11 @@ const CatechumenCard = ({
       </div>
 
       {/* Ação: Ver Histórico Completo */}
-      <button className="w-full mt-2 h-10 bg-slate-50 border border-slate-200 hover:bg-amber-50/50 hover:border-amber-300 hover:text-amber-700 text-slate-600 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-        Ver Histórico Completo
-        <ChevronRight className="w-4 h-4" />
+      <button className="w-full mt-2 h-10 bg-slate-50 border border-slate-200 hover:bg-amber-50/50 hover:border-amber-300 hover:text-amber-700 text-slate-600 rounded-xl text-xs sm:text-sm font-bold transition-all">
+        <Link to='/presencas/individual' className="text-slate-600 flex items-center justify-center gap-1.5 cursor-pointer">
+          Ver Histórico Completo
+          <ChevronRight className="w-4 h-4" />
+        </Link>
       </button>
     </article>
   )
@@ -218,7 +221,7 @@ const Pagination = ({
       <div className="text-xs sm:text-sm font-semibold text-slate-500">
         Exibindo{' '}
         <span className="font-bold text-slate-800">
-          {Math.min(pageable.page.size, pageable.page.totalElements)}
+          {Math.min(pageable._embedded.catechumens.length, pageable.page.totalElements)}
         </span>{' '}
         de{' '}
         <span className="font-bold text-slate-800">{pageable.page.totalElements}</span>{' '}
@@ -307,20 +310,6 @@ function ListCatechumens({
     }
   }
 
-  function handleOnSelectPage(page: number) {
-    selectPage(page);
-  }
-
-  function handleOnPrevious() {
-    if (pageable.page.number >= 1) {
-      previousPage();
-    }
-  }
-
-  function handleOnNext() {
-    nextPage();
-  }
-
   return (
     <section className="mb-12">
       <div className="flex items-center justify-between mb-5">
@@ -359,9 +348,9 @@ function ListCatechumens({
         pageable._embedded &&
           <Pagination
             pageable={pageable}
-            onSelectPage={handleOnSelectPage}
-            onPrevious={handleOnPrevious}
-            onNext={handleOnNext}
+            onSelectPage={selectPage}
+            onPrevious={previousPage}
+            onNext={nextPage}
           />
       }
     </section>
