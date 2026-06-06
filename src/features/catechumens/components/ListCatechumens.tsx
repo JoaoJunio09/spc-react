@@ -196,65 +196,72 @@ const Pagination = ({
   onPrevious,
   onNext
 }: PaginationProps) => {
-  const currentPage = pageable.page.number+1;
+  const currentPage = pageable.page.number;
+  const totalPages = pageable.page.totalPages;
+
+  const isFirstPage = currentPage === 0;
+  const isLastPage = currentPage === totalPages - 1;
+  
+  function getVisiblePages(): number[] {
+    if (totalPages <= 3) {
+      return Array.from({ length: totalPages }, (_, i) => i);
+    }
+    if (currentPage === 0) return [0, 1, 2];
+    if (isLastPage) return [totalPages - 3, totalPages - 2, totalPages - 1];
+    return [currentPage - 1, currentPage, currentPage + 1];
+  }
+
+  const visiblePages = getVisiblePages();
+
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200/80 pt-6 mt-10">
       <div className="text-xs sm:text-sm font-semibold text-slate-500">
-        Exibindo <span className="font-bold text-slate-800">{pageable.page.totalElements < pageable.page.size ? pageable.page.totalElements : pageable.page.size}
-        </span> de <span className="font-bold text-slate-800">{pageable.page.totalElements}</span> catequizandos
+        Exibindo{' '}
+        <span className="font-bold text-slate-800">
+          {Math.min(pageable.page.size, pageable.page.totalElements)}
+        </span>{' '}
+        de{' '}
+        <span className="font-bold text-slate-800">{pageable.page.totalElements}</span>{' '}
+        catequizandos
       </div>
 
-      {
-        pageable.page.totalPages > 1
-        ? <nav className="inline-flex -space-x-px rounded-xl bg-white overflow-hidden" aria-label="Paginação">
-            {/* Botão Anterior */}
-            <button
-              className="relative inline-flex items-center px-3.5 py-2.5 border-0 text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-all cursor-pointer"
-              onClick={onPrevious}
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span className="sr-only">Anterior</span>
-            </button>
+      {totalPages > 1 && (
+        <nav className="inline-flex -space-x-px rounded-xl bg-white overflow-hidden" aria-label="Paginação">
+          <button
+            className="relative inline-flex items-center px-3.5 py-2.5 border-0 text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-all cursor-pointer"
+            onClick={onPrevious}
+            disabled={isFirstPage}
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span className="sr-only">Anterior</span>
+          </button>
 
-            
-            
-            {/* Páginas */}
+          {visiblePages.map(page => (
             <button
-              className={`
-                relative inline-flex items-center px-4 py-2.5 border-0 text-xs sm:text-sm font-bold transition-all hover:bg-slate-50 cursor-pointer
-                ${currentPage === 1 && 'bg-amber-500 text-white hover:text-slate-700'}
-              `}
-              onClick={() => onSelectPage(currentPage > 1 ? currentPage-1 : currentPage)}
+              key={page}
+              className={`relative inline-flex items-center px-4 py-2.5 border-0 text-xs sm:text-sm font-bold transition-all cursor-pointer
+                ${page === currentPage
+                  ? 'bg-amber-500 text-white'
+                  : 'text-slate-600 hover:bg-slate-50'
+                }`}
+              onClick={() => onSelectPage(page)}
             >
-              {currentPage > 1 ? currentPage-1 : currentPage}
+              {page + 1}
             </button>
-            <button
-              className={
-                `relative inline-flex items-center px-4 py-2.5 border-0 text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all cursor-pointer
-                ${currentPage > 1 && 'bg-amber-500 text-white hover:text-slate-700'}
-              `}
-              onClick={() => onSelectPage(currentPage > 1 ? currentPage : currentPage+1)}
-            >
-              {currentPage > 1 ? currentPage : currentPage+1}
-            </button>
-            <button
-              className="relative inline-flex items-center px-4 py-2.5 border-0 text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all cursor-pointer"
-              onClick={() => onSelectPage(currentPage > 1 ? currentPage+1 : currentPage+2)}
-            >
-              {currentPage > 1 ? currentPage+1 : currentPage+2}
-            </button>
-            
-            {/* Botão Próximo */}
-            <button
-              className="relative inline-flex items-center px-3.5 py-2.5 border-0 text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-all cursor-pointer"
-              onClick={onNext}  
-            >
-              <span className="sr-only">Próximo</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </nav>
-        : null
-      }
+          ))}
+          
+          {/* Botão Próximo */}
+          <button
+            className="relative inline-flex items-center px-3.5 py-2.5 border-0 text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-all cursor-pointer"
+            onClick={onNext}
+            disabled={isLastPage}
+          >
+            <span className="sr-only">Próximo</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+          
+        </nav>
+      )}
     </div>
   )
 }
@@ -301,7 +308,7 @@ function ListCatechumens({
   }
 
   function handleOnSelectPage(page: number) {
-    selectPage(page-1);
+    selectPage(page);
   }
 
   function handleOnPrevious() {
