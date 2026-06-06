@@ -25,28 +25,26 @@ function RoutesApp() {
 				<StatusBannerProvider>
 					<PresenceProvider>
 						<Routes>
+
 							<Route path="/" element={<LoginPage />} />
-							<Route path="/inicio" element={<HomePage />} />
-							<Route path="/etapas-e-catequistas" element={<StepsAndCatechistsPage />} />
-							<Route path="/catequizandos" element={<CatechumensPage />} />
-							<Route path="/meus-catequizandos" element={<CatechumensPage />} />
-							<Route path="/missas" element={<MassesPage />} />
-
-							{/* Implementar proteção de rota */}
-							{/* Verifico se o usuário que está registrando presença, está autenticado no sistema */}
-							<Route path="/presencas/registrar/:massId" element={<RegisterPresencePage />} />
-							<Route path="/presencas/confirmar/:massId" element={<ConfirmPresencePage />} />
-							<Route path="/presencas" element={<PresencesPage />} />
-
-							<Route path="/catequizando/:catechumenId/presencas" element={
-								<ProtectedRoute roles={['ROLE_CATECHIST', 'ROLE_COORDINATOR', 'ROLE_ADMIN']}>
-									<IndividualPresencePage />
-								</ProtectedRoute>
-							}/>
-
 							<Route path="/error" element={<InternalServerErrorPage />} />
 							<Route path="/unauthorized" element={<UnauthorizedPage />} />
 							<Route path="/notfound" element={<NotFoundPage />} />
+							
+							<Route element={<ProtectedRoute roles={['ROLE_COORDINATOR', 'ROLE_ADMIN']} />}>
+								<Route path="/etapas-e-catequistas" element={<StepsAndCatechistsPage />} />
+								<Route path="/missas" element={<MassesPage />} />
+							</Route>
+
+							<Route element={<ProtectedRoute roles={['ROLE_CATECHIST', 'ROLE_COORDINATOR', 'ROLE_ADMIN']} />}>
+									<Route path="/inicio" element={<HomePage />} />
+									<Route path="/catequizandos" element={<CatechumensPage />} />
+									<Route path="/presencas/registrar/:massId" element={<RegisterPresencePage />} />
+									<Route path="/presencas/confirmar/:massId" element={<ConfirmPresencePage />} />
+									<Route path="/presencas" element={<PresencesPage />} />
+									<Route path="/presencas/catequizando/:catechumenId" element={<IndividualPresencePage />} />
+							</Route>
+
 						</Routes>
 					</PresenceProvider>
 				</StatusBannerProvider>
