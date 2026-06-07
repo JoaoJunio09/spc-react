@@ -9,6 +9,8 @@ type ProtectedRouteProps = {
 function ProtectedRoute({ roles }: ProtectedRouteProps) {
 	const { auth } = useAuthContext();
 
+	if (!auth) return <Navigate to='/unauthorized' replace />
+
 	if (!auth) return null;
 	const hasPermission = roles.some(role => auth?.roles.includes(role));
 

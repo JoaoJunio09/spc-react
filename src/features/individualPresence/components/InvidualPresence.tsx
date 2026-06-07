@@ -12,7 +12,8 @@ import {
   Sparkles,
   CalendarDays,
   Filter,
-  Timeline
+  Timeline,
+  AlertTriangle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CatechumenCard from './CatechumenCard';
@@ -51,6 +52,14 @@ export const studentInfo: CatechizedInfo = {
 };
 
 const Apresentation = () => {
+  let overrideDay: 'weekend' | 'weekday' | null = null;
+  const currentDay = new Date().getDay();
+  const isWeekend = overrideDay === 'weekend' 
+    ? true 
+    : overrideDay === 'weekday' 
+      ? false 
+      : [0, 6].includes(currentDay);
+
   return (
     <section className="mb-6">
       <button className="bg-transparent border-none text-sm font-bold hover:text-slate-800 transition-colors cursor-pointer group mb-4">
@@ -68,6 +77,22 @@ const Apresentation = () => {
           Acompanhe de perto as presenças e faltas do catequizando nos encontros paroquiais.
         </p>
       </div>
+
+      {isWeekend && (
+          <div className="mt-4 mb-6 bg-amber-50 border border-amber-200 rounded-2xl p-4 sm:p-5 flex gap-3 text-left shadow-sm animate-fade-in-alert">
+            <div className="text-amber-600 flex-shrink-0 mt-0.5">
+              <AlertTriangle className="w-5.5 h-5.5" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-sm font-extrabold text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
+                Atenção
+              </h4>
+              <p className="text-sm sm:text-[0.92rem] text-amber-800 leading-relaxed font-semibold">
+                As informações de frequência podem sofrer alterações durante o final de semana, pois ainda existem missas em andamento ou aguardando registro na paróquia.
+              </p>
+            </div>
+          </div>
+        )}
     </section>
   )
 }

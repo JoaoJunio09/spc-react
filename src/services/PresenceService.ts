@@ -42,18 +42,16 @@ class PresenceService {
 					'Authorization': `Bearer ${this.accessToken}`
 				}
 			});
-			
-			if (response.status === 500) {
+			return response.data;
+		}
+		catch (err: any) {
+			if (err?.response?.status === 409) {
+				throw new ConflictInTheDatabaseException('Conflit in the saved database this Presences.');
+			}
+			if (err?.response?.status === 500) {
 				throw new InternalServerError('Erro inesperado no servidor ao registrar');
 			}
 
-			if (response.status === 409) {
-				throw new ConflictInTheDatabaseException('Conflit in the saved database this Presences.');
-			}
-
-			return response.data;
-		}
-		catch (err) {
 			throw err;
 		}
 	}

@@ -15,6 +15,7 @@ import { useStatusBannerContext } from '../../../context/StatusBannerContext';
 import '../styles/home.css';
 import LoadingDialog from '../../../components/feedback/LoadingDialog';
 import InfoDialog from '../../../components/feedback/InfoDialog';
+import { CheckCircleIcon, SparklesIcon } from 'lucide-react';
 
 function Home() {
 	const [selectedDate, setSelectedDate] 						= useState<string | null>(null);
@@ -38,7 +39,20 @@ function Home() {
 		message,
 		clearStatusFlow
 	} = useStatusBannerContext();
+
 	const { fullName } = useAuthContext();
+
+	const sortedEvents = [...events].sort((a, b) => {
+		const dateA = new Date(a.massDateTime!);
+		const dateB = new Date(b.massDateTime!);
+
+		return (
+			dateA.getHours() * 60 +
+			dateA.getMinutes() -
+			(dateB.getHours() * 60 +
+				dateB.getMinutes())
+		);
+	});
 
 	function handleSelectDate(date: string) {
 		setSelectedDate(date);
@@ -117,7 +131,7 @@ function Home() {
 				setIsOpenModal={setIsOpen}
 			/>
 
-    	<EventDetails events={events} />
+    	<EventDetails events={sortedEvents} />
 
 			{isOpen && (
 				<CalendaryModal

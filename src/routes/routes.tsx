@@ -37,14 +37,15 @@ function RoutesApp() {
 							</Route>
 
 							<Route element={<ProtectedRoute roles={['ROLE_CATECHIST', 'ROLE_COORDINATOR', 'ROLE_ADMIN']} />}>
-									<Route path="/inicio" element={<HomePage />} />
-									<Route path="/catequizandos" element={<CatechumensPage />} />
-									<Route path="/presencas/registrar/:massId" element={<RegisterPresencePage />} />
-									<Route path="/presencas/confirmar/:massId" element={<ConfirmPresencePage />} />
-									<Route path="/presencas" element={<PresencesPage />} />
-									<Route path="/presencas/catequizando/:catechumenId" element={<IndividualPresencePage />} />
+								<Route path="/inicio" element={<HomePage />} />
+								<Route path="/catequizandos" element={<CatechumensPage />} />
+								<Route path="/presencas/registrar/:massId" element={<RegisterPresencePage />} />
+								<Route path="/presencas/confirmar/:massId" element={<ConfirmPresencePage />} />
+								<Route path="/presencas" element={<PresencesPage />} />
+								<Route path="/presencas/catequizando/:catechumenId" element={<IndividualPresencePage />} />
 							</Route>
 
+							<Route path="*" element={<NotFoundPage />} />
 						</Routes>
 					</PresenceProvider>
 				</StatusBannerProvider>

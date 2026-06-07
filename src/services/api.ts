@@ -2,7 +2,7 @@ import axios from "axios";
 import type { Token } from "../data/auth/Token";
 
 const api = axios.create({
-	baseURL: 'http://localhost:8080'
+	baseURL: import.meta.env.VITE_API_URL_DEV
 });
 
 api.interceptors.request.use((config) => {
@@ -43,6 +43,8 @@ api.interceptors.response.use(
 				window.location.replace('/notfound');
 				break;
 		}
+
+		return Promise.reject(error);
 	}
 )
 

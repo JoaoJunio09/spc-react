@@ -11,6 +11,7 @@ type UseLoadEventProps = {
 export type Event = {
 	massId?: number,
 	massDate?: string,
+	massDateTime?: string,
 	massLocation?: string,
 	title?: string,
 	isEvent: boolean
@@ -36,6 +37,7 @@ function useLoadEvent({ masses, presences }: UseLoadEventProps){
 					massId: mass.id,
 					title: mass.title,
 					massDate: dateMontage(mass),
+					massDateTime: mass.dateTime,
 					massLocation: locationMontage(mass),
 					isEvent: true
 				});
