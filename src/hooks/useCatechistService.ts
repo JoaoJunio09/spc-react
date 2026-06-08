@@ -6,7 +6,7 @@ function useCatechistService() {
 	const { auth } = useAuthContext();
 
 	const catechistService = useMemo(
-		() => new CatechistService(auth?.accessToken ?? ''),
+		() => new CatechistService(),
 		[auth?.accessToken]
 	);
 

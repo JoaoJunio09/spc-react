@@ -4,7 +4,6 @@ import type { AccountCredentials } from "../data/auth/AccountCredentials";
 import type { CatechistCredentials } from "../data/auth/CatechistCredentials";
 import type { Token } from "../data/auth/Token";
 import AuthService from "../services/AuthService";
-import useCatechistService from "../hooks/useCatechistService";
 import CatechistService from "../services/CatechistService";
 
 type AuthContextType = {
@@ -45,7 +44,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const fullName = auth?.fullName ?? null;
 
 	const authService = useMemo(() => new AuthService(), []);
-	const catechistService = useMemo(() => new CatechistService(''), []);
+	const catechistService = useMemo(() => new CatechistService(), []);
 
 	const navigate = useNavigate();
 

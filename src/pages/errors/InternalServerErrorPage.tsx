@@ -1,13 +1,11 @@
 import {
-	AlertTriangle,
-	Church,
-	HelpCircle,
-	Home,
-	RefreshCw,
-	Server
+  AlertTriangle,
+  HelpCircle,
+  Home,
+  RefreshCw,
+  Server
 } from 'lucide-react';
 import React from 'react';
-import type InternalServerError from '../../exceptions/server/InternalServerError';
 import { Link } from 'react-router-dom';
 
 // ==========================================

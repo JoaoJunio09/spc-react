@@ -1,12 +1,11 @@
-import React from 'react';
-import { 
-  ShieldAlert, 
-  Lock, 
-  LogIn, 
-  Home, 
-  Church, 
-  HelpCircle 
+import {
+  HelpCircle,
+  Home,
+  Lock,
+  LogIn,
+  ShieldAlert
 } from 'lucide-react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Styles: React.FC = () => (

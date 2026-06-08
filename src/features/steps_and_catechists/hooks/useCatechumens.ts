@@ -23,8 +23,8 @@ function useCatechumens({ catechists, step }: UseCatechumensProps) {
 		try {
 			setError(null);
 
-			const data = await catechumenService.getAll({ stepId: step.id, catechistId: catechists[0].id });
-			setCatechumens(data)
+			await catechumenService.getAll({ stepId: step.id, catechistId: catechists[0].id });
+			setCatechumens([])
 		}
 		catch (err) {
 			setError('Erro ao carregar os Catequizandos');

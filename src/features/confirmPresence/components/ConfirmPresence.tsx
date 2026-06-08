@@ -2,20 +2,19 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import InfoDialog from '../../../components/feedback/InfoDialog';
 import { useStatusBannerContext } from '../../../context/StatusBannerContext';
-import ConflictInTheDatabaseException from '../../../exceptions/database/ConflicInTheDatabaseException';
 import type { PresenceRequest } from '../../../data/presence/PresenceRequest';
+import ConflictInTheDatabaseException from '../../../exceptions/database/ConflicInTheDatabaseException';
 import { DefineNameCatechists } from '../../../utils/DefineNameCatechists';
 import useConfirmPresense from '../hooks/useConfirmPresence';
 
-import '../styles/confirmPresence.css';
 import { useAuthContext } from '../../../context/AuthContext';
+import '../styles/confirmPresence.css';
 
 function ConfirmPresence() {
 	const {
 		catechumensConfirm,
 		confirmPresenceMutation,
 		massId,
-		catechistId,
 		clearPresenceFlow,
 		infoDialog,
 		openInfoDialog,

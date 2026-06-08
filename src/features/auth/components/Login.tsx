@@ -1,4 +1,4 @@
-import { CheckCircleIcon, SparklesIcon } from "lucide-react";
+import { CheckCircleIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import InstitutionalSection from "./InstitutionalSection";
 import LoginCatechist from "./LoginCatechist";

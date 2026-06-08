@@ -2,7 +2,6 @@ import { Calendar, Church } from "lucide-react";
 import type { PresenceResponse } from "../../../data/presence/PresenceResponse";
 import { UtilsDate } from "../../../utils/UtilsDate";
 import MetaItem from "./MetaItem";
-import { FormatStep } from "../../../utils/FormatStep";
 
 type CatechumenCardProps = {
 	presence: PresenceResponse,

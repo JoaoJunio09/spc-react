@@ -1,14 +1,12 @@
-import React from 'react';
-import { 
-  Compass, 
-  ArrowLeft, 
-  Home, 
-  Church, 
-  HelpCircle, 
-  ChevronRight, 
-  MapPin, 
-  FileQuestion 
+import {
+  ArrowLeft,
+  ChevronRight,
+  Compass,
+  FileQuestion,
+  HelpCircle,
+  Home
 } from 'lucide-react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Styles: React.FC = () => (

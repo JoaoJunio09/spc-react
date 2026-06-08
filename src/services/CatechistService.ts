@@ -6,11 +6,11 @@ import api from "./api";
 
 class CatechistService {
 	BASE_URL: string = '';
-	private accessToken: string = '';
+	// private accessToken: string = '';
 
-	constructor(accessToken: string) {
+	constructor() {
 		this.BASE_URL = '/api/catechists/v1';
-		this.accessToken = accessToken;
+		// this.accessToken = accessToken;
 	}
 
 	public async getAll(params: ParamsCatechistAPI) {

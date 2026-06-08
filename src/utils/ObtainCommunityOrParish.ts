@@ -10,9 +10,6 @@ function obtain(): CommunityOrParish | null {
 	}
 	else if (communityOrParishStorage === 'DIVINO_ESPIRITO_SANTO') {
 		communityOrParish = "DIVINO_ESPIRITO_SANTO";
-	}	
-	else {
-		communityOrParish = "BOTH";
 	}
 
 	return communityOrParish;

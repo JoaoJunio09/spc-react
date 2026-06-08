@@ -1,9 +1,7 @@
 import {
-  ArrowRight,
   Church,
   MapPin,
-  User,
-  X
+  User
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../context/AuthContext';
@@ -169,7 +167,6 @@ const Indicators = ({
 }
 
 function Home() {
-  const [notificationState, setNotificationState] = useState<'with_data' | 'empty'>('with_data');
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 	
   const {

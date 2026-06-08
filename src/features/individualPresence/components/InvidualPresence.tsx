@@ -1,25 +1,12 @@
-import React, { useState } from 'react';
-import { 
-  ArrowLeft, 
-  Calendar, 
-  Church, 
-  CheckCircle, 
-  XCircle, 
-  BookOpen, 
-  Users, 
-  Clock, 
-  User,
-  Sparkles,
-  CalendarDays,
-  Filter,
-  Timeline,
-  AlertTriangle
+import {
+  AlertTriangle,
+  ArrowLeft
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import TopProgressBar from '../../../components/feedback/TopProgressBar';
+import useInvidualPresence from '../hooks/useInvidualPresence';
 import CatechumenCard from './CatechumenCard';
 import TimeLine from './Timeline';
-import useInvidualPresence from '../hooks/useInvidualPresence';
-import TopProgressBar from '../../../components/feedback/TopProgressBar';
 
 export interface AttendanceRecord {
   id: number;

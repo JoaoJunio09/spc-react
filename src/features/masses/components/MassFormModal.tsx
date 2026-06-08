@@ -1,8 +1,8 @@
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 import type { MassResponse } from "../../../data/mass/MassResponse";
 import useLoadLiturgicalCalendar from "../hooks/useLoadLiturgicalCalendar";
 import useMassFormModal from "../hooks/useMassFormModal";
-import { toast } from "react-toastify";
 
 type MassFormModalProps = {
 	mass: MassResponse | null,

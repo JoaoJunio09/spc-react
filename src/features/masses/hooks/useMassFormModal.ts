@@ -3,11 +3,10 @@ import { toast } from "react-toastify";
 import type { MassRequest } from "../../../data/mass/MassRequest";
 import type { MassResponse } from "../../../data/mass/MassResponse";
 import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
+import type { MassLocation } from "../../../enums/MassLocation";
 import useLiturgicalCalendarService from "../../../hooks/useLiturgicalCalendarService";
 import useMassService from "../../../hooks/useMassService";
-import { ObtainCommunityOrParish } from "../../../utils/ObtainCommunityOrParish";
 import { UtilsDate } from "../../../utils/UtilsDate";
-import type { MassLocation } from "../../../enums/MassLocation";
 
 type MassFormData = {
 	id: number | null,
@@ -113,14 +112,14 @@ function useMassFormModal(
 			setError(null);
 
 			if (isEditing) {
-				const massUpdated = await massService.update(mass);
+				await massService.update(mass);
 				// atualiza cache e storage
 				await onSuccess();
 				toast.success('Atualizado com Sucesso');
 				onClose();
 			}
 			else {
-				const massCreated = await massService.create(mass);
+				await massService.create(mass);
 				// atualiza cache e storage
 				toast.success('Registrado com Sucesso');
 				await onSuccess();
