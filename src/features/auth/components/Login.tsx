@@ -70,9 +70,9 @@ function Login() {
               
               {}
               {/* Cabeçalho */}
-              <header className="flex flex-col items-center sm:items-start text-center sm:text-left gap-4">
-                <div className="w-16 h-16 flex items-center justify-center">
-                  <img src={logoImg} alt="" width={300} />
+              <header className="mt-[-15px] flex flex-col items-center sm:items-start text-center sm:text-left gap-4">
+                <div className="flex items-center justify-center items-start">
+                  <img src={logoImg} alt="" width={60} />
                 </div>
                 <div className="space-y-2">
                   <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
