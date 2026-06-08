@@ -1,3 +1,4 @@
+import Footer from "../components/layout/footer";
 import Header from "../components/layout/header";
 import Home from "../features/home/components/Home";
 
@@ -6,6 +7,7 @@ function HomePage() {
 		<>
 			<Header active="home" />
 			<Home />
+			<Footer />
 		</>
 	)
 }

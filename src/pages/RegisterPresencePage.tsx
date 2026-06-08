@@ -1,4 +1,5 @@
 import ErrorBoundary from "../components/ErrorBoundary";
+import Footer from "../components/layout/footer";
 import Header from "../components/layout/header";
 import RegisterPresence from "../features/registerPresence/components/RegisterPresence";
 
@@ -8,8 +9,8 @@ function RegisterPresencePage() {
 			<Header active="none" />
 			<ErrorBoundary>
 				<RegisterPresence />
-			</ErrorBoundary>
-			
+			</ErrorBoundary>	
+			<Footer />
 		</>
 	)
 }

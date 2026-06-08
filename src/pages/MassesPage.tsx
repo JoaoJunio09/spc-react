@@ -1,3 +1,4 @@
+import Footer from "../components/layout/footer";
 import Header from "../components/layout/header";
 import Masses from "../features/masses/components/Masses";
 
@@ -6,6 +7,7 @@ function MassesPage() {
 		<>
 			<Header active="masses" />
 			<Masses />
+			<Footer />
 		</>
 	)
 }

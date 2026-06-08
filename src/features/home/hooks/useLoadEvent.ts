@@ -22,7 +22,13 @@ const month = String(new Date().getMonth()+1).padStart(2,'0');
 const dayNum = String(new Date().getDate()).padStart(2,'0');
 const dateString = `${year}-${month}-${dayNum}`;
 
-function useLoadEvent({ masses, presences }: UseLoadEventProps){
+function formatDateLabel(date: string): string {
+  const day = date.slice(8, 10).replace(/^0/, '');
+  const month = date.slice(5, 7);
+  return `${day} de ${UtilsDate.returnsMonthAsAString(month)}`;
+}
+
+function useLoadEvent({ masses }: UseLoadEventProps){
 	const [events, setEvents] = useState<Event[]>([]);
 
 	function loadEvent(date: string) {
@@ -58,7 +64,7 @@ function useLoadEvent({ masses, presences }: UseLoadEventProps){
 			}
 			else {
 				setEvents([{
-					title: `Não há missa na data ${date}`,
+					title: `Não há missa no dia ${formatDateLabel(date)}`,
 					isEvent: false
 				}]);
 			}
@@ -78,7 +84,11 @@ function dateMontage(mass: MassResponse): string {
 }
 
 function locationMontage(mass: MassResponse) {
-	return `${UtilsDate.formatDateTimeThisMissaForTime(mass.dateTime)}h, na ${mass.location === "MATRIZ" ? "Matriz" : "Capela do Divino"}`;
+	if (mass.location === 'MATRIZ') {
+		return 'Matriz Paróquia São Sebastião';
+	} else {
+		return 'Capela do Divino Espírito Santo';
+	}
 }
 
 export default useLoadEvent;

@@ -61,7 +61,7 @@ class MassService {
 	public async getMassesDatesByCommunityOrParish(params: ParamsMassAPI) {
 		const URL = `${this.BASE_URL}/massesDates`;
 		try {
-			const response = await api.get(URL, {
+			const response = await api.get<string[]>(URL, {
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Bearer ${this.accessToken}`
