@@ -37,7 +37,7 @@
 }
 
 .church-logo-placeholder img {
-	width: 250px; /* Tamanho controlado para não quebrar layout */
+	width: 180px; /* Tamanho controlado para não quebrar layout */
 	height: auto;
 	display: block;
 }
