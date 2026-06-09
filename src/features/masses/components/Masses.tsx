@@ -64,7 +64,7 @@ function Masses() {
 								data-liturgical-calendar-id={mass.massOfLiturgicalCalendar.id}
 							>
 								<div className="missa-info">
-									<h3 id="title">{mass.title}</h3>
+									<h3 id="title" className='font-semibold'>{mass.title}</h3>
 									<p id="date">{UtilsDate.formatDateTime(mass.dateTime)}</p>
 								</div>
 								<div className="missa-actions">
