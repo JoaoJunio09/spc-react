@@ -45,7 +45,7 @@ const BannerWelcome = ({
       
       <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/10 flex flex-col justify-center min-w-[220px]">
         <span className="text-xs font-bold text-amber-200 uppercase tracking-wider block">Hoje é</span>
-        <span className="text-lg sm:text-xl font-extrabold block mt-1">{dayWeek.slice(0, 7)}, {dayMnonth} de {nameMonth}</span>
+        <span className="text-lg sm:text-xl font-extrabold block mt-1">{dayWeek}, {dayMnonth} de {nameMonth}</span>
         <span className="text-xs text-amber-100 font-semibold block mt-0.5">Ano Catequético de 2026</span>
       </div>
     </section>

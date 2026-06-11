@@ -88,7 +88,7 @@ function RetroactivePresenceModal({
 				status: "PRESENT_LATE"
 			}
 
-			await registerPresenceMutation.mutateAsync(presence);
+			registerPresenceMutation.mutate(presence);
 
 			openInfoDialog({
 				variant: 'success',
@@ -103,6 +103,7 @@ function RetroactivePresenceModal({
 			}, 6000);
 		}
 		catch (err) {
+			console.log(err)
 			if (err instanceof ConflictInTheDatabaseException) {
 				openInfoDialog({
 					variant: 'info',

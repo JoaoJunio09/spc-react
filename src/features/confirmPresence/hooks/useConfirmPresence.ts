@@ -42,11 +42,13 @@ function useConfirmPresense() {
 	}
 
 	const confirmPresenceMutation = useMutation({
-		mutationFn: (data: PresenceRequest) => presenceService.register(data),
+		mutationFn: (data: PresenceRequest[]) => presenceService.registerPresences(data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['presences'] });
 		}
 	});
+
+	
 
 	useEffect(() => {
 		loadCatechumensPresent();

@@ -25,11 +25,11 @@ function useRetroactivePresenceModal() {
 	const queryClient = useQueryClient();
 
 	const registerPresenceMutation = useMutation({
-		mutationFn: (data: PresenceRequest) => presenceService.register(data),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['presences'] });
-		}
-	});
+			mutationFn: (data: PresenceRequest) => presenceService.registerRetroactive(data),
+			onSuccess: () => {
+				queryClient.invalidateQueries({ queryKey: ['presences'] });
+			}
+		});
 
 	function openInfoDialog(data: Omit<InfoDialogState, 'open'>) {
 		setInfoDialog({

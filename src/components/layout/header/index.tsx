@@ -127,7 +127,7 @@ function Header({ active }: HeaderProps) {
 				</div>
 			</div>
 
-			 <div 
+			<div 
         className={`fixed inset-0 z-50 overflow-hidden transition-all duration-300 ${
           isDrawerOpen ? "pointer-events-auto" : "pointer-events-none"
         }`}

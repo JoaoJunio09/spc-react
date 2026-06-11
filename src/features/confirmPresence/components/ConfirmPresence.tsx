@@ -46,9 +46,7 @@ function ConfirmPresence() {
 				justification: null
 			}));
 
-			await Promise.all(
-				presences.map((presence) => confirmPresenceMutation.mutateAsync(presence))
-			);
+			confirmPresenceMutation.mutate(presences);
 
 			openInfoDialog({
 				variant: 'success',

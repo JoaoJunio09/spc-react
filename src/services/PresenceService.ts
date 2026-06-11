@@ -35,9 +35,31 @@ class PresenceService {
 		}
 	}
 
-	public async register(presence: PresenceRequest) {
+	public async registerPresences(presences: PresenceRequest[]) {
 		try {
-			const response = await api.post<PresenceResponse>(this.BASE_URL, presence, {
+			const response = await api.post<PresenceRequest[]>(this.BASE_URL, presences, {
+				headers: {
+					'Authorization': `Bearer ${this.accessToken}`
+				}
+			});
+			return response.data;
+		}
+		catch (err: any) {
+			if (err?.response?.status === 409) {
+				throw new ConflictInTheDatabaseException('Conflit in the saved database this Presences.');
+			}
+			if (err?.response?.status === 500) {
+				throw new InternalServerError('Erro inesperado no servidor ao registrar');
+			}
+
+			throw err;
+		}
+	}
+
+	public async registerRetroactive(presence: PresenceRequest) {
+		const URL = `${this.BASE_URL}/retroactive`;
+		try {
+			const response = await api.post<PresenceResponse>(URL, presence, {
 				headers: {
 					'Authorization': `Bearer ${this.accessToken}`
 				}
