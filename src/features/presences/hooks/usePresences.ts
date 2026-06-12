@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useDebounce from "../../../hooks/useDebounce";
 import useLiturgicalCalendarService from "../../../hooks/useLiturgicalCalendarService";
 import useMassService from "../../../hooks/useMassService";

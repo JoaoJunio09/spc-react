@@ -55,8 +55,6 @@ const PresenceSummaryModal = ({
 }: PresenceSummaryModalProps) => {
 	if (!titleLiturgicalCalendar) return;
 
-	console.log(sumarry)
-
 	const navigate = useNavigate();
 
 	function handleCheckCatechumensPresent(titleLiturgicalCalendar: string) {

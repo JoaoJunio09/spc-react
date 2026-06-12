@@ -59,7 +59,6 @@ function ConfirmPresence() {
 			showStatusBanner('success', 'As Presenças foram registradas com sucesso.');
 		}
 		catch (err) {
-			console.log(err);
 			if (err instanceof ConflictInTheDatabaseException) {
 				openInfoDialog({
 					variant: 'warning',

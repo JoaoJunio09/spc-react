@@ -103,7 +103,6 @@ function RetroactivePresenceModal({
 			}, 6000);
 		}
 		catch (err) {
-			console.log(err)
 			if (err instanceof ConflictInTheDatabaseException) {
 				openInfoDialog({
 					variant: 'info',
