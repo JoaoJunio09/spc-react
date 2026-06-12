@@ -1,5 +1,6 @@
-import { Bell, X } from "lucide-react";
+import { ArrowBigRight, ArrowDownRight, ArrowRight, Bell, X } from "lucide-react";
 import type { NotificationDTO } from "../../../data/notification/NotificationDTO";
+import { Link } from "react-router-dom";
 
 type NotificationDrawerProps = {
 	isOpen: boolean;
@@ -157,6 +158,14 @@ function NotificationDrawer({
 													<span className="block text-[10px] text-slate-400 font-bold uppercase mt-1">
 														{formatTime(notif.createdAt)}
 													</span>
+													{notif.title === 'SPC — Sistema atualizado com sucesso' && (
+														<span className="flex items-center gap-1 mt-4 text-[.8rem] text-amber-600">
+															<Link to='/releases/1.1.0' className="text-amber-600">
+																Clique para saber mais
+															</Link>
+															<ArrowRight size={15} />
+														</span>
+													)}
 													{notif.isRead && (
 														<span className="text-[10px] text-slate-400 font-semibold">
 															Lida

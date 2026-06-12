@@ -1,23 +1,27 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import CatechumensPage from "../pages/CatechumensPage";
-import ConfirmPresencePage from "../pages/ConfirmPresencePage";
-import HomePage from "../pages/HomePage";
-import LoginPage from "../pages/LoginPage";
-import MassesPage from "../pages/MassesPage";
-import RegisterPresencePage from "../pages/RegisterPresencePage";
-import StepsAndCatechistsPage from "../pages/StepsAndCatechistsPage";
+import CatechumensPage from "../pages/features/CatechumensPage";
+import ConfirmPresencePage from "../pages/features/ConfirmPresencePage";
+import HomePage from "../pages/features/HomePage";
+import LoginPage from "../pages/features/LoginPage";
+import MassesPage from "../pages/features/MassesPage";
+import RegisterPresencePage from "../pages/features/RegisterPresencePage";
+import StepsAndCatechistsPage from "../pages/features/StepsAndCatechistsPage";
 
 import { AuthProvider } from "../context/AuthContext";
 import { PresenceProvider } from "../context/PresenceContext";
 import { StatusBannerProvider } from "../context/StatusBannerContext";
 import InternalServerErrorPage from "../pages/errors/InternalServerErrorPage";
-import PresencesPage from "../pages/PresencesPage";
-import IndividualPresencePage from "../pages/IndividualPresencePage";
+import PresencesPage from "../pages/features/PresencesPage";
+import IndividualPresencePage from "../pages/features/IndividualPresencePage";
 import ProtectedRoute from "./ProtectedRoute";
 import UnauthorizedPage from "../pages/errors/UnauthorizedPage";
 import NotFoundPage from "../pages/errors/NotFoundPage";
 import ScrollToTop from "./ScrollToTop";
+import ReleaseV1 from "../pages/release/ReleaseV1Page";
+import ReleaseV1Page from "../pages/release/ReleaseV1Page";
+import ReleaseV11Page from "../pages/release/ReleaseV11Page";
+import ReleasesPage from "../pages/release/ReleasesPage";
 
 function RoutesApp() {
 	return (
@@ -27,6 +31,9 @@ function RoutesApp() {
 					<PresenceProvider>
 						<ScrollToTop />
 						<Routes>
+							<Route path="/releases" element={<ReleasesPage />} />
+							<Route path="/releases/1.0.0" element={<ReleaseV1Page />} />
+							<Route path="/releases/1.1.0" element={<ReleaseV11Page />} />
 
 							<Route path="/" element={<LoginPage />} />
 							<Route path="/error" element={<InternalServerErrorPage />} />
