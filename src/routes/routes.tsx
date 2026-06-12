@@ -17,6 +17,7 @@ import IndividualPresencePage from "../pages/IndividualPresencePage";
 import ProtectedRoute from "./ProtectedRoute";
 import UnauthorizedPage from "../pages/errors/UnauthorizedPage";
 import NotFoundPage from "../pages/errors/NotFoundPage";
+import ScrollToTop from "./ScrollToTop";
 
 function RoutesApp() {
 	return (
@@ -24,6 +25,7 @@ function RoutesApp() {
 			<AuthProvider>
 				<StatusBannerProvider>
 					<PresenceProvider>
+						<ScrollToTop />
 						<Routes>
 
 							<Route path="/" element={<LoginPage />} />

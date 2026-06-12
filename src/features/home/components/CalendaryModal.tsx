@@ -38,7 +38,7 @@ function CalendaryModal({
     <div className="home-modal-overlay" onClick={handleOverlayClick}>
       <div className="home-modal-content">
         <div className="home-modal-header">
-          <h2>{currentMonthLabel}</h2>
+          <h2 className="font-bold">{currentMonthLabel}</h2>
           <button className="home-close-modal" onClick={onClose}>
             &times;
           </button>

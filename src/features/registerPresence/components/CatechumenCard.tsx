@@ -19,10 +19,10 @@ function CatechumenCard({
 	return (
 		<div className="catequizando-card catechumen-card" data-catechumen="">
 			<div className="student-info">
-				<h4 id="catechumen-name">{catechumen.firstName} {catechumen.lastName}</h4>
-				<p id="step-and-catechist-name">{FormatStep.format(catechumen.step.stepName)}</p>
+				<h4 className="font-bold">{catechumen.firstName} {catechumen.lastName}</h4>
+				<p className="font-semibold">{FormatStep.format(catechumen.step.stepName)}</p>
 				{catechumen.step.catechists.map(catechist => (
-					<p key={catechist.id} id="step-and-catechist-name">{catechist.firstName}</p>
+					<p key={catechist.id}>{catechist.firstName}</p>
 				))}
 			</div>
 			<div className="attendance-controls">

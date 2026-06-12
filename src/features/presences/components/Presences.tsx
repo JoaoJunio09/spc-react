@@ -21,12 +21,18 @@ function Presences() {
     filterByFullName,
     filterByMass,
     titleLiturgicalCalendar,
-    previous
+    checkCatechumensPresentByMass,
+    previous,
+    checkCatechumens
   } = usePresences();
 
 	useEffect(() => {
     if (titleLiturgicalCalendar === '') {
       previous();
+    }
+
+    if (checkCatechumensPresentByMass) {
+      checkCatechumens();
     }
 
 		if (errorLiturgicalCalendar) {
@@ -36,7 +42,7 @@ function Presences() {
     if (errorPresences) {
 			toast.error('Erro ao carregar as presenças');
 		}
-	}, [loadingLiturgicalCalendar, errorLiturgicalCalendar, errorPresences, titleLiturgicalCalendar]);
+	}, [loadingLiturgicalCalendar, errorLiturgicalCalendar, errorPresences, titleLiturgicalCalendar, checkCatechumensPresentByMass]);
 
 	function handleFilterMasses(e: React.ChangeEvent<HTMLSelectElement>) {
 		filterMasses(e.target.value);

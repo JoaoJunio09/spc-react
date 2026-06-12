@@ -97,8 +97,8 @@ function ConfirmPresence() {
 					{catechumensConfirm?.map(catechumen => (
 						<div key={catechumen.id} className="review-card">
 							<div className="review-info">
-								<h4 id="catechumen-name">{catechumen.firstName} {catechumen.lastName}</h4>
-								<p id="step-and-catechists-name">
+								<h4 className='font-semibold'>{catechumen.firstName} {catechumen.lastName}</h4>
+								<p>
 									{DefineNameCatechists.define(catechumen.step)}
 								</p>
 							</div>

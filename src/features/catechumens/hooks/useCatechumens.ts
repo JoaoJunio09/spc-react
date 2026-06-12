@@ -162,6 +162,11 @@ function useCatechumens(scope: string) {
 
 	function search(value: string) {
 		setFullName(value);
+		setPageableParamsAPI({
+			page: 0,
+			size: 20,
+			direction: 'asc'
+		});
 	}
 
 	function selectPage(page: number) {

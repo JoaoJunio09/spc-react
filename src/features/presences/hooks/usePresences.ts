@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useDebounce from "../../../hooks/useDebounce";
 import useLiturgicalCalendarService from "../../../hooks/useLiturgicalCalendarService";
 import useMassService from "../../../hooks/useMassService";
@@ -15,6 +15,8 @@ function usePresences() {
 	const liturgicalCalendarService = useLiturgicalCalendarService();
 
 	const debouncedName = useDebounce(fullName, 2000);
+
+	const checkCatechumensPresentByMass = sessionStorage.getItem('@check_catechumens_present');
 	
 	const queryMasses = useQuery({
 		queryKey: [
@@ -62,6 +64,12 @@ function usePresences() {
 		filterMasses(liturgicalCalendar.title);
 	}
 
+	function checkCatechumens() {
+		if (checkCatechumensPresentByMass) {
+			setTitleLigurticalCalendar(checkCatechumensPresentByMass);
+		}
+	}
+
 	return {
 		masses: queryMasses.data ?? [],
 		presences: queryPresences.data ?? [],
@@ -73,7 +81,9 @@ function usePresences() {
 		filterByFullName,
 		filterByMass,
 		titleLiturgicalCalendar,
-		previous
+		checkCatechumensPresentByMass,
+		previous,
+		checkCatechumens
 	}
 }
 

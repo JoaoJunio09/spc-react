@@ -1,6 +1,6 @@
 import { ArrowRight, CalendarDays, ChevronRight, Church, ClipboardCheck, Clock3, Info, MapPin, X } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TopProgressBar from "../../../components/feedback/TopProgressBar";
 import type { PresenceUserSummary } from "../../../data/presence/PresenceUserSummaryByMass";
 import { UtilsDate } from "../../../utils/UtilsDate";
@@ -44,13 +44,24 @@ const NoMassesEmptyState = ({
 
 type PresenceSummaryModalProps = {
 	sumarry: PresenceUserSummary[],
+	titleLiturgicalCalendar: string | undefined,
 	onClose: () => void
 }
 
 const PresenceSummaryModal = ({
 	sumarry,
+	titleLiturgicalCalendar,
 	onClose
 }: PresenceSummaryModalProps) => {
+	if (!titleLiturgicalCalendar) return;
+
+	const navigate = useNavigate();
+
+	function handleCheckCatechumensPresent(titleLiturgicalCalendar: string) {
+		sessionStorage.setItem('@check_catechumens_present', titleLiturgicalCalendar);
+		navigate('/presencas');
+	}
+
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center p-4">
 
@@ -123,10 +134,7 @@ const PresenceSummaryModal = ({
 				{/* Botão de Ação Primária */}
 				<div className="p-6 sm:p-7 border-t border-slate-100 bg-slate-50 flex flex-col gap-3">
 					<button
-						onClick={() => {
-							// setSelectedMass(null);
-							// setSelectedMassStudents(selectedMass);
-						}}
+						onClick={() => handleCheckCatechumensPresent(titleLiturgicalCalendar)}
 						className="w-full h-13 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-extrabold text-base rounded-2xl shadow-md hover:shadow-lg shadow-orange-600/15 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
 					>
 						Conferir Catequizandos Presentes
@@ -154,16 +162,19 @@ type EventDetailsProps = {
 function EventDetails({ events, loading }: EventDetailsProps) {
 	const [openSummaryModal, setOpenSummaryModal] = useState(false);
 	const [summary, setSummary] = useState<PresenceUserSummary[]>([]);
+	const [titleLiturgicalCalendar, setTitleLiturgicalCalendar] = useState<string| undefined>('');
 
-	function handleOpenSummaryModal(summary: PresenceUserSummary[] | undefined) {
-		if (!summary) return;
+	function handleOpenSummaryModal(summary: PresenceUserSummary[] | undefined, titleLiturgicalCalendar: string | undefined) {
+		if (!summary || !titleLiturgicalCalendar) return;
 		setOpenSummaryModal(true);
 		setSummary(summary);
+		setTitleLiturgicalCalendar(titleLiturgicalCalendar);
 	}
 
 	function handleCloseSummaryModal() {
 		setOpenSummaryModal(false);
 		setSummary([]);
+		setTitleLiturgicalCalendar(undefined);
 	}
 
 	return (
@@ -175,6 +186,7 @@ function EventDetails({ events, loading }: EventDetailsProps) {
 			{openSummaryModal && (
 				<PresenceSummaryModal
 					sumarry={summary}
+					titleLiturgicalCalendar={titleLiturgicalCalendar}
 					onClose={handleCloseSummaryModal}
 				/>
 			)}
@@ -269,7 +281,7 @@ function EventDetails({ events, loading }: EventDetailsProps) {
 								{/* 2. Conferir Catequizandos Presentes */}
 								{event.summary?.length !== 0 && (
 									<button
-										onClick={() => handleOpenSummaryModal(event.summary)}
+										onClick={() => handleOpenSummaryModal(event.summary, event.title)}
 										className="flex-1 h-13 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 hover:border-slate-300 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-slate-100"
 									>
 										Detalhes do Registro
