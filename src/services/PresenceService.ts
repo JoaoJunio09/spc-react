@@ -4,6 +4,7 @@ import type { ParamsPresenceAPI } from "../data/presence/ParamsPresenceAPI";
 import type { PresenceRequest } from "../data/presence/PresenceRequest";
 import type { PresenceResponse } from "../data/presence/PresenceResponse";
 import api from "./api";
+import type { PresenceUserSummary } from "../data/presence/PresenceUserSummaryByMass";
 
 class PresenceService {
 	BASE_URL: string = '';
@@ -70,6 +71,26 @@ class PresenceService {
 			if (err?.response?.status === 409) {
 				throw new ConflictInTheDatabaseException('Conflit in the saved database this Presences.');
 			}
+			if (err?.response?.status === 500) {
+				throw new InternalServerError('Erro inesperado no servidor ao registrar');
+			}
+
+			throw err;
+		}
+	}
+
+	public async getSummaryByMass(params: ParamsPresenceAPI) {
+		const URL = `${this.BASE_URL}/summary-by-mass`;
+		try {
+			const response = await api.get<PresenceUserSummary[]>(URL, {
+				headers: {
+					'Authorization': `Bearer ${this.accessToken}`
+				},
+				params
+			});
+			return response.data;
+		}
+		catch (err: any) {
 			if (err?.response?.status === 500) {
 				throw new InternalServerError('Erro inesperado no servidor ao registrar');
 			}

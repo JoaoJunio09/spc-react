@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { MassResponse } from "../../../data/mass/MassResponse";
-import type { PresenceResponse } from "../../../data/presence/PresenceResponse";
 import { UtilsDate } from "../../../utils/UtilsDate";
+import type { PresenceUserSummary } from "../../../data/presence/PresenceUserSummaryByMass";
+import usePresenceService from "../../../hooks/usePresenceService";
 
 type UseLoadEventProps = {
 	masses: MassResponse[],
-	presences: PresenceResponse[],
 }
 
 export type Event = {
@@ -14,7 +14,8 @@ export type Event = {
 	massDateTime?: string,
 	massLocation?: string,
 	title?: string,
-	isEvent: boolean
+	isEvent: boolean,
+	summary?: PresenceUserSummary[]
 }
 
 const year = new Date().getFullYear();
@@ -30,24 +31,35 @@ function formatDateLabel(date: string): string {
 
 function useLoadEvent({ masses }: UseLoadEventProps){
 	const [events, setEvents] = useState<Event[]>([]);
+	const [loading, setLoading] = useState(false);
 
-	function loadEvent(date: string) {
+	const presenceService = usePresenceService();
+
+	const loadEvent = useCallback(async (date: string) => {
 		const foundEvents: Event[] = [];
 		let isMassToday: boolean = false;
 
-		masses.forEach(mass => {
-			if (UtilsDate.formatDateTimeThisMissaForDate(mass.dateTime) === date) {
-				isMassToday = true;
+		setLoading(true);
 
-				foundEvents.push({
-					massId: mass.id,
-					title: mass.title,
-					massDate: dateMontage(mass),
-					massDateTime: mass.dateTime,
-					massLocation: locationMontage(mass),
-					isEvent: true
-				});
-			}
+		await Promise.all(
+			masses.map(async (mass) => {
+				const summary = await presenceService.getSummaryByMass({ massId: mass.id });
+				if (UtilsDate.formatDateTimeThisMissaForDate(mass.dateTime) === date) {
+					isMassToday = true;
+
+					foundEvents.push({
+						massId: mass.id,
+						title: mass.title,
+						massDate: dateMontage(mass),
+						massDateTime: mass.dateTime,
+						massLocation: locationMontage(mass),
+						isEvent: true,
+						summary: summary
+					});
+				}
+			})
+		).finally(() => {
+			setLoading(false);
 		});
 
 		if (foundEvents.length > 0) {
@@ -69,11 +81,12 @@ function useLoadEvent({ masses }: UseLoadEventProps){
 				}]);
 			}
 		}
-	}
+	}, [masses, presenceService]);
 
 	return {
 		events,
-		loadEvent
+		loadEvent,
+		loading
 	}
 }
 

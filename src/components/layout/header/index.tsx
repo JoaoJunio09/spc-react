@@ -17,7 +17,6 @@ function Header({ active }: HeaderProps) {
   const [isOpenMenu, setisOpenMenu] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
-  console.log(notifications);
 
   const communityOrParish = loadCommunityOrParish();
 

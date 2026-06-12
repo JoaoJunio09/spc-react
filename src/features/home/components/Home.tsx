@@ -168,9 +168,7 @@ const Indicators = ({
 
 function Home() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-	
   const {
-    presences,
     masses,
     massesDates,
     dataIndicators,
@@ -178,7 +176,7 @@ function Home() {
     communityOrParish
   } = useHome();
   const { daysOfWeek } = useWeekCalendary({ massesDates: massesDates });
-  const { events, loadEvent } = useLoadEvent({ masses: masses, presences: presences });
+  const { events, loadEvent, loading } = useLoadEvent({ masses: masses });
   const { isOpen, setIsOpen }	= useCalendaryModal();
 
   const { fullName } = useAuthContext();
@@ -236,6 +234,7 @@ function Home() {
 
         <EventDetails
           events={sortedEvents}
+          loading={loading}
         />
 
         {isOpen && (

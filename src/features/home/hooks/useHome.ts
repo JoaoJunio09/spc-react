@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import { useAuthContext } from "../../../context/AuthContext";
 import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
 import useMassService from "../../../hooks/useMassService";
-import usePresenceService from "../../../hooks/usePresenceService";
 import { UtilsDate } from "../../../utils/UtilsDate";
 
 type NextMass = {
@@ -80,13 +79,6 @@ function useHome() {
 	const { auth } = useAuthContext();
 
 	const massService = useMassService();
-	const presenceService = usePresenceService();
-
-	const queryPresences = useQuery({
-		queryKey: ['presences'],
-		queryFn: () => presenceService.getAll({}),
-		retry: 1
-	});
 
 	const queryMasses = useQuery({
 		queryKey: ['masses'],
@@ -181,7 +173,6 @@ function useHome() {
 	}
 
 	return {
-		presences: queryPresences.data ?? [],
 		masses: queryMasses.data ?? [],
 		massesDates: massesDates ?? [],
 		dataIndicators,
