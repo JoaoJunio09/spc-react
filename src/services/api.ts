@@ -2,7 +2,7 @@ import axios from "axios";
 import type { Token } from "../data/auth/Token";
 
 const api = axios.create({
-	baseURL: import.meta.env.VITE_API_URL_PROD
+	baseURL: import.meta.env.VITE_API_URL_DEV
 });
 
 api.interceptors.request.use((config) => {
