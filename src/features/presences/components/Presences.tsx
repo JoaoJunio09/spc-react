@@ -54,14 +54,17 @@ function Presences() {
         <TopProgressBar />
       )}
 
-      <section className="pt-12 pb-8">
-        <h2 className="text-[2rem] font-extrabold uppercase text-[var(--text-main)]">
-          HISTÓRICO DE PRESENÇAS
-        </h2>
-
-        <p className="mt-2 text-[1.1rem] text-[var(--text-muted)]">
-          Selecione um período litúrgico para gerenciar e visualizar as presenças realizadas.
-        </p>
+      <section className="mt-10 mb-10">
+        <div className="md:flex md:items-center md:justify-between">
+          <div className="max-w-xl flex flex-col items-center md:items-start">
+            <h1 className="mb-2 text-2xl md:mb-0 sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+              Histórico de Presenças
+            </h1>
+            <p className="mt-1.5 max-md:text-center text-sm sm:text-base text-slate-500 font-medium">
+              Selecione um período litúrgico para gerenciar e visualizar as presenças realizadas.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className="mb-10 rounded-2xl border border-[#E2E8F0] bg-white p-8 shadow-[0_4px_6px_-1px_rgb(0_0_0/0.1),0_2px_4px_-2px_rgb(0_0_0/0.1)]">
@@ -75,7 +78,7 @@ function Presences() {
 
           <div className="relative flex items-center">
             <select
-              className="w-full appearance-none rounded-xl border-2 border-[#E2E8F0] bg-[#F8FAFC] px-[18px] py-[14px] text-[1.1rem] font-semibold text-[var(--text-main)] transition-all duration-200 cursor-pointer focus:border-[var(--primary)] focus:bg-white focus:outline-none focus:shadow-[0_0_0_4px_rgba(245,158,11,0.15)]"
+              className="w-full appearance-none rounded-xl border-2 border-[#E2E8F0] bg-[#F8FAFC] px-[18px] py-[14px] text-[.8rem] font-semibold text-[var(--text-main)] transition-all duration-200 cursor-pointer focus:border-[var(--primary)] focus:bg-white focus:outline-none focus:shadow-[0_0_0_4px_rgba(245,158,11,0.15)]"
               id="liturgicalCalendar"
               name="liturgicalCalendar"
               value={titleLiturgicalCalendar}
