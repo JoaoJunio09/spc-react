@@ -1,7 +1,7 @@
 import { Client } from '@stomp/stompjs';
 import SockJs from 'sockjs-client';
 import { useCallback, useEffect, useRef } from "react";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 
 type MessageHandler = (body: string) => void;
 
@@ -13,7 +13,7 @@ function useWebSocket(onMessage: MessageHandler) {
 		if (!auth?.accessToken) return;
 
 		const client = new Client({
-			webSocketFactory: () => 
+			webSocketFactory: () =>
 				new SockJs(`${import.meta.env.VITE_API_URL_DEV}/ws`),
 				
 				connectHeaders: {

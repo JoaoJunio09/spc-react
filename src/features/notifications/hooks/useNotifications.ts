@@ -1,27 +1,27 @@
 import { useCallback, useEffect, useState } from "react";
-import { useAuthContext } from "../../context/AuthContext";
-import type { NotificationDTO } from "../../data/notification/NotificationDTO";
-import api from "../../services/api";
-import useWebSocket from "./useWebSocket";
+import { useAuthContext } from "../../../context/AuthContext";
+import type { NotificationDTO } from "../../../data/notification/NotificationDTO";
+import useNotificationService from "../../../hooks/useNotificationService";
+import useWebSocket from "../../../hooks/useWebSocket";
 
 function useNotifications() {
 	const { auth } = useAuthContext();
 	const [notifications, setNotifications] = useState<NotificationDTO[]>([]);
-	const [unreadCount, setUnreadCount] = useState(0);
+
+	const unreadCount = notifications.filter((n) => !n.isRead).length;
+
+	const notificationService = useNotificationService();
 
 	const fetchHistory = useCallback(async () => {
 		if (!auth) return;
 		try {
-			const response = await api.get<NotificationDTO[]>(
-				'/api/notifications/v1'
-			);
-			setNotifications(response.data);
-			setUnreadCount(response.data.filter((n) => !n.isRead).length);
+			const data = await notificationService.getHistory();
+			setNotifications(data);
 		}
 		catch (err) {
 			console.error("Erro ao buscar notificações:", err);
 		}
-	}, [auth]);
+	}, [auth, notificationService]);
 
 	useEffect(() => {
 		fetchHistory();
@@ -30,39 +30,40 @@ function useNotifications() {
 	const handleNewMessage = useCallback((body: string) => {
 		try {
 			const notification: NotificationDTO = JSON.parse(body);
-			setNotifications((prev) => [notification, ...prev]);
-			setUnreadCount((prev) => prev + 1);
+			setNotifications((prev) => {
+				const exists = prev.some((n) => n.id === notification.id);
+				if (exists) return prev;
+				return [notification, ...prev];
+			});
 		}
 		catch (err) {
 			console.error("Erro ao parsear notificação:", body);
 		}
-	}, []);
+	}, [notificationService]);
 
 	useWebSocket(handleNewMessage);
 
 	const markAsRead = useCallback(async (id: number) => {
 		try {
-			await api.patch(`/api/notifications/v1/${id}/read`);
+			await notificationService.markAsRead(id);
 			setNotifications((prev) =>
 				prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
 			);
-			setUnreadCount((prev) => Math.max(0, prev - 1));
 		}
 		catch (error) {
 			console.error("Erro ao marcar como lida:", error);
 		}
-	}, []);
+	}, [notificationService]);
 
 	const markAllAsRead = useCallback(async () => {
 		try {
-			await api.patch("/api/notifications/v1/read-all");
+			await notificationService.markAllAsRead();
 			setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
-			setUnreadCount(0);
 		}
 		catch (error) {
 			console.error("Erro ao marcar todas como lidas:", error);
 		}
-	}, []);
+	}, [notificationService]);
 
 	return {
 		notifications,

@@ -9,5 +9,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
     babel({ presets: [reactCompilerPreset()] })
-  ]
+  ],
+  define: {
+    global: 'globalThis',
+  },
 })
