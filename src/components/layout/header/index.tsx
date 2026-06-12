@@ -1,13 +1,13 @@
 import './index.css';
 
+import { Bell, BellRing } from 'lucide-react';
 import { useState } from 'react';
 import logoImg from '../../../assets/brasao_paroquia.png';
 import { useAuthContext } from '../../../context/AuthContext';
 import type { CommunityOrParish } from '../../../enums/CommunityOrParish';
-import Nav from '../nav';
-import { Bell, BellRing, X } from 'lucide-react';
-import useNotifications from '../../../features/notifications/hooks/useNotifications';
 import NotificationDrawer from '../../../features/notifications/components/NotificationDrawer';
+import useNotifications from '../../../features/notifications/hooks/useNotifications';
+import Nav from '../nav';
 
 type HeaderProps = {
   active: string
