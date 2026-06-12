@@ -1,12 +1,10 @@
 import { ArrowRight, CalendarDays, ChevronRight, Church, ClipboardCheck, Clock3, Info, MapPin, X } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import TopProgressBar from "../../../components/feedback/TopProgressBar";
+import type { PresenceUserSummary } from "../../../data/presence/PresenceUserSummaryByMass";
 import { UtilsDate } from "../../../utils/UtilsDate";
 import type { Event } from "../hooks/useLoadEvent";
-import Skeleton from "react-loading-skeleton";
-import type { PresenceUserSummary } from "../../../data/presence/PresenceUserSummaryByMass";
-import type { CommunityOrParish } from "../../../enums/CommunityOrParish";
-import { useState } from "react";
 
 type NoMassesEmptyStateProps = {
 	message: string | undefined
@@ -269,13 +267,15 @@ function EventDetails({ events, loading }: EventDetailsProps) {
 								</button>
 
 								{/* 2. Conferir Catequizandos Presentes */}
-								<button
-									onClick={() => handleOpenSummaryModal(event.summary)}
-									className="flex-1 h-13 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 hover:border-slate-300 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-slate-100"
-								>
-									Detalhes do Registro
-									<ChevronRight className="w-4.5 h-12" />
-								</button>
+								{event.summary?.length !== 0 && (
+									<button
+										onClick={() => handleOpenSummaryModal(event.summary)}
+										className="flex-1 h-13 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 hover:border-slate-300 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-slate-100"
+									>
+										Detalhes do Registro
+										<ChevronRight className="w-4.5 h-12" />
+									</button>
+								)}
 							</div>
 						</article>
 						:

@@ -14,7 +14,7 @@ function useWebSocket(onMessage: MessageHandler) {
 
 		const client = new Client({
 			webSocketFactory: () =>
-				new SockJs(`${import.meta.env.VITE_API_URL_DEV}/ws`),
+				new SockJs(`${import.meta.env.VITE_API_URL_PROD}/ws`),
 				
 				connectHeaders: {
 					Authorization: `Bearer ${auth.accessToken}`,
