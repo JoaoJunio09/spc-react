@@ -39,9 +39,7 @@ api.interceptors.response.use(
 			case 403:
 				window.location.replace('/unauthorized');
 				break;
-			case 404:
-				window.location.replace('/notfound');
-				break;
+			
 		}
 
 		return Promise.reject(error);
