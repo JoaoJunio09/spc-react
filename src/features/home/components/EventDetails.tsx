@@ -55,11 +55,28 @@ const PresenceSummaryModal = ({
 }: PresenceSummaryModalProps) => {
 	if (!titleLiturgicalCalendar) return;
 
+	console.log(sumarry)
+
 	const navigate = useNavigate();
 
 	function handleCheckCatechumensPresent(titleLiturgicalCalendar: string) {
 		sessionStorage.setItem('@check_catechumens_present', titleLiturgicalCalendar);
 		navigate('/presencas');
+	}
+
+	function formattedRegisteredAt(registeredAt: string | null) {
+		if (!registeredAt) {
+			return 'Não definido';
+		}
+		const date = new Date(registeredAt);
+
+		return `${date.toLocaleDateString("pt-BR")} às ${date.toLocaleTimeString(
+			"pt-BR",
+			{
+				hour: "2-digit",
+				minute: "2-digit",
+			}
+		)}`;
 	}
 
 	return (
@@ -116,7 +133,7 @@ const PresenceSummaryModal = ({
 									</div>
 									<div className="leading-tight text-left">
 										<h4 className="text-base font-extrabold text-slate-900">{sum.fullName}</h4>
-										<span className="text-xs text-slate-400 font-semibold block mt-0.5">Registrado em: 07/07/2026 às 20:03</span>
+										<span className="text-xs text-slate-400 font-semibold block mt-0.5">Registrado em: {formattedRegisteredAt(sum.registeredAt)}</span>
 									</div>
 								</div>
 
@@ -162,7 +179,7 @@ type EventDetailsProps = {
 function EventDetails({ events, loading }: EventDetailsProps) {
 	const [openSummaryModal, setOpenSummaryModal] = useState(false);
 	const [summary, setSummary] = useState<PresenceUserSummary[]>([]);
-	const [titleLiturgicalCalendar, setTitleLiturgicalCalendar] = useState<string| undefined>('');
+	const [titleLiturgicalCalendar, setTitleLiturgicalCalendar] = useState<string | undefined>('');
 
 	function handleOpenSummaryModal(summary: PresenceUserSummary[] | undefined, titleLiturgicalCalendar: string | undefined) {
 		if (!summary || !titleLiturgicalCalendar) return;
