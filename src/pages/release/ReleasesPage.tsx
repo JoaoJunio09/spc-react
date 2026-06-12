@@ -1,29 +1,15 @@
 import {
-	AlertCircle,
-	ArrowLeft,
 	ArrowRight,
-	BarChart3,
-	Calendar,
 	CheckCircle2,
-	ChevronLeft,
-	Church,
-	Compass,
 	Heart,
 	Layers,
-	Lock,
-	LockKeyhole,
 	Rocket,
 	ShieldCheck,
-	Sparkles,
-	UserCheck,
-	Users,
-	Wrench,
-	Zap
+	Sparkles
 } from 'lucide-react';
-import { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import logoImg from '../../assets/brasao_paroquia.png';
-import { redirect, useNavigate } from 'react-router-dom';
 
 interface Release {
 	version: string;

@@ -12,16 +12,15 @@ import { AuthProvider } from "../context/AuthContext";
 import { PresenceProvider } from "../context/PresenceContext";
 import { StatusBannerProvider } from "../context/StatusBannerContext";
 import InternalServerErrorPage from "../pages/errors/InternalServerErrorPage";
-import PresencesPage from "../pages/features/PresencesPage";
-import IndividualPresencePage from "../pages/features/IndividualPresencePage";
-import ProtectedRoute from "./ProtectedRoute";
-import UnauthorizedPage from "../pages/errors/UnauthorizedPage";
 import NotFoundPage from "../pages/errors/NotFoundPage";
-import ScrollToTop from "./ScrollToTop";
-import ReleaseV1 from "../pages/release/ReleaseV1Page";
-import ReleaseV1Page from "../pages/release/ReleaseV1Page";
+import UnauthorizedPage from "../pages/errors/UnauthorizedPage";
+import IndividualPresencePage from "../pages/features/IndividualPresencePage";
+import PresencesPage from "../pages/features/PresencesPage";
 import ReleaseV11Page from "../pages/release/ReleaseV11Page";
+import ReleaseV1Page from "../pages/release/ReleaseV1Page";
 import ReleasesPage from "../pages/release/ReleasesPage";
+import ProtectedRoute from "./ProtectedRoute";
+import ScrollToTop from "./ScrollToTop";
 
 function RoutesApp() {
 	return (

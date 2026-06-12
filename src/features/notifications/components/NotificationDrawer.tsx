@@ -1,6 +1,6 @@
-import { ArrowBigRight, ArrowDownRight, ArrowRight, Bell, X } from "lucide-react";
-import type { NotificationDTO } from "../../../data/notification/NotificationDTO";
+import { ArrowRight, Bell, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import type { NotificationDTO } from "../../../data/notification/NotificationDTO";
 
 type NotificationDrawerProps = {
 	isOpen: boolean;
