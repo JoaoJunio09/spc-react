@@ -1,4 +1,4 @@
-import { Church } from "lucide-react";
+import logoImg from '../../../assets/brasao_paroquia.png';
 
 function InstitutionalSection() {
 	return (
@@ -9,8 +9,8 @@ function InstitutionalSection() {
 			<div className="max-w-[520px] w-full flex flex-col gap-9 relative z-10">
 				{/* Logo SPC */}
 				<div className="flex items-center gap-[14px]">
-					<div className="w-12 h-12 bg-gradient-to-br from-[#F59E0B] to-[#EA580C] text-white rounded-xl flex items-center justify-center shadow-lg shadow-[#EA580C]/25">
-						<Church className="w-6 h-6" />
+					<div className="w-12 h-12 bg-gradient-to-br from-[#F59E0B] text-white rounded-xl flex items-center justify-center shadow-lg shadow-[#EA580C]/25">
+						<img src={logoImg} alt="" />
 					</div>
 					<span className="text-[1.8rem] font-extrabold text-white tracking-tight">SPC</span>
 				</div>

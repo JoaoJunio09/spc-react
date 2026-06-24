@@ -1,7 +1,6 @@
 import {
 	ArrowRight,
 	CheckCircle2,
-	Heart,
 	Layers,
 	Rocket,
 	ShieldCheck,
@@ -300,9 +299,6 @@ function ReleasesPage() {
 			{ }
 			<footer className="border-t border-slate-200 bg-white py-16 px-6 text-center -mx-4">
 				<div className="max-w-4xl mx-auto">
-					<div className="flex justify-center mb-6 text-amber-500">
-						<Heart className="w-6 h-6 fill-current animate-pulse" />
-					</div>
 					<p className="text-slate-500 font-semibold mb-8 max-w-lg mx-auto leading-relaxed">
 						O SPC continua evoluindo para apoiar a missão evangelizadora da Catequese através da tecnologia.
 					</p>

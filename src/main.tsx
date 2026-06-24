@@ -1,17 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
-import './global.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import './global.css';
 
-import App from './App.tsx'
+import App from './App.tsx';
 
 import { ToastContainer } from 'react-toastify';
 
 import {
   QueryClient,
   QueryClientProvider
-} from '@tanstack/react-query'
+} from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 

@@ -219,7 +219,7 @@ const ReleaseV1Page = () => {
       <section className="max-w-4xl mx-auto px-6 py-12 mb-20">
         <div className="flex items-center gap-4 mb-12">
           <History className="text-amber-500 w-8 h-8" />
-          <h2 className="text-3xl font-black">História da Plaaforma</h2>
+          <h2 className="text-3xl font-black">História da Plataforma</h2>
         </div>
 
         <div className="relative border-l-2 border-slate-100 ml-4 pl-8 space-y-12 text-left">
@@ -266,7 +266,7 @@ const ReleaseV1Page = () => {
                   </Link>
                 </button>
                 <button className="px-6 py-3 rounded-2xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-colors flex items-center gap-2 group">
-                  <Link to='/releases/v1.1.0' className='flex items-center gap-2'>
+                  <Link to='/releases/1.1.0' className='flex items-center gap-2'>
                     Acessar v1.1.0
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>

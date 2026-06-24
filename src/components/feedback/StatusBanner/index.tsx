@@ -30,7 +30,7 @@ function StatusBanner({
 	return (
 		<div
 			className={`
-				w-full min-h-26 px-4 py-4 flex items-center justify-center
+				w-full min-h-26 px-4 py-4 flex items-center justify-center mb-8
 				${open ? 'flex' : 'hidden'}
 				${returnedVariantBackground(variant)}
 			`}
