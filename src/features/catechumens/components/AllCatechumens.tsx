@@ -41,7 +41,7 @@ function AllCatechumens({
           stepName={undefined}
         />
 
-				 <GeneralData
+				<GeneralData
           totalCatechumens={generalData.totalCatechumens}
           mediumFrequency={generalData.mediumFrequency}
           attention={generalData.attention}

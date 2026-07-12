@@ -48,8 +48,6 @@ function useConfirmPresense() {
 		}
 	});
 
-	
-
 	useEffect(() => {
 		loadCatechumensPresent();
 		obtainCatechistId();
