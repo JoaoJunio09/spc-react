@@ -58,6 +58,7 @@ const ADMIN_MENU: MenuItem[] = [
 
 function getMenuItems(roles: string[]): MenuItem[] {
   if (roles.includes('ROLE_ADMIN')) return ADMIN_MENU;
+  if (roles.includes('ROLE_PRIEST')) return ADMIN_MENU;
   if (roles.includes('ROLE_COORDINATOR')) return COORDINATOR_MENU;
   if (roles.includes('ROLE_CATECHIST')) return CATECHIST_MENU;
   return [];

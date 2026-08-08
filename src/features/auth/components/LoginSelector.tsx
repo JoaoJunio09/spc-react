@@ -1,4 +1,4 @@
-import { BookOpen, ChevronRight, Settings, Users } from "lucide-react";
+import { BookOpen, ChevronRight, User, Users } from "lucide-react";
 import type { onLoginSelectorProps } from "./Login";
 import LoginFooter from "./LoginFooter";
 import LoginHeader from "./LoginHeader";
@@ -48,11 +48,11 @@ function LoginSelector({ onSelectLogin }: onLoginSelectorProps) {
 					onClick={() => onSelectLogin('Admin')}
 				>
 					<div className="w-11 h-11 rounded-lg flex items-center justify-center text-xl bg-[#FEE2E2] text-[#EF4444]">
-						<Settings className="w-5 h-5" />
+						<User className="w-5 h-5" />
 					</div>
 					<div className="flex-1">
-						<h3 className="text-[0.98rem] font-extrabold text-[#1E293B] mb-0.5">Administrador</h3>
-						<p className="text-[0.82rem] text-[#64748B] leading-tight">Controle global de usuários, configurações e paróquias.</p>
+						<h3 className="text-[0.98rem] font-extrabold text-[#1E293B] mb-0.5">Pároco</h3>
+						<p className="text-[0.82rem] text-[#64748B] leading-tight">Controle global dos catequizandos, turmas e catequistas.</p>
 					</div>
 					<ChevronRight className="text-[#64748B] w-4 h-4" />
 				</button>

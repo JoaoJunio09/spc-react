@@ -39,12 +39,12 @@ function RoutesApp() {
 							<Route path="/unauthorized" element={<UnauthorizedPage />} />
 							<Route path="/notfound" element={<NotFoundPage />} />
 							
-							<Route element={<ProtectedRoute roles={['ROLE_COORDINATOR', 'ROLE_ADMIN']} />}>
+							<Route element={<ProtectedRoute roles={['ROLE_COORDINATOR', 'ROLE_ADMIN', 'ROLE_PRIEST']} />}>
 								<Route path="/etapas-e-catequistas" element={<StepsAndCatechistsPage />} />
 								<Route path="/missas" element={<MassesPage />} />
 							</Route>
 
-							<Route element={<ProtectedRoute roles={['ROLE_CATECHIST', 'ROLE_COORDINATOR', 'ROLE_ADMIN']} />}>
+							<Route element={<ProtectedRoute roles={['ROLE_CATECHIST', 'ROLE_COORDINATOR', 'ROLE_ADMIN', 'ROLE_PRIEST']} />}>
 								<Route path="/inicio" element={<HomePage />} />
 								<Route path="/catequizandos" element={<CatechumensPage />} />
 								<Route path="/presencas/registrar/:massId" element={<RegisterPresencePage />} />

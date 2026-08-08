@@ -1,1 +1,1 @@
-export type Role = 'ROLE_CATECHIST' | 'ROLE_COORDINATOR' | 'ROLE_ADMIN';
+export type Role = 'ROLE_CATECHIST' | 'ROLE_COORDINATOR' | 'ROLE_ADMIN' | 'ROLE_PRIEST';

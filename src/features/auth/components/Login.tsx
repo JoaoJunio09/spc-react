@@ -8,7 +8,7 @@ export type SelectorType = 'Catechist' | 'Coordinator' | 'Admin' | null;
 
 export type onLoginSelectorProps = {
 	onSelectLogin: (param: SelectorType) => void,
-	roleCoordinatorOrAdmin?: 'Coordenação' | 'Administrador' 
+	roleCoordinatorOrAdmin?: 'Coordenação' | 'Pároco' 
 }
 
 function Login() {
@@ -32,7 +32,7 @@ function Login() {
 		else {
 			return <LoginCoordinatorOrAdmin
 				onSelectLogin={handleSelect}
-				roleCoordinatorOrAdmin={`${selector === "Coordinator" ? 'Coordenação' : 'Administrador'}`}
+				roleCoordinatorOrAdmin={`${selector === "Coordinator" ? 'Coordenação' : 'Pároco'}`}
 			/>
 		}
 	}
