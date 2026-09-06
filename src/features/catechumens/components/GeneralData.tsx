@@ -88,7 +88,7 @@ function GeneralData({
       {/* Card Principal 3: Em Atenção */}
       <GeneralDataCard
         icon={<AlertTriangle className="w-6 h-6" />}
-        title='Em Atenção'
+        title='Baixa Frequência'
         data={attention}
         type='warning'
       />

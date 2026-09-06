@@ -1,4 +1,5 @@
 import TopProgressBar from "../../../components/feedback/TopProgressBar";
+import type { CatechistResponse } from "../../../data/catechist/CatechistResponse";
 import type { CatechumenPage } from "../../../data/catechumen/CatechumenPage";
 import type { GeneralDataType } from "../hooks/useCatechumens";
 import Apresentation from "./Apresentation";
@@ -14,7 +15,11 @@ type AllCatechumensProps = {
 	generalData: GeneralDataType | null,
 	isLoading: boolean,
 	fullName: string,
-	search: (value: string) => void
+	search: (value: string) => void,
+	catechistId: number | null,
+	filterByCatechist: (id: number | null) => void,
+	catechists: CatechistResponse[],
+	isLoadingCatechists: boolean
 }
 
 function AllCatechumens({
@@ -25,7 +30,11 @@ function AllCatechumens({
 	generalData,
 	isLoading,
 	fullName,
-	search
+	search,
+	catechistId,
+	filterByCatechist,
+	catechists,
+	isLoadingCatechists
 }: AllCatechumensProps) {
 	if (!generalData) return;
 	return (
@@ -52,6 +61,10 @@ function AllCatechumens({
 				<SearchCatechumen
           fullName={fullName}
           search={search}
+					catechists={catechists}
+					isLoading={isLoadingCatechists}
+					catechistId={catechistId}
+					filterByCatechist={filterByCatechist}
         />
 
 				<ListCatechumens

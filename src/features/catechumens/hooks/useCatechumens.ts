@@ -8,6 +8,7 @@ import useCatechumenService from "../../../hooks/useCatechumenService";
 import useDebounce from "../../../hooks/useDebounce";
 import useMassService from "../../../hooks/useMassService";
 import useStepService from "../../../hooks/useStepService";
+import useCatechistService from "../../../hooks/useCatechistService";
 
 export type GeneralDataType = {
 	totalCatechumens?: number,
@@ -19,7 +20,7 @@ export type GeneralDataType = {
 
 function useCatechumens(scope: string) {
 	const [fullName, setFullName] = useState('');
-	const [catechistId, setCatechistId] = useState(0);
+	const [catechistId, setCatechistId] = useState<number | null>(0);
 	const [pageableParamsAPI, setPageableParamsAPI] = useState<PageableParamsAPI>({
 		page: 0,
 		size: 20,
@@ -29,6 +30,7 @@ function useCatechumens(scope: string) {
 	const catechumenService = useCatechumenService();
 	const massService = useMassService();
 	const stepService = useStepService();
+	const catechistService = useCatechistService();
 
 	const debouncedName = useDebounce(fullName, 1000);
 
@@ -55,6 +57,11 @@ function useCatechumens(scope: string) {
 		}),
 		enabled: !!catechistId,
 		retry: 3
+	});
+
+	const queryCatechists = useQuery({
+		queryKey: ['catechists'],
+		queryFn: () => catechistService.getAll({})
 	});
 
 	const queryMineCatechumensGeneral = useQuery({
@@ -94,11 +101,13 @@ function useCatechumens(scope: string) {
 		queryKey: [
 			'allCatechumens',
 			pageableParamsAPI.page,
-			debouncedName
+			debouncedName,
+			catechistId
 		],
 		queryFn: ({ signal }) => catechumenService.getAll({
 			pageable: pageableParamsAPI,
 			fullName: debouncedName ?? undefined,
+			catechistId: catechistId ?? undefined,
 			signal
 		}),
 		retry: 3
@@ -169,6 +178,10 @@ function useCatechumens(scope: string) {
 		});
 	}
 
+	function filterByCatechist(id: number | null) {
+		setCatechistId(id);
+	}
+
 	function selectPage(page: number) {
 		setPageableParamsAPI(prev => ({
 			...prev,
@@ -199,8 +212,12 @@ function useCatechumens(scope: string) {
 		mineCatechumens: queryMineCatechumens.data ?? emptyPageable<CatechumenResponse, 'catechumens'>('catechumens'),
 		allCatechumens: queryAllCatechumens.data ?? emptyPageable<CatechumenResponse, 'catechumens'>('catechumens'),
 		steps: queryStep.data,
+		catechists: queryCatechists.data ?? [],
 		fullName,
 		search,
+		catechistId,
+		filterByCatechist,
+		isLoadingCatechists: queryCatechists.isLoading,
 		isLoadingMineCatechumens: queryMineCatechumens.isLoading,
 		isLoadingAllCatechumens: queryAllCatechumens.isLoading,
 	}

@@ -43,7 +43,7 @@ export const GlobalFooter: React.FC<GlobalFooterProps> = ({
           <a 
             href="https://github.com/JoaoJunio09" 
             target="_blank" 
-            rel="noopener noreferrer"
+            rel="noopener noreferrer" 
             className="hover:text-slate-800 transition-colors flex items-center gap-0.5 text-black"
             aria-label="GitHub do desenvolvedor"
           >

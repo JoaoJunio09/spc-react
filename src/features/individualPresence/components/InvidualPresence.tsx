@@ -2,10 +2,13 @@ import {
   AlertTriangle,
   ArrowLeft
 } from 'lucide-react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
 import TopProgressBar from '../../../components/feedback/TopProgressBar';
 import useInvidualPresence from '../hooks/useInvidualPresence';
 import CatechumenCard from './CatechumenCard';
+import ReportTemplate from './ReportTemplate';
 import TimeLine from './Timeline';
 
 export interface AttendanceRecord {
@@ -38,7 +41,12 @@ export const studentInfo: CatechizedInfo = {
   totalMasses: 19
 };
 
-const Apresentation = () => {
+type ApresentationProps = {
+  onGenerateReport: () => void;
+  isReportReady: boolean;
+};
+
+const Apresentation = ({ onGenerateReport, isReportReady }: ApresentationProps) => {
   let overrideDay: 'weekend' | 'weekday' | null = null;
   const currentDay = new Date().getDay();
   const isWeekend = overrideDay === 'weekend' 
@@ -49,20 +57,37 @@ const Apresentation = () => {
 
   return (
     <section className="mb-6">
-      <button className="bg-transparent border-none text-sm font-bold hover:text-slate-800 transition-colors cursor-pointer group mb-4">
-        <Link className='flex items-center gap-2 text-slate-500' to='/catequizandos'>
-          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          <span>Voltar</span>
-        </Link>
-      </button>
-      
-      <div className="text-left">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
-          Histórico de Frequência
-        </h1>
-        <p className="mt-1 text-sm sm:text-base text-slate-500 font-medium">
-          Acompanhe de perto as presenças e faltas do catequizando nos encontros paroquiais.
-        </p>
+      <div className='flex gap-3 justify-between items-center flex-wrap'>
+        <div>
+          <button className="bg-transparent border-none text-sm font-bold hover:text-slate-800 transition-colors cursor-pointer group mb-4">
+            <Link className='flex items-center gap-2 text-slate-500' to='/catequizandos'>
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              <span>Voltar</span>
+            </Link>
+          </button>
+          
+          <div className="text-left">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+              Histórico de Frequência
+            </h1>
+            <p className="mt-1 text-sm sm:text-base text-slate-500 font-medium">
+              Acompanhe de perto as presenças e faltas do catequizando nos encontros paroquiais.
+            </p>
+          </div>
+        </div>
+        <div>
+          <button
+            onClick={onGenerateReport}
+            disabled={!isReportReady}
+            className="cursor-pointer py-3 px-10 rounded-[12px]
+              border-2 border-orange-600
+              bg-orange-600 text-white font-semibold
+              transition-all duration-300 ease-in-out
+              hover:bg-transparent hover:text-orange-600"
+            >
+            Gerar Relatório
+          </button>
+        </div>
       </div>
 
       {isWeekend && (
@@ -146,11 +171,23 @@ function IndividualPresence() {
     catechumen,
     filter,
     activeFilter,
+    history,
     filteredHistory,
     isLoadingPresences,
     isLoadingMasses,
     isLoadingCatechumen
   } = useInvidualPresence();
+
+  const reportRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef: reportRef,
+    documentTitle: catechumen
+      ? `Frequencia_${catechumen.firstName}_${catechumen.lastName}`
+      : 'Relatorio_Frequencia'
+  });
+
+  const isReportReady = !!catechumen && !isLoadingMasses && !isLoadingPresences && !isLoadingCatechumen;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased text-left pb-16">
@@ -161,7 +198,7 @@ function IndividualPresence() {
 
         {}
         {/* CABEÇALHO DA TELA & BOTÃO VOLTAR */}
-        <Apresentation />
+        <Apresentation onGenerateReport={handlePrint} isReportReady={isReportReady} />
 
         {}
         {/* CARD PRINCIPAL DO CATEQUIZANDO */}
@@ -181,6 +218,10 @@ function IndividualPresence() {
         {/* TIMELINE DE PARTICIPAÇÃO INTEGRADA */}
         <TimeLine filteredHistory={filteredHistory} activeFilter={activeFilter} />
 
+        {/* Modelo de relatório, invisível na tela, usado só na impressão */}
+        <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+          {catechumen && <ReportTemplate ref={reportRef} catechumen={catechumen} history={history} />}
+        </div>
       </main>
     </div>
   );

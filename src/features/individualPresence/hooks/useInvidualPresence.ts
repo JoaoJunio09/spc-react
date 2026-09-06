@@ -99,6 +99,7 @@ function useInvidualPresence() {
 		catechumen: queryCatechumen.data ?? null,
 		filter,
 		activeFilter,
+		history,
 		filteredHistory,
 		isLoadingPresences: queryPresences.isLoading,
 		isLoadingMasses: queryMasses.isLoading,

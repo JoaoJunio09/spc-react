@@ -16,8 +16,12 @@ function Catechumens({ scope }: CatechumensScope) {
 		mineCatechumens,
 		allCatechumens,
 		steps,
+		catechists,
 		fullName,
 		search,
+		catechistId,
+		filterByCatechist,
+		isLoadingCatechists,
 		isLoadingMineCatechumens,
 		isLoadingAllCatechumens,
 	} = useCatechumens(scope);
@@ -46,6 +50,10 @@ function Catechumens({ scope }: CatechumensScope) {
 							isLoading={isLoadingAllCatechumens}
 							fullName={fullName}
 							search={search}
+							catechistId={catechistId}
+							filterByCatechist={filterByCatechist}
+							catechists={catechists}
+							isLoadingCatechists={isLoadingCatechists}
 						/>
 			}
 		</div>

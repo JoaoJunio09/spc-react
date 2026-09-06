@@ -6,11 +6,11 @@ import useLoadSteps from '../hooks/useLoadSteps';
 import useRegisterPresence from '../hooks/useRegisterPresence';
 import CatechumenCard from './CatechumenCard';
 import CatechumenCardSkeleton from './CatechumenCardSkeleton';
+import type { CatechumenResponse } from '../../../data/catechumen/CatechumenResponse';
+import RetroactivePresenceModal from './RetroactivePresenceModal';
 import StepCard from './StepCard';
 
-import type { CatechumenResponse } from '../../../data/catechumen/CatechumenResponse';
 import '../styles/registerPresence.css';
-import RetroactivePresenceModal from './RetroactivePresenceModal';
 
 type RetroactivePresenceModalType = {
 	openModal: boolean,
@@ -23,7 +23,7 @@ function RegisterPresence() {
 	});
 	const [isOpenAccordionSteps, setIsOpenAccordionSteps] = useState(false);
 	const [openClearDialog, setOpenClearDialog] = useState(false);
-	
+
 	const accordionRef = useRef<HTMLDivElement | null>(null);
 
 	const { steps, error: errorLoadSteps, loading: loadingSteps } = useLoadSteps();
@@ -52,7 +52,7 @@ function RegisterPresence() {
 	useEffect(() => {
 		if (loadingSteps) {
 			toast.loading('Carregando as Etapas');
-		}	else {
+		} else {
 			toast.dismiss();
 		}
 
@@ -76,7 +76,7 @@ function RegisterPresence() {
 			requestAnimationFrame(() => {
 				accordion.style.maxHeight = '0px';
 			});
-		} 
+		}
 		else {
 			accordion.style.maxHeight = accordion.scrollHeight + 'px';
 		}
@@ -110,7 +110,7 @@ function RegisterPresence() {
 	}
 
 	function handleReview() {
-		if (countSelected === 0)  {
+		if (countSelected === 0) {
 			toast.info('Marque no mínimo 1 catequizando');
 			return;
 		}
@@ -208,23 +208,23 @@ function RegisterPresence() {
 					variant="danger"
 					onConfirm={handleClear}
 				/>
-				
+
 				<div className="catequizandos-list" id="listCatechumens">
 					{
 						loading
 							? Array.from({ length: 4 }).map((_, index) => (
-									<CatechumenCardSkeleton key={index} />
-								))
+								<CatechumenCardSkeleton key={index} />
+							))
 							: pageable._embedded?.catechumens.map(catechumen => (
-									<CatechumenCard
-										key={catechumen.id}
-										catechumen={catechumen}
-										isPresent={isPresent(catechumen)}
-										isBlockButtonPresence={isBlockButtonPresence(catechumen)}
-										handleMarkPresence={() => handleMarkPresence(catechumen)}
-										handleMarkAbsence={() => markAbsence(catechumen)}
-									/>
-								))
+								<CatechumenCard
+									key={catechumen.id}
+									catechumen={catechumen}
+									isPresent={isPresent(catechumen)}
+									isBlockButtonPresence={isBlockButtonPresence(catechumen)}
+									handleMarkPresence={() => handleMarkPresence(catechumen)}
+									handleMarkAbsence={() => markAbsence(catechumen)}
+								/>
+							))
 					}
 				</div>
 
@@ -244,7 +244,7 @@ function RegisterPresence() {
 					onClose={handleCloseRetroactiveModal}
 				/>
 			}
-    </main>
+		</main>
 	)
 }
 
