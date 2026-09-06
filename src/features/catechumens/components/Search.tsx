@@ -1,4 +1,4 @@
-import { ChevronDown, Search } from 'lucide-react';
+import { ChevronDown, Search, Users } from 'lucide-react';
 import type { CatechistResponse } from '../../../data/catechist/CatechistResponse';
 
 type SearchCatechumenProps = {
@@ -39,7 +39,7 @@ function SearchCatechumen({
 				</div>
 
 				{/* Filtro por catequista */}
-				{catechistId && catechists && isLoading && filterByCatechist && (
+				{filterByCatechist && (
 					<div className="relative w-full sm:w-72 shrink-0">
 						{/* <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
 							<Users className="h-5 w-5 text-slate-400" />
@@ -53,7 +53,7 @@ function SearchCatechumen({
 							className="appearance-none cursor-pointer block w-full h-14 pl-12 pr-10 text-base bg-white border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
 						>
 							<option value="">Todos Catequistas</option>
-							{catechists.map((catechist) => (
+							{(catechists ?? []).map((catechist) => (
 								<option key={catechist.id} value={catechist.id}>
 									{catechist.firstName} {catechist.lastName}
 								</option>

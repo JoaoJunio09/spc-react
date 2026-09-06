@@ -20,7 +20,7 @@ export type GeneralDataType = {
 
 function useCatechumens(scope: string) {
 	const [fullName, setFullName] = useState('');
-	const [catechistId, setCatechistId] = useState<number | null>(0);
+	const [catechistId, setCatechistId] = useState<number | null>(null);
 	const [pageableParamsAPI, setPageableParamsAPI] = useState<PageableParamsAPI>({
 		page: 0,
 		size: 20,
