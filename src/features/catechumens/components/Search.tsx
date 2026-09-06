@@ -1,4 +1,4 @@
-import { ChevronDown, Search, Users } from 'lucide-react';
+import { ChevronDown, Search } from 'lucide-react';
 import type { CatechistResponse } from '../../../data/catechist/CatechistResponse';
 
 type SearchCatechumenProps = {
