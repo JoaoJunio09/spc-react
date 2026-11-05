@@ -26,26 +26,37 @@ function CatechumenCard({
 				))}
 			</div>
 			<div className="attendance-controls">
-				<button
-					disabled={isBlockButtonPresence}
-					className={`
-						btn-toggle btn-mark-presence presente
-						${isPresent || isBlockButtonPresence ? 'active' : ''}
-					`}
-					onClick={() => handleMarkPresence(catechumen)}
-				>
-					<i data-lucide="check"></i> Presença
-				</button>
-				<button
-					disabled={isBlockButtonPresence}
-					className={`
-						btn-toggle btn-mark-absence ausente
-						${!isPresent ? 'active' : ''}
-					`}
-					onClick={() => handleMarkAbsence(catechumen)}
-				>
-					Ausência
-				</button>
+				{isBlockButtonPresence ? (
+					<div className="presence-confirmed">
+						<span className="presence-confirmed-icon" aria-hidden="true">
+							✓
+						</span>
+						Catequizando presente
+					</div>
+				) : (
+					<>
+						<button
+							disabled={isBlockButtonPresence}
+							className={`
+								btn-toggle btn-mark-presence presente
+								${isPresent || isBlockButtonPresence ? 'active' : ''}
+							`}
+							onClick={() => handleMarkPresence(catechumen)}
+						>
+							<i data-lucide="check"></i> Presença
+						</button>
+						<button
+							disabled={isBlockButtonPresence}
+							className={`
+								btn-toggle btn-mark-absence ausente
+								${!isPresent ? 'active' : ''}
+							`}
+							onClick={() => handleMarkAbsence(catechumen)}
+						>
+							Ausência
+						</button>
+					</>
+				)}
 			</div>
 		</div>
 	)

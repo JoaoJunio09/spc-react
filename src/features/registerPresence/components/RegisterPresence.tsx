@@ -1,5 +1,5 @@
 import { ChevronDown, Search } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import ConfirmDialog from '../../../components/feedback/ConfirmDialog/ConfirmDialog';
 import useLoadSteps from '../hooks/useLoadSteps';
@@ -28,7 +28,7 @@ function RegisterPresence() {
 
 	const { steps, error: errorLoadSteps, loading: loadingSteps } = useLoadSteps();
 	const {
-		pageable,
+		catechumens,
 		loading,
 		error,
 		checkExistingsPresences,
@@ -39,7 +39,7 @@ function RegisterPresence() {
 		isPresent,
 		isBlockButtonPresence,
 		search,
-		listCatechumens,
+		// listCatechumens,
 		countSelected,
 		isRetroactive,
 		clear
@@ -85,7 +85,7 @@ function RegisterPresence() {
 	}
 
 	function handleListCatechumens(stepId: number) {
-		listCatechumens(stepId);
+		// listCatechumens(stepId);
 		setIsOpenAccordionSteps(false);
 		handleAccordion();
 	}
@@ -130,11 +130,21 @@ function RegisterPresence() {
 		clear();
 	}
 
+	console.log(catechumens)
+
+	const filteredCatechumens = useMemo(() => {
+		return catechumens.filter(catechumen => {
+			const matchesSearch = 
+				`${catechumen.firstName} ${catechumen.lastName}`.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(fullName.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+			return matchesSearch;
+		});
+	}, [fullName, catechumens]);
+
 	return (
 		<main className="register-presence-container">
 			<section className="page-intro">
 				<h2>Registrar Presença na Missa</h2>
-				<p>Selecione uma turma ou pesquise um catequizando específico.</p>
+				<p>Pesquise um catequizando específico.</p>
 			</section>
 
 			<section className="search-section">
@@ -150,7 +160,7 @@ function RegisterPresence() {
 				</div>
 			</section>
 
-			<section className="accordion-section">
+			{/* <section className="accordion-section">
 				<div className="accordion-item">
 					<button
 						className="accordion-header"
@@ -175,12 +185,12 @@ function RegisterPresence() {
 						</div>
 					</div>
 				</div>
-			</section>
+			</section> */}
 
 			<section
 				className="attendance-section"
 				style={{
-					display: fullName || (pageable._embedded?.catechumens?.length ?? 0) > 0
+					display: fullName || (catechumens.length ?? 0) > 0
 						? 'block'
 						: 'none'
 				}}
@@ -215,7 +225,7 @@ function RegisterPresence() {
 							? Array.from({ length: 4 }).map((_, index) => (
 								<CatechumenCardSkeleton key={index} />
 							))
-							: pageable._embedded?.catechumens.map(catechumen => (
+							: filteredCatechumens.map(catechumen => (
 								<CatechumenCard
 									key={catechumen.id}
 									catechumen={catechumen}
@@ -227,14 +237,16 @@ function RegisterPresence() {
 							))
 					}
 				</div>
+			</section>
 
+			{countSelected && countSelected > 0 ? (
 				<div className="actions-footer" id="actions-footer">
 					<button className="btn-confirm-final" onClick={() => handleReview()}>
 						<i data-lucide="eye"></i>
 						Revisar (<span id="countSelected">{countSelected}</span>)
 					</button>
 				</div>
-			</section>
+			) : null}
 
 			{retroactiveModal.openModal &&
 				<RetroactivePresenceModal

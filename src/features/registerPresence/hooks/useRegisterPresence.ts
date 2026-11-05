@@ -12,7 +12,7 @@ import usePresenceService from "../../../hooks/usePresenceService";
 
 function useRegisterPresence() {
 	const [fullName, setFullName]						= useState<string>('');
-	const [stepId, setStepId]								= useState<number | null>(null);
+	// const [stepId, setStepId]								= useState<number | null>(null);
 	const [countSelected, setCountSelected] = useState(0);
 	const [titleMass, setTitleMass] 				= useState<string>('');
 
@@ -34,31 +34,22 @@ function useRegisterPresence() {
 
 	const isRetroactive = searchParams.get('retroativo') === 'true';
 
-	const debouncedName = useDebounce(fullName, 400);
+	const hasFilter = fullName.trim().length > 0;
 
 	const query = useQuery({
-		queryKey: [
-			'catechumens',
-			debouncedName,
-			stepId
-		],
+		queryKey: ['catechumens', 'register-presence'],
 
-		queryFn: ({ signal }) =>
-			catechumenService.getAll({
-				fullName: debouncedName ?? undefined,
-				stepId: stepId ?? undefined,
-				signal
-			}),
+		queryFn: ({ signal }) => catechumenService.getAll(signal),
 
-		enabled: !!debouncedName || !!stepId,
+		enabled: hasFilter,
 
-		staleTime: 1000 * 60 * 5
+		staleTime: 1000 * 60 * 5,
 	});
 
 	useEffect(() => {
 		checkExistingsPresences();
 		setCountSelected(catechumensPresent.length);
-	}, [debouncedName]);
+	}, [fullName]);
 
 	async function checkExistingsPresences() {
 		let currentTitle = titleMass;
@@ -103,18 +94,17 @@ function useRegisterPresence() {
 	}
 
 	function search(value: string) {
-		setStepId(null);
 		setFullName(value);
 	}
 
-	function listCatechumens(stepId: number) {
-		setFullName('');
-		setStepId(stepId);
-	}
+	// function listCatechumens(stepId: number) {
+	// 	setFullName('');
+	// 	setStepId(stepId);
+	// }
 
 	function clear(): boolean {
 		setFullName('');
-		setStepId(null);
+		// setStepId(null);
 		setCatechumensPresent([]);
 		setCountSelected(0);
 		sessionStorage.removeItem('@catechumensPresent');
@@ -124,19 +114,19 @@ function useRegisterPresence() {
 	}
 
 	return {
-		pageable: query.data ?? emptyPageable<CatechumenResponse, 'catechumens'>('catechumens'),
-		loading: query.isPending,
+		catechumens: hasFilter ? (query.data ?? []) : [],
+		loading: hasFilter && query.isLoading,
 		error: query.error,
 		checkExistingsPresences,
 		fullName,
-		stepId,
+		// stepId,
 		markPresence,
 		markAbsence,
 		review,
 		isPresent,
 		isBlockButtonPresence,
 		search,
-		listCatechumens,
+		// listCatechumens,
 		countSelected,
 		isRetroactive,
 		clear,

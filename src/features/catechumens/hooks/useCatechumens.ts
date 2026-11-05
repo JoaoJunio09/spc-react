@@ -69,7 +69,7 @@ function useCatechumens(scope: string) {
 			'mineGeneralData',
 			catechistId
 		],
-		queryFn: () => catechumenService.getAll({
+		queryFn: () => catechumenService.filter({
 			catechistId: catechistId ?? undefined
 		}),
 		enabled: !!catechistId,
@@ -88,7 +88,7 @@ function useCatechumens(scope: string) {
 			debouncedName,
 			catechistId
 		],
-		queryFn: ({ signal }) => catechumenService.getAll({
+		queryFn: ({ signal }) => catechumenService.filter({
 			catechistId: catechistId ?? undefined,
 			fullName: debouncedName ?? undefined,
 			signal
@@ -104,7 +104,7 @@ function useCatechumens(scope: string) {
 			debouncedName,
 			catechistId
 		],
-		queryFn: ({ signal }) => catechumenService.getAll({
+		queryFn: ({ signal }) => catechumenService.filter({
 			pageable: pageableParamsAPI,
 			fullName: debouncedName ?? undefined,
 			catechistId: catechistId ?? undefined,

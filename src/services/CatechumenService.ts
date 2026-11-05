@@ -15,13 +15,22 @@ class CatechumenService {
 		this.accessToken = accessToken;
 	}
 
-	public async getAll({
+	public async getAll(signal: AbortSignal ) {
+		const response = await api.get<CatechumenResponse[]>(
+			this.BASE_URL,
+			{ headers: { 'Authorization': `Bearer ${this.accessToken}` }, signal }
+		);
+
+		return response.data;
+	}
+
+	public async filter({
 		signal,
 		pageable,
 		...params
 	}: ParamsCatechumenAPI) {
 		try {
-			const response = await api.get<CatechumenPage>(this.BASE_URL, {
+			const response = await api.get<CatechumenPage>(`${this.BASE_URL}/filter`, {
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Bearer ${this.accessToken}`

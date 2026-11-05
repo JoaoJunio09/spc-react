@@ -23,7 +23,7 @@ function useCatechumens({ catechists, step }: UseCatechumensProps) {
 		try {
 			setError(null);
 
-			await catechumenService.getAll({ stepId: step.id, catechistId: catechists[0].id });
+			await catechumenService.filter({ stepId: step.id, catechistId: catechists[0].id });
 			setCatechumens([])
 		}
 		catch (err) {
