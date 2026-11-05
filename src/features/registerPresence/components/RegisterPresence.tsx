@@ -1,14 +1,13 @@
-import { ChevronDown, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import ConfirmDialog from '../../../components/feedback/ConfirmDialog/ConfirmDialog';
+import type { CatechumenResponse } from '../../../data/catechumen/CatechumenResponse';
 import useLoadSteps from '../hooks/useLoadSteps';
 import useRegisterPresence from '../hooks/useRegisterPresence';
 import CatechumenCard from './CatechumenCard';
 import CatechumenCardSkeleton from './CatechumenCardSkeleton';
-import type { CatechumenResponse } from '../../../data/catechumen/CatechumenResponse';
 import RetroactivePresenceModal from './RetroactivePresenceModal';
-import StepCard from './StepCard';
 
 import '../styles/registerPresence.css';
 
