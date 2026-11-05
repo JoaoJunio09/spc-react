@@ -10,7 +10,6 @@ import usePresenceService from "../../../hooks/usePresenceService";
 
 function useRegisterPresence() {
 	const [fullName, setFullName]						= useState<string>('');
-	// const [stepId, setStepId]								= useState<number | null>(null);
 	const [countSelected, setCountSelected] = useState(0);
 	const [titleMass, setTitleMass] 				= useState<string>('');
 
@@ -95,14 +94,8 @@ function useRegisterPresence() {
 		setFullName(value);
 	}
 
-	// function listCatechumens(stepId: number) {
-	// 	setFullName('');
-	// 	setStepId(stepId);
-	// }
-
 	function clear(): boolean {
 		setFullName('');
-		// setStepId(null);
 		setCatechumensPresent([]);
 		setCountSelected(0);
 		sessionStorage.removeItem('@catechumensPresent');
@@ -117,14 +110,12 @@ function useRegisterPresence() {
 		error: query.error,
 		checkExistingsPresences,
 		fullName,
-		// stepId,
 		markPresence,
 		markAbsence,
 		review,
 		isPresent,
 		isBlockButtonPresence,
 		search,
-		// listCatechumens,
 		countSelected,
 		isRetroactive,
 		clear,

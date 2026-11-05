@@ -25,7 +25,7 @@ function RegisterPresence() {
 
 	const accordionRef = useRef<HTMLDivElement | null>(null);
 
-	const { steps, error: errorLoadSteps, loading: loadingSteps } = useLoadSteps();
+	const { error: errorLoadSteps, loading: loadingSteps } = useLoadSteps();
 	const {
 		catechumens,
 		loading,
@@ -38,7 +38,6 @@ function RegisterPresence() {
 		isPresent,
 		isBlockButtonPresence,
 		search,
-		// listCatechumens,
 		countSelected,
 		isRetroactive,
 		clear
@@ -83,12 +82,6 @@ function RegisterPresence() {
 		setIsOpenAccordionSteps(!isOpenAccordionSteps);
 	}
 
-	function handleListCatechumens(stepId: number) {
-		// listCatechumens(stepId);
-		setIsOpenAccordionSteps(false);
-		handleAccordion();
-	}
-
 	function handleSearchCatechumens(fullName: string) {
 		search(fullName);
 		if (isOpenAccordionSteps) {
@@ -128,8 +121,6 @@ function RegisterPresence() {
 		});
 		clear();
 	}
-
-	console.log(catechumens)
 
 	const filteredCatechumens = useMemo(() => {
 		return catechumens.filter(catechumen => {
