@@ -289,7 +289,7 @@ function ListCatechumens({
     if (catechumen.currentFrequency < 50) {
       return 'critical';
     }
-    else if (catechumen.currentFrequency < 75) {
+    else if (catechumen.currentFrequency < 65) {
       return 'attention';
     }
     else {
@@ -301,7 +301,7 @@ function ListCatechumens({
     if (catechumen.currentFrequency < 50) {
       return 'Baixa Frequência';
     }
-    else if (catechumen.currentFrequency < 75) {
+    else if (catechumen.currentFrequency < 65) {
       return 'Atenção';
     }
     else {
